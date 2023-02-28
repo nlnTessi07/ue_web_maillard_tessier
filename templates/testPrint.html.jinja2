@@ -50,6 +50,14 @@
         {% for t in personnes %}
              {{ t.name }},
         {% endfor %}
+    <br><br>
+    </div>
+    <div>
+        <p>LIEN PFE/PERSONNES <br>(affichage des titres des positions des
+            gens personnes, marty doit en avoir deux pour voir)</p>
+        {% for p in positions %}
+             {{ p.titre }} : {{ p.personnes }},
+        {% endfor %}
     </div>
 
 
