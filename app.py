@@ -76,6 +76,7 @@ def testInput():
     enseignant = Position('enseignant')
     tuteur = Position('tuteur')
     RH = Position('RH (707574650a)')
+    stagiaire_pfe = Position('stagiaire_pfe')
 
     db.session.add(inge_nuc)
     db.session.add(inge_bat)
@@ -86,12 +87,25 @@ def testInput():
     db.session.add(enseignant)
     db.session.add(tuteur)
     db.session.add(RH)
+    db.session.add(stagiaire_pfe)
 
     db.session.commit()
     positions = Position.query.all() ### AFFICHAGE OK
 
     # LIEN POSITIONS/ORGANISATION
+    imt.postes.append(enseignant)
+    imt.postes.append(chercheur)
+    imt.postes.append(etudiant)
 
+    edf.postes.append(inge_bat)
+    edf.postes.append(inge_nuc)
+    edf.postes.append(inge_info)
+    edf.postes.append(chercheur)
+    edf.postes.append(tuteur)
+    edf.postes.append(RH)
+
+    poliakov.postes.append(patron)
+    poliakov.postes.append(tuteur) ### Affichage
     # CREATION PFE
     # CREATION TAFs
     # CREATION PERSONNES

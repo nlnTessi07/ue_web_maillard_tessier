@@ -9,16 +9,28 @@
     <p>ORGANISATIONS :</p>
         {% for orga in organisations %}
             <p> Organisation : {{orga.name}} (id={{orga.id}})</p>
-            <p>liste des personnes dans cette entité : {{ orga.postes }}</p><br>
+            <p>liste des personnes dans cette entité : {{ orga.postes }}</p>
         {% endfor %}
 
+    <br><br>
     </div>
     <div>
-        <p>liste des positions existantes :</p>
+    <br>
+        <p>POSITIONS :</p>
         {% for p in positions %}
             <p>  {{p.titre}}(id={{p.id}}), </p>
 
         {% endfor %}
+    <br><br>
+    </div>
+        <p>LIEN ENTRE POSITIONS/ORGANISATIONS</p>
+        {% for orga in organisations %} {{ orga.name }} :
+            {% for poste in orga.postes %}
+                {{ poste.titre }},
+            {% endfor %}<br>
+        {% endfor %}
+    <div>
+
     </div>
 
 
