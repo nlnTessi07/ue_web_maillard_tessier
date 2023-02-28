@@ -27,27 +27,25 @@ def clean():
 
 
 
-@app.route('/base' )
+@app.route('/' )
 def testInput():
     clean()
 
-
-
-
-    #create companies:
-    Dassault = Company('Dassault')
-    Safran = Company('Safran')
-    Labo=Company('Labo')
-    Carouf=Company('Carouf')
-    CDiscount=Company('CDiscount')
-    NASA=Company('NASA')
-    ESA=Company('ESA')
-    FTX=Company('FTX')
-    CreditSuisse=Company('CreditSuisse')
-    poliakov = Company('Poliakov (RoryCorporation)')
-    edf = Company('EDF')
-    engie = Company('ENGIE')
-    total = Company('TotalEnergie')
+    # CREATION DES ORGANISATIONS:
+    Dassault = Organisation('Dassault')
+    Safran = Organisation('Safran')
+    Labo=Organisation('Labo')
+    Carouf=Organisation('Carouf')
+    CDiscount=Organisation('CDiscount')
+    NASA=Organisation('NASA')
+    ESA=Organisation('ESA')
+    FTX=Organisation('FTX')
+    CreditSuisse=Organisation('CreditSuisse')
+    poliakov = Organisation('Poliakov (RoryCorporation)')
+    edf = Organisation('EDF')
+    engie = Organisation('ENGIE')
+    total = Organisation('TotalEnergie')
+    imt = Organisation('IMT-Atlantique')
 
 
     db.session.add(edf)
@@ -63,10 +61,46 @@ def testInput():
     db.session.add(ESA)
     db.session.add(FTX)
     db.session.add(CreditSuisse)
+    db.session.add(imt)
 
     db.session.commit()
-    companies = Company.query.all()
+    organisations = Organisation.query.all()### AFFICHAGE OK
 
+    # CREATION POSITIONS
+    inge_nuc = Position('inge_nuc')
+    inge_bat = Position('inge_bat')
+    inge_info = Position('inge_info')
+    patron = Position('patron')
+    etudiant = Position('etudiant')
+    chercheur = Position('chercheur')
+    enseignant = Position('enseignant')
+    tuteur = Position('tuteur')
+    RH = Position('RH (707574650a)')
+
+    db.session.add(inge_nuc)
+    db.session.add(inge_bat)
+    db.session.add(inge_info)
+    db.session.add(patron)
+    db.session.add(etudiant)
+    db.session.add(chercheur)
+    db.session.add(enseignant)
+    db.session.add(tuteur)
+    db.session.add(RH)
+
+    db.session.commit()
+    positions = Position.query.all() ### AFFICHAGE OK
+
+    # LIEN POSITIONS/ORGANISATION
+
+    # CREATION PFE
+    # CREATION TAFs
+    # CREATION PERSONNES
+    # LIEN PERSONNES/POSITION
+    # LIEN PFE PERSONNES
+    # LIEN TAFs PERSONNES
+    # LIEN POSITIONS PERSONNES
+    # LIEN
+    """
     #Student creation:
     bob = Alumni('Bob Marley',
                    'TEE',
@@ -147,13 +181,9 @@ def testInput():
     print("after student commit")
 
 
-
-
-
-
-
     alumnis = Alumni.query.all()
-    return flask.render_template("testPrint.html.jinja2",alumnis=alumnis,companies=companies)
+    """
+    return flask.render_template("testPrint.html.jinja2",organisations=organisations, positions=positions)
 
 @app.route('/drop')
 def drop_page():

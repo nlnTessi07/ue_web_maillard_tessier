@@ -5,8 +5,91 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 
+jun_taf_personnes = db.Table('tafs',
+                             Column('taf_id', Integer, ForeignKey('taf.id')),
+                             Column('personne_id',Integer, ForeignKey('personne.id'))
+                             )
+jun_personnes_pfe = db.Table('pfe_personnes',
+                             Column('pfe_id',Integer, ForeignKey('pfe.id')),
+                             Column('personne_id', Integer, ForeignKey('personne.id'))
+                             )
 
-# Classe Company
+class TAF(db.Model):
+    id = Column(Integer, primary_key = True)
+    name = Column(String)
+    annee = Column(String)
+    def __repr__(self):
+        return self.name
+    def __init__(self, name):
+        self.name=name
+    # Relation: jointure avec la table Personnes entre le nom de taf et l'id de l'élève
+    # voir la jointure jun_taf
+
+class Position(db.Model):
+    id = Column(Integer, primary_key = True)
+    id_personne = Column(Integer)
+    id_Organisation = Column(Integer)
+    titre = Column(String)
+    date_entree = Column(db.Date)
+    ### Relation Many to One vers Organisation
+    organisation_id = Column(Integer, ForeignKey('organisation.id'))
+    ### Relation Many to One vers Personne
+    personnes = relationship('Personne',backref='position')
+    def __init__(self,titre):
+        self.titre=titre
+
+
+class Organisation(db.Model):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    ### Relation One to Many vers Position
+    postes = relationship('Position', backref='postes')
+    def __init__(self, name):
+        self.name=name
+
+class PFE(db.Model):
+    id = Column(Integer, primary_key=True)
+    titre = Column(String)
+    description = Column(String)
+    def __repr__(self):
+        return self.titre + ' : ' + self.description
+    ### Relation Many to Many vers PFE (tuteur peut avoir plusieurs PFE en charge)
+    ### voir haut-dessus jointure jun_personnes_pfe
+
+
+class Personne(db.Model):
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    promotion = Column(String) #Convention année d'entrée ou de sortie ?
+    ###  One to Many vers Position (role)
+    position_id = Column(Integer, ForeignKey('position.id'))
+
+    def __repr__(self):
+        return 'Etudiant '+ self.id + ': ' + self.name + ' de la promo : ' +self.promotion
+    def __init__(self, name, promotion):
+        self.name = name
+        self.promotion = promotion
+    ### Relation Many to Many vers TAF voir la jointure jun_taf_personnes
+    ### Relation One to Many vers PFE voir la jointure jun_personnes_pfe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#------------------------- ANCIEN ------------------------------------------------#
+"""
+
 class Company(db.Model):
     __tablename__ = 'company'
     id = Column(Integer, primary_key=True)
@@ -52,4 +135,4 @@ class Alumni(db.Model):
         self.tutor=tutor
         self.current_position=current_position
         self.current_company=current_company
-
+"""

@@ -4,40 +4,25 @@
     </head>
 
     <body>
-    <p>DataBase Display:</p>
-    <p>Alumni fields display:</p>
-        {% for std in alumnis %}
-           <p> Nom : {{ std.name }}, TAFs: {{ std.tafa1 }}(A2), {{ std.tafa2 }}(A3),
-               promo : {{ std.end_year }}. </p>
-            <p> Projet de fin d'étude <br>
-           tuteur : {{ std.tutor }} <br>
-           projet : {{ std.project_name }}, <br>
-                description : {{ std.project_summary }}.
-            </p>
-            <p>
-            Cet alumni aujourd'hui:<br>
-            A fait un stage chez la daronne de : {{ std.intership_company   }}
-            Bosse chez {{ std.current_company }} au poste de : {{ std.current_position }}
-
-
+    <p>DATABASE DISPLAY :</p>
+    <div>
+    <p>ORGANISATIONS :</p>
+        {% for orga in organisations %}
+            <p> Organisation : {{orga.name}} (id={{orga.id}})</p>
+            <p>liste des personnes dans cette entité : {{ orga.postes }}</p><br>
         {% endfor %}
 
-
-
-    <p>Proms display:</p>
-        <ul>{% for prom in promos %}
-            <p>promo of the {{ prom.end_year }} year: alumnis={{ prom.alumnis }}</p>
-
-            <p>alumnis display: </p>
-
-            {% for alumni in prom.alumnis %}
-            <p>{{ alumni.name }}</p>
-            {% endfor %}
-
+    </div>
+    <div>
+        <p>liste des positions existantes :</p>
+        {% for p in positions %}
+            <p>  {{p.titre}}(id={{p.id}}), </p>
 
         {% endfor %}
-    </ul>
+    </div>
 
+
+    <!--
      </p> TEST AFFICHAGE
             <form method="POST">
             <input name="testFiltrer">
@@ -46,5 +31,7 @@
             {{ a }}
             {% endfor %}
             </form>
+
+    -->
     </body>
 </html>
