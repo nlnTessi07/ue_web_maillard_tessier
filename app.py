@@ -231,7 +231,7 @@ def filtrer(name, tafa2,tafa3, promo, intership_company,current_company):
                                            Alumni.promo.contains(promo),
                                            Alumni.internship_company.contains(intership_company),
                                            Alumni.current_company.contains(current_company))
-
+  #test
 @app.route('/menu')
 def menu():
     return flask.render_template("mainMenu.html.jinja2")
