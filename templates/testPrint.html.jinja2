@@ -37,11 +37,13 @@
         {% endfor %}
     </ul>
 
-     </p>
+     </p> TEST AFFICHAGE
             <form method="POST">
             <input name="testFiltrer">
             <button type="submit">Test fonction filtrer</button>
-            <p>{{ ans }}</p>
+            <p>{% for a in ans %}</p>
+            {{ a }}
+            {% endfor %}
             </form>
     </body>
 </html>
