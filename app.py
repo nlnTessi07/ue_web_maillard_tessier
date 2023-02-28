@@ -5,7 +5,8 @@ from database.models import *
 
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -164,5 +165,27 @@ def testCompany():
 def backToMenu():
     return
 
+@app.route('/menu')
+def menu():
+    return flask.render_template("mainMenu.html.jinja2")
+
+@app.route('/menu', methods=['POST'])
+def loginPost():
+    flask.redirect(flask.url_for("recherche"))
+@app.route('/recherche')
+def recherche():
+    return flask.render_template("main_layout.html.jinja2")
+
+@app.route('/recherche',methods=["POST"])
+def recherchePost():
+    name = flask.request.form['name']
+    taf1 = flask.request.form['taf1']
+    taf2 = flask.request.form['taf2']
+    promo = flask.request.form['promo']
+    stage = flask.request.form['stage']
+    entreprise = flask.request.form['entreprise']
+    resultats = filtrer(name,taf1,taf2,promo,stage,entreprise)
+    return flask.render_template("resultat.html.jinja2",name=name, taf1=taf1,taf2=taf2,promo=promo,stage=stage,entreprise=entreprise)
 if __name__ == '__main__':
     app.run()
+

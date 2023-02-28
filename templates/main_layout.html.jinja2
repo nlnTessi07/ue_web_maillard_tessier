@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Rechercher</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <style>
+            h1 {text-align: center;}
+        </style>
+    </head>
+        <HR>
+        <h1>Tableau de bord</h1>
+        <HR>
+        <div class="row justify-content-center">
+            <div class = "card" style="width: 30rem;">
+                <div class="card-body">
+                    <form method = "POST">
+                      <div class="mb-3">
+                        <label for="Name" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="Name" name="name">
+                        <label for="taf1" class="form-label">TAF 2ème année:</label>
+                        <input type="text" class="form-control" id="taf1" name="taf1">
+                        <label for="taf2" class="form-label">TAF 3ème année:</label>
+                        <input type="text" class="form-control" id="taf2" name="taf2">
+                        <label for="promo" class="form-label">Promotion :</label>
+                        <input type="number" class="form-control" id="promo" name="promo">
+                        <label for="stage" class="form-label">Entreprise de stage :</label>
+                        <input type="text" class="form-control" id="stage" name="stage">
+                        <label for="entreprise" class="form-label">Entreprise actuelle :</label>
+                        <input type="text" class="form-control" id="entreprise" name="entreprise">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
