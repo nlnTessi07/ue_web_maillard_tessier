@@ -63,12 +63,10 @@ class PFE(db.Model):
 class Personne(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(Integer)
-    ###  One to Many vers Position (role)
+###  One to Many vers Position (role)
     position_id = Column(Integer, ForeignKey('position.id'))
-
-
     def __repr__(self):
-        return 'Etudiant '+ self.id + ': ' + self.name
+        return self.name
     def __init__(self, name):
         self.name = name
     ### Relation Many to Many vers TAF voir la jointure jun_taf_personnes

@@ -165,11 +165,22 @@ def testInput():
     db.session.commit()
     personnes = Personne.query.all()
 
+    # LIEN PFE/PERSONNES
+    inge_info.personnes.append(rory)
+    inge_info.personnes.append(alexis)
+    inge_info.personnes.append(julien)
+    etudiant.personnes.append(eugenie)
+    etudiant.personnes.append(tom)
+    enseignant.personnes.append(theo)
+    tuteur.personnes.append(raoul)
+    inge_bat.personnes.append(marty)
+    etudiant.personnes.append(marty)
+    db.session.commit() ### AFFICHAGE OK
 
-    # LIEN PERSONNES/POSITION
-    # LIEN PFE PERSONNES
+
     # LIEN TAFs PERSONNES
     # LIEN POSITIONS PERSONNES
+    # LIEN PERSONNES/POSITION (poste)
     # LIEN
     """
     #Student creation:
