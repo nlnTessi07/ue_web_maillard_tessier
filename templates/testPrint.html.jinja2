@@ -16,9 +16,12 @@
             </p>
             <p>
             Cet alumni aujourd'hui:<br>
+            A fait un stage chez la daronne de : {{ std.intership_company   }}
             Bosse chez {{ std.current_company }} au poste de : {{ std.current_position }}
-            </p>
+
+
         {% endfor %}
+
 
 
     <p>Proms display:</p>
@@ -35,5 +38,13 @@
         {% endfor %}
     </ul>
 
+     </p> TEST AFFICHAGE
+            <form method="POST">
+            <input name="testFiltrer">
+            <button type="submit">Test fonction filtrer</button>
+            <p>{% for a in ans %}</p>
+            {{ a }}
+            {% endfor %}
+            </form>
     </body>
 </html>
