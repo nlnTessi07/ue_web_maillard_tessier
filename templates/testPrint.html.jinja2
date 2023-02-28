@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Debug page</title>
+    </head>
+
+    <body>
+    <p>DataBase Display:</p>
+    <p>Alumni fields display:</p>
+        {% for std in alumnis %}
+           <p> Nom : {{ std.name }}, TAFs: {{ std.tafa1 }}(A2), {{ std.tafa2 }}(A3),
+               promo : {{ std.end_year }}. </p>
+            <p> Projet de fin d'étude <br>
+           tuteur : {{ std.tutor }} <br>
+           projet : {{ std.project_name }}, <br>
+                description : {{ std.project_summary }}.
+            </p>
+            <p>
+            Cet alumni aujourd'hui:<br>
+            Bosse chez {{ std.current_company }} au poste de : {{ std.current_position }}
+            </p>
+        {% endfor %}
+
+
+    <p>Proms display:</p>
+        <ul>{% for prom in promos %}
+            <p>promo of the {{ prom.end_year }} year: alumnis={{ prom.alumnis }}</p>
+
+            <p>alumnis display: </p>
+
+            {% for alumni in prom.alumnis %}
+            <p>{{ alumni.name }}</p>
+            {% endfor %}
+
+
+        {% endfor %}
+    </ul>
+
+    </body>
+</html>
