@@ -30,11 +30,11 @@ class Position(db.Model):
     id_personne = Column(Integer)
     id_Organisation = Column(Integer)
     titre = Column(String)
-    date_entree = Column(db.Date)
+    date_entree = Column(Integer)
     ### Relation Many to One vers Organisation
     organisation_id = Column(Integer, ForeignKey('organisation.id'))
-    ### Relation Many to One vers Personne
-    personnes = relationship('Personne',backref='position')
+    ### Relation Many to One vers Personne (poste)
+    personnes = relationship('Personne',backref='postes')
     def __init__(self,titre):
         self.titre=titre
 
@@ -62,16 +62,15 @@ class PFE(db.Model):
 
 class Personne(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    promotion = Column(String) #Convention année d'entrée ou de sortie ?
+    name = Column(Integer)
     ###  One to Many vers Position (role)
     position_id = Column(Integer, ForeignKey('position.id'))
 
+
     def __repr__(self):
-        return 'Etudiant '+ self.id + ': ' + self.name + ' de la promo : ' +self.promotion
-    def __init__(self, name, promotion):
+        return 'Etudiant '+ self.id + ': ' + self.name
+    def __init__(self, name):
         self.name = name
-        self.promotion = promotion
     ### Relation Many to Many vers TAF voir la jointure jun_taf_personnes
     ### Relation One to Many vers PFE voir la jointure jun_personnes_pfe
 

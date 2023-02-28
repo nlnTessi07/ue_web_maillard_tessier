@@ -141,8 +141,31 @@ def testInput():
     db.session.add(cyber)
 
     db.session.commit()
-    tafs = TAF.query.all()
+    tafs = TAF.query.all() ### Affichage OK
+
     # CREATION PERSONNES
+    tom= Personne('tom')
+    rory = Personne('rory')
+    marty= Personne('marty')
+    alexis= Personne('alexis')
+    julien= Personne('julien')
+    eugenie= Personne('eugenie')
+    raoul= Personne('raoul')
+    theo = Personne('theo')
+
+    db.session.add(tom)
+    db.session.add(rory)
+    db.session.add(marty)
+    db.session.add(alexis)
+    db.session.add(julien)
+    db.session.add(eugenie)
+    db.session.add(raoul)
+    db.session.add(theo)
+
+    db.session.commit()
+    personnes = Personne.query.all()
+
+
     # LIEN PERSONNES/POSITION
     # LIEN PFE PERSONNES
     # LIEN TAFs PERSONNES
@@ -234,7 +257,8 @@ def testInput():
     return flask.render_template("testPrint.html.jinja2",organisations=organisations,
                                  positions=positions,
                                  pfes=pfes,
-                                 tafs = tafs)
+                                 tafs = tafs,
+                                 personnes=personnes)
 
 @app.route('/drop')
 def drop_page():
