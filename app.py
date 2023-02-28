@@ -64,7 +64,7 @@ def testInput():
     db.session.add(imt)
 
     db.session.commit()
-    organisations = Organisation.query.all()### AFFICHAGE OK
+    organisations = Organisation.query.all()   ### AFFICHAGE OK
 
     # CREATION POSITIONS
     inge_nuc = Position('inge_nuc')
@@ -90,7 +90,7 @@ def testInput():
     db.session.add(stagiaire_pfe)
 
     db.session.commit()
-    positions = Position.query.all() ### AFFICHAGE OK
+    positions = Position.query.all()    ### AFFICHAGE OK
 
     # LIEN POSITIONS/ORGANISATION
     imt.postes.append(enseignant)
@@ -105,9 +105,43 @@ def testInput():
     edf.postes.append(RH)
 
     poliakov.postes.append(patron)
-    poliakov.postes.append(tuteur) ### Affichage
+    poliakov.postes.append(tuteur)  ### Affichage OK
+
     # CREATION PFE
+    crabes = PFE('crabes','Je veux manger des baleresques toute l annee voila le projet.')
+    plancton = PFE('plancton', 'Je veux que les baleines ne s echouent psa psq cest chiant woula')
+    chaussettes = PFE('chaussettes', 'J ai froid svp remettez le chauffage °_°')
+    chuckNorris = PFE('chuckNorris', 'ATTAATATATATATATAAATA !!!!!!!!!!!!')
+
+    db.session.add(crabes)
+    db.session.add(plancton)
+    db.session.add(chaussettes)
+    db.session.add(chuckNorris)
+
+    db.session.commit()
+    pfes = PFE.query.all()  ### AFFICHAGE OK
+
     # CREATION TAFs
+    dcl = TAF('DCL')
+    login = TAF('Login')
+    ascii = TAF('ascii')
+    demain = TAF('demain')
+    nemo = TAF('nemo')
+    TEE = TAF('TEEH')
+    sheesh = TAF('sheesh')
+    cyber = TAF('cyber')
+
+    db.session.add(dcl)
+    db.session.add(login)
+    db.session.add(ascii)
+    db.session.add(demain)
+    db.session.add(nemo)
+    db.session.add(TEE)
+    db.session.add(sheesh)
+    db.session.add(cyber)
+
+    db.session.commit()
+    tafs = TAF.query.all()
     # CREATION PERSONNES
     # LIEN PERSONNES/POSITION
     # LIEN PFE PERSONNES
@@ -197,7 +231,10 @@ def testInput():
 
     alumnis = Alumni.query.all()
     """
-    return flask.render_template("testPrint.html.jinja2",organisations=organisations, positions=positions)
+    return flask.render_template("testPrint.html.jinja2",organisations=organisations,
+                                 positions=positions,
+                                 pfes=pfes,
+                                 tafs = tafs)
 
 @app.route('/drop')
 def drop_page():

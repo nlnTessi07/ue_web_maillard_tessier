@@ -23,14 +23,27 @@
         {% endfor %}
     <br><br>
     </div>
+    <div>
         <p>LIEN ENTRE POSITIONS/ORGANISATIONS</p>
         {% for orga in organisations %} {{ orga.name }} :
             {% for poste in orga.postes %}
                 {{ poste.titre }},
             {% endfor %}<br>
         {% endfor %}
-    <div>
 
+        <br><br>
+    </div>
+    <div>
+        <p>PFEs : </p>
+        {% for pfe in pfes %}
+            <p>projet {{ pfe.titre }} : {{ pfe.description }}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <p>TAFS : </p>
+        {% for taf in tafs %}
+             {{ taf.name }},
+        {% endfor %}
     </div>
 
 

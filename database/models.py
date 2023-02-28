@@ -53,6 +53,9 @@ class PFE(db.Model):
     description = Column(String)
     def __repr__(self):
         return self.titre + ' : ' + self.description
+    def __init__(self, titre, description):
+        self.titre=titre
+        self.description=description
     ### Relation Many to Many vers PFE (tuteur peut avoir plusieurs PFE en charge)
     ### voir haut-dessus jointure jun_personnes_pfe
 
