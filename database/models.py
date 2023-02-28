@@ -11,10 +11,9 @@ from sqlalchemy.sql import func
 class Alumni(db.Model):
     __tablename__ = 'alumni'
     id = Column(Integer, primary_key=True)
-    firstName = Column(String)
-    lastName= Column(String)
+    name = Column(String)
     tafa2= Column(String)
-    tafa1 = Column(String)
+    tafa3 = Column(String)
     project_name = Column(String)
     project_summary = Column(String)
     tutor = db.Column(String)
@@ -29,10 +28,10 @@ class Alumni(db.Model):
 
     def __repr__(self):
         return self.name + ' was in ' + self.tafa1
-    def __init__(self, name,tafa1,tafa2,end_year,project_name,project_summary,project_company,tutor,current_position,current_company):
+    def __init__(self, name,tafa2,tafa3,end_year,project_name,project_summary,project_company,tutor,current_position,current_company):
         self.name=name
-        self.tafa1=tafa1
         self.tafa2=tafa2
+        self.tafa3=tafa3
         self.end_year=end_year
         self.project_name=project_name
         self.project_summary=project_summary
@@ -48,7 +47,7 @@ class Promo(db.Model):
     end_year = Column(Integer)
     alumnis = relationship("Alumni", back_populates="promo")
     def __repr__(self):
-        return  self.end_year %'proms'
+        return  str(self.end_year)
 
 
 # Classe Company
