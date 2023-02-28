@@ -24,10 +24,10 @@ class Alumni(db.Model):
     # Relations
     current_company = relationship("Company", foreign_keys=[current_company_id])
     internship_company = relationship("Company", foreign_keys=[internship_company_id])
-    promo = relationship("Promo", back_populates="alumnis")
+    promo = relationship("Promo", back_populates="alumnis", foreign_keys=[promo_id])
 
     def __repr__(self):
-        return self.name + ' was in ' + self.tafa1
+        return self.name + ' was in ' + self.tafa2
     def __init__(self, name,tafa2,tafa3,end_year,project_name,project_summary,project_company,tutor,current_position,current_company):
         self.name=name
         self.tafa2=tafa2
@@ -44,7 +44,7 @@ class Alumni(db.Model):
 class Promo(db.Model):
     __tablename__ = 'promo'
     id = Column(Integer, primary_key=True)
-    end_year = Column(Integer)
+    end_year = Column(String)
     alumnis = relationship("Alumni", back_populates="promo")
     def __repr__(self):
         return  str(self.end_year)

@@ -17,8 +17,10 @@
             <p>
             Cet alumni aujourd'hui:<br>
             Bosse chez {{ std.current_company }} au poste de : {{ std.current_position }}
-            </p>
+
+
         {% endfor %}
+
 
 
     <p>Proms display:</p>
@@ -35,5 +37,11 @@
         {% endfor %}
     </ul>
 
+     </p>
+            <form method="POST">
+            <input name="testFiltrer">
+            <button type="submit">Test fonction filtrer</button>
+            <p>{{ ans }}</p>
+            </form>
     </body>
 </html>

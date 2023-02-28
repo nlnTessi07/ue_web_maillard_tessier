@@ -217,22 +217,22 @@ def testCompany():
     return flask.render_template("test_print_company.html.jinja2",companies=companies)
 
 
-@app.route('/admin')
-def testAdmin():
-    a = testInput
-    return('hello')
-
 def filtrer(name, tafa2,tafa3, promo, intership_company,current_company):
     #enlever les chanmps vides
     #ordre : nom, taf, promo, entrerpise-stage, entreprise alumni
     return db.session.query(Alumni).filter(Alumni.name.contains(name),
                                            Alumni.tafa2.contains(tafa2),
                                            Alumni.tafa3.contains(tafa3),
-                                           Alumni.promo.contains(promo),
+                                           Alumni.promo.end_year.contains(promo),
                                            Alumni.internship_company.contains(intership_company),
                                            Alumni.current_company.contains(current_company))
-  #test
-  #ljhdqskjdhqkj
+
+@app.route('/base',methods=['POST'])
+def taMaman():
+    name = flask.request.form['testFiltrer']
+    ans = filtrer(name,'','','','','')
+    return flask.render_template('testPrint.html.jinja2', ans = ans)
+
 @app.route('/menu')
 def menu():
     return flask.render_template("mainMenu.html.jinja2")
