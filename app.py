@@ -153,7 +153,7 @@ def testInput():
 
 
     alumnis = Alumni.query.all()
-    return flask.render_template("testPrint.html.jinja2",alumnis=alumnis)
+    return flask.render_template("testPrint.html.jinja2",alumnis=alumnis,companies=companies)
 
 @app.route('/drop')
 def drop_page():

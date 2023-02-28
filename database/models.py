@@ -14,8 +14,8 @@ class Company(db.Model):
     description = Column(String)
 
     # Relations
-    interns = relationship("Alumni", backref=db.backref('company',lazy="dynamic"))
-    workers = relationship("Alumni", backref=db.backref('company',lazy="dynamic"))
+    interns = relationship("Alumni", foreign_keys="[Alumni.current_company_id]")
+    workers = relationship("Alumni", foreign_keys="[Alumni.internship_company_id]")
 
     def __repr__(self):
         return self.name
@@ -32,9 +32,12 @@ class Alumni(db.Model):
     project_summary = Column(String)
     tutor = db.Column(String)
     promo = Column(String)
-    # Relations
     current_company_id = Column(Integer, ForeignKey('company.id'))
     internship_company_id = Column(Integer, ForeignKey('company.id'))
+
+    # Relations
+    current_company = relationship("Company", foreign_keys=[current_company_id])
+    internship_company = relationship("Company", foreign_keys=[internship_company_id])
 
     def __repr__(self):
         return self.name + ' was in ' + self.tafa2
