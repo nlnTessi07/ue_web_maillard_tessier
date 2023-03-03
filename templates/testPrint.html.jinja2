@@ -4,36 +4,73 @@
     </head>
 
     <body>
-    <p>DataBase Display:</p>
-    <p>Alumni fields display:</p>
-        {% for std in alumnis %}
-           <p> Nom : {{ std.name }}, TAFs: {{ std.tafa1 }}(A2), {{ std.tafa2 }}(A3),
-               promo : {{ std.end_year }}. </p>
-            <p> Projet de fin d'étude <br>
-           tuteur : {{ std.tutor }} <br>
-           projet : {{ std.project_name }}, <br>
-                description : {{ std.project_summary }}.
-            </p>
-            <p>
-            Cet alumni aujourd'hui:<br>
-            Bosse chez {{ std.current_company }} au poste de : {{ std.current_position }}
-            </p>
+    <p>DATABASE DISPLAY :</p>
+    <div>
+    <p>ORGANISATIONS :</p>
+        {% for orga in organisations %}
+            <p> Organisation : {{orga.name}} (id={{orga.id}})</p>
+            <p>liste des personnes dans cette entité : {{ orga.postes }}</p>
         {% endfor %}
 
+    <br><br>
+    </div>
+    <div>
+    <br>
+        <p>POSITIONS :</p>
+        {% for p in positions %}
+            <p>  {{p.titre}}(id={{p.id}}), </p>
 
-    <p>Proms display:</p>
-        <ul>{% for prom in promos %}
-            <p>promo of the {{ prom.end_year }} year: alumnis={{ prom.alumnis }}</p>
+        {% endfor %}
+    <br><br>
+    </div>
+    <div>
+        <p>LIEN ENTRE POSITIONS/ORGANISATIONS</p>
+        {% for orga in organisations %} {{ orga.name }} :
+            {% for poste in orga.postes %}
+                {{ poste.titre }},
+            {% endfor %}<br>
+        {% endfor %}
 
-            <p>alumnis display: </p>
+        <br><br>
+    </div>
+    <div>
+        <p>PFEs : </p>
+        {% for pfe in pfes %}
+            <p>projet {{ pfe.titre }} : {{ pfe.description }}</p>
+        {% endfor %}
+    </div>
+    <div>
+        <p>TAFS : </p>
+        {% for taf in tafs %}
+             {{ taf.name }},
+        {% endfor %}
+    </div>
+    <div>
+        <p>PERSONNES : </p>
+        {% for t in personnes %}
+             {{ t.name }},
+        {% endfor %}
+    <br><br>
+    </div>
+    <div>
+        <p>LIEN PFE/PERSONNES <br>(affichage des titres des positions des
+            gens personnes, marty doit en avoir deux pour voir)</p>
+        {% for p in positions %}
+             {{ p.titre }} : {{ p.personnes }},
+        {% endfor %}
+    </div>
 
-            {% for alumni in prom.alumnis %}
-            <p>{{ alumni.name }}</p>
+
+    <!--
+     </p> TEST AFFICHAGE
+            <form method="POST">
+            <input name="testFiltrer">
+            <button type="submit">Test fonction filtrer</button>
+            <p>{% for a in ans %}</p>
+            {{ a }}
             {% endfor %}
+            </form>
 
-
-        {% endfor %}
-    </ul>
-
+    -->
     </body>
 </html>
