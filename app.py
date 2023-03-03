@@ -179,6 +179,18 @@ def testInput():
 
 
     # LIEN TAFs PERSONNES
+    dcl.personnes.append(rory)
+    dcl.personnes.append(alexis)
+    dcl.personnes.append(eugenie)
+    login.personnes.append(marty)
+    ascii.personnes.append(tom)
+    demain.personnes.append(julien)
+    TEE.personnes.append(raoul)
+    sheesh.personnes.append(raoul)
+
+    db.session.commit() ### AFFICHAGE OK
+
+
     # LIEN POSITIONS PERSONNES
     # LIEN PERSONNES/POSITION (poste)
     # LIEN

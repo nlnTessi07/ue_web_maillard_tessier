@@ -59,6 +59,17 @@
              {{ p.titre }} : {{ p.personnes }},
         {% endfor %}
     </div>
+    <div>
+        <p>TEST LIEN PERSONNES/TAFS : </p>
+        A partir des tafs :
+        {% for t in tafs %}
+             Personnes dans {{ t.name }} : {% for el in t.personnes %} {{ el.name }} {% endfor %} <br>
+        {% endfor %} <br><br>
+        A partir des personnes : <br>
+        {% for p in personnes %}
+            {{ p.name }} est en {{ p.taf }} <br>
+        {% endfor %}
+    </div>
 
 
     <!--
