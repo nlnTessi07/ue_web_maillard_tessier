@@ -18,6 +18,7 @@ class TAF(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String)
     annee = Column(String)
+    personnes = relationship('Personne', backref='taf',secondary=jun_taf_personnes)
     def __repr__(self):
         return self.name
     def __init__(self, name):
