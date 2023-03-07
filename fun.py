@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
+db.init_app(app)
 
 
 with app.test_request_context():
@@ -53,6 +54,7 @@ def createBase():
     db.session.add(FTX)
     db.session.add(CreditSuisse)
     db.session.add(imt)
+
     db.session.commit()
     organisations = Organisation.query.all()   ### AFFICHAGE OK
 
@@ -83,20 +85,79 @@ def createBase():
     positions = Position.query.all()
 
     # Attribution entrerpise :
-    imt.postes.append(enseignant)
-    imt.postes.append(chercheur)
-    imt.postes.append(etudiant)
-    imt.postes.append(tuteur)
 
-    edf.postes.append(inge_bat)
-    edf.postes.append(inge_nuc)
-    edf.postes.append(inge_info)
-    edf.postes.append(chercheur)
-    edf.postes.append(tuteur)
-    edf.postes.append(RH)
-    edf.postes.append(stagiaire_pfe)
-    edf.postes.append(patron)
+    enseignant.organisations.append(imt)
+    tuteur.organisations.append(imt)
+    chercheur.organisations.append(imt)
+    etudiant.organisations.append(imt)
 
+    inge_bat.organisations.append(edf)
+    inge_bat.organisations.append(poliakov)
+    inge_bat.organisations.append(Dassault)
+    inge_bat.organisations.append(Safran)
+
+    inge_nuc.organisations.append(edf)
+    inge_nuc.organisations.append(imt)
+
+
+    inge_info.organisations.append(Dassault)
+    inge_info.organisations.append(Safran)
+    inge_info.organisations.append(Labo)
+    inge_info.organisations.append(Carouf)
+    inge_info.organisations.append(CDiscount)
+    inge_info.organisations.append(NASA)
+    inge_info.organisations.append(ESA)
+    inge_info.organisations.append(FTX)
+    inge_info.organisations.append(CreditSuisse)
+    inge_info.organisations.append(poliakov)
+    inge_info.organisations.append(edf)
+    inge_info.organisations.append(engie)
+    inge_info.organisations.append(total)
+    inge_info.organisations.append(imt)
+
+    RH.organisations.append(Dassault)
+    RH.organisations.append(Safran)
+    RH.organisations.append(Labo)
+    RH.organisations.append(Carouf)
+    RH.organisations.append(CDiscount)
+    RH.organisations.append(NASA)
+    RH.organisations.append(ESA)
+    RH.organisations.append(CreditSuisse)
+    RH.organisations.append(FTX)
+    RH.organisations.append(poliakov)
+    RH.organisations.append(edf)
+    RH.organisations.append(engie)
+    RH.organisations.append(total)
+
+    stagiaire_pfe.organisations.append(Dassault)
+    stagiaire_pfe.organisations.append(Safran)
+    stagiaire_pfe.organisations.append(Labo)
+    stagiaire_pfe.organisations.append(Carouf)
+    stagiaire_pfe.organisations.append(CDiscount)
+    stagiaire_pfe.organisations.append(NASA)
+    stagiaire_pfe.organisations.append(ESA)
+    stagiaire_pfe.organisations.append(CreditSuisse)
+    stagiaire_pfe.organisations.append(FTX)
+    stagiaire_pfe.organisations.append(poliakov)
+    stagiaire_pfe.organisations.append(edf)
+    stagiaire_pfe.organisations.append(engie)
+    stagiaire_pfe.organisations.append(total)
+
+    patron.organisations.append(Dassault)
+    patron.organisations.append(Safran)
+    patron.organisations.append(Labo)
+    patron.organisations.append(Carouf)
+    patron.organisations.append(CDiscount)
+    patron.organisations.append(NASA)
+    patron.organisations.append(ESA)
+    patron.organisations.append(CreditSuisse)
+    patron.organisations.append(FTX)
+    patron.organisations.append(poliakov)
+    patron.organisations.append(edf)
+    patron.organisations.append(engie)
+    patron.organisations.append(total)
+
+    """
     poliakov.postes.append(inge_bat)
     poliakov.postes.append(inge_nuc)
     poliakov.postes.append(inge_info)
@@ -123,6 +184,9 @@ def createBase():
     Safran.postes.append(RH)
     Safran.postes.append(stagiaire_pfe)
     Safran.postes.append(patron)
+    """
+    organisations = Organisation.query.all()
+    db.session.commit()
 
     # CREATION TAFs
     dcl = TAF('DCL')
@@ -146,30 +210,29 @@ def createBase():
 
     # CREATION PERSONNES
     #élèves actuels
-    tom= Personne('Tom','Dupont','Mr',datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
-    rory = Personne('Rory','Martin','Mr',datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
-    marty= Personne('Marty''Dubois','Mr',datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024)
-    alexis= Personne('Alexis','Bernard','Mr',datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
-    julien= Personne('Julien','Rousseau','Mr',datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
-    eugenie= Personne('Eugenie','Petit','Mme',datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024)
-    Mael = Personne('Mael','Lefebvre','Mr',datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024)
-
+    tom= Personne(name='Tom',lastName='Dupont',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
+    rory = Personne(name='Rory',lastName='Martin',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
+    marty= Personne(name='Marty',lastName='Dubois',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024)
+    alexis= Personne(name='Alexis',lastName='Bernard',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
+    julien= Personne(name='Julien',lastName='Rousseau',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
+    eugenie= Personne(name='Eugenie',lastName='Petit',genre='Mme',dateNaissance=datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024)
+    Mael = Personne(name='Mael',lastName='Lefebvre',genre='Mr',dateNaissance=datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024)
     #profs :
-    Theo = Personne('Theo','Moreau','Mr',datetime(year=1970,month=1,day=24))
-    Mario = Personne('Mario','Fournier','Mr',datetime(year=1972,month=2,day=27))
-    Safou = Personne('Safouana','Girard','Mr',datetime(year=1570,month=3,day=7))
+    Theo = Personne(name='Theo',lastName='Moreau',genre='Mr',dateNaissance=datetime(year=1970,month=1,day=24))
+    Mario = Personne(name='Mario',lastName='Fournier',genre='Mr',dateNaissance=datetime(year=1972,month=2,day=27))
+    Safou = Personne(name='Safouana',lastName='Girard',genre='Mr',dateNaissance=datetime(year=1570,month=3,day=7))
 
 
     #alumnis
-    Lilian = Personne('Lilian','Laurent','Mr',datetime(year=1998,month=12,day=21),promotion=2020,annee2=2018,annee3=2020) #Cesure
-    Nino = Personne('Nino','Simon','Mr',datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020) #Cesure
-    Pablo = Personne('Pablo','Durand','Mr',datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019)
-    Emma = Personne('Emma','Roux','Mme',datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018)
-    Gregoire = Personne('Gregoire','Leclerc','Mr',datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020)
-    Lea = Personne('Lea','Lambert','Mme',datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019)
-    Nathan = Personne('Nathan','Mercier','Mr',datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018)
-    Octave = Personne('Octave','Vidal','Mr',datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022)
-    Thibault = Personne('Thibault','Caron','Mr',datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020)
+    Lilian = Personne(name='Lilian',lastName='Laurent',genre='Mr',dateNaissance=datetime(year=1998,month=12,day=21),promotion=2020,annee2=2018,annee3=2020) #Cesure
+    Nino = Personne(name='Nino',lastName='Simon',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020) #Cesure
+    Pablo = Personne(name='Pablo',lastName='Durand',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019)
+    Emma = Personne(name='Emma',lastName='Roux',genre='Mme',dateNaissance=datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018)
+    Gregoire = Personne(name='Gregoire',lastName='Leclerc',genre='Mr',dateNaissance=datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020)
+    Lea = Personne(name='Lea',lastName='Lambert',genre='Mme',dateNaissance=datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019)
+    Nathan = Personne(name='Nathan',lastName='Mercier',genre='Mr',dateNaissance=datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018)
+    Octave = Personne(name='Octave',lastName='Vidal',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022)
+    Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020)
 
 
     db.session.add(tom)
@@ -227,7 +290,7 @@ def createBase():
 
 
     #Creation PFE
-    reco = PFE('Développement dun système de reconnaissance de la parole pour les personnes atteintes de troubles de la communication','Je veux manger des baleresques toute l annee voila le projet.',
+    reco = PFE('Développement dun système de reconnaissance de la parole pour les personnes atteintes de troubles de la communication',
                  ' Ce projet consiste en la création dun logiciel qui peut aider les personnes atteintes de troubles de la communication à communiquer plus facilement en utilisant leur voix.')
     sysSurv = PFE('Conception dun système de surveillance et de contrôle pour les cultures maraîchères ',
                    'Ce projet implique la mise en place dun système de surveillance et de contrôle pour les cultures maraîchères qui permettra de surveiller lhumidité, la température, et la qualité du sol pour maximiser les récoltes.')
@@ -264,53 +327,56 @@ def createBase():
     pfes = PFE.query.all()
 
     # Attribution PFE tuteur/eleve
-    reco.tuteur.append(Theo)
-    sysSurv.tuteur.append(Theo)
-    secu.tuteur.append(Theo)
-    ia.tuteur.append(Theo)
-    jeuSimu.tuteur.append(Theo)
-    etudeDistance.tuteur.append(Theo)
-    appli.tuteur.append(Mario)
-    reaVirt.tuteur.append(Mario)
-    mouvement.tuteur.append(Mario)
-    depression.tuteur.append(Mario)
-    anim.tuteur.append(Mario)
+    #reco.tuteur_id= db.session.query(Personne).filter(Personne.name=='Theo')
 
-    reco.eleve.append(alexis)
-    sysSurv.eleve.append(julien)
-    secu.eleve.append(Nino)
-    ia.eleve.append(Pablo)
-    jeuSimu.eleve.append(Emma)
-    etudeDistance.eleve.append(Lilian)
-    appli.eleve.append(Gregoire)
-    reaVirt.eleve.append(Nathan)
-    mouvement.eleve.append(Thibault)
-    depression.eleve.append(Lea)
-    anim.eleve.append(Octave)
+    reco.tuteur = Theo
+    sysSurv.tuteur = Theo
+    secu.tuteur = Theo
+    ia.tuteur = Theo
+    jeuSimu.tuteur = Theo
+    etudeDistance.tuteur = Mario
+    appli.tuteur = Theo
+    reaVirt.tuteur = Theo
+    mouvement.tuteur = Mario
+    depression.tuteur = Mario
+    anim.tuteur = Mario
+
+    reco.eleve = alexis
+    sysSurv.eleve = julien
+    secu.eleve = Nino
+    ia.eleve = Pablo
+    jeuSimu.eleve = Emma
+    etudeDistance.eleve = Lilian
+    appli.eleve=Gregoire
+    reaVirt.eleve=Nathan
+    mouvement.eleve=Thibault
+    depression.eleve=Lea
+    anim.eleve=Octave
 
     db.session.commit()
 
     # Attributions organisation
-    imt.postes.append(Theo)
-    imt.postes.append(Mario)
-    imt.postes.append(Safou)
-    imt.postes.append(tom)
-    imt.postes.append(rory)
-    imt.postes.append(alexis)
-    imt.postes.append(julien)
-    imt.postes.append(eugenie)
-    imt.postes.append(Mael)
-    imt.postes.append(marty)
+    imt.personnes.append(Theo)
+    imt.personnes.append(Theo)
+    imt.personnes.append(Mario)
+    imt.personnes.append(Safou)
+    imt.personnes.append(tom)
+    imt.personnes.append(rory)
+    imt.personnes.append(alexis)
+    imt.personnes.append(julien)
+    imt.personnes.append(eugenie)
+    imt.personnes.append(Mael)
+    imt.personnes.append(marty)
 
-    Dassault.postes.append(alexis)
-    Safran.postes.append(julien)
-    NASA.postes.append(Pablo)
-    NASA.postes.append(Emma)
-    Carouf.postes.append(Gregoire)
-    FTX.postes.append(Lea)
-    CreditSuisse.postes.append(Nathan)
-    ESA.postes.append(Octave)
-    edf.postes.append(Thibault)
+    Dassault.personnes.append(alexis)
+    Safran.personnes.append(julien)
+    NASA.personnes.append(Pablo)
+    NASA.personnes.append(Emma)
+    Carouf.personnes.append(Gregoire)
+    FTX.personnes.append(Lea)
+    CreditSuisse.personnes.append(Nathan)
+    ESA.personnes.append(Octave)
+    edf.personnes.append(Thibault)
 
     # Attribution des tafs : (deux tafs pour les alumnis, une pour les élèves).
     for ele in [alexis,julien,eugenie,rory]:
@@ -338,5 +404,8 @@ def createBase():
     demain.personnes.append(Thibault)
     cyber.personnes.append(Thibault)
 
-
+    positions = Position.query.all()
+    pfes = PFE.query.all()
+    tafs = TAF.query.all()
+    personnes = Personne.query.all()
     return(organisations,positions,pfes,tafs,personnes)

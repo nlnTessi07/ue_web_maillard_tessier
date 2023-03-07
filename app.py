@@ -2,7 +2,7 @@ import flask
 from flask import Flask
 from database.database import db, init_database
 from database.models import *
-from fun import *
+from fun import createBase
 
 app = Flask(__name__)
 #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
@@ -22,10 +22,11 @@ def clean():
 
 
 
-
-
-
-
+@app.route('/testbdd')
+def testbdd2():
+    clean()
+    organisations, positions, pfes, tafs, personnes = createBase()
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes))
 
 @app.route('/old' )
 def testInput():
@@ -195,89 +196,7 @@ def testInput():
 
     # LIEN PERSONNES/POSITION (poste)
     # LIEN
-    """
-    #Student creation:
-    bob = Alumni('Bob Marley',
-                   'TEE',
-                   'TEE*',
-                   '1950',
-                   'cigarette',
-                   'comment fumer des gens',
-                   Dassault,
-                   'Momo',
-                   'ingenieur_qualité',
-                   Safran)
-    db.session.add(bob)
-    Dassault.interns.append(bob)
-    Safran.workers.append(bob)
 
-
-
-
-    #create an Alumni:
-    std1 = Alumni(name="Magnus",
-                  tafa2="DechetL",
-                  tafa3='tktBienspasser',
-                  promo='2021',
-                  project_name="Gobblers",
-                  project_summary="UwU",
-                  project_company=FTX,
-                  tutor="absent",
-                  current_position="debout",
-                  current_company=CreditSuisse
-                  )
-    db.session.add(std1)
-    FTX.interns.append(std1)
-    CreditSuisse.workers.append(std1)
-
-    std2 = Alumni(name="Magnette",tafa2="DechetL",
-                  tafa3="tktBienspasserAussi",
-                  promo='2021',
-                  project_name="Morpion",
-                  project_summary="UwU",
-                  project_company=FTX,
-                  tutor="Jesuislà",
-                  current_position="assis",
-                  current_company=NASA
-                  )
-    db.session.add(std2)
-    FTX.interns.append(std2)
-    NASA.workers.append(std2)
-
-    std3 = Alumni(name="Rory Maillard",
-                  tafa2="DCL",
-                  tafa3="Login",
-                  promo='2021',
-                  project_name="LiqueurCafe",
-                  project_summary="from10to40degrees",
-                  project_company=CreditSuisse,
-                  tutor="marty",current_position="influenceur",
-                   current_company=Carouf
-                  )
-    db.session.add(std3)
-    CreditSuisse.interns.append(std3)
-    Carouf.workers.append(std3)
-
-    marty = Alumni('Marty',
-                   'Arnaud Parion',
-                   'Rory Maillard',
-                   2018,
-                   "objectif traction",
-                   'project déjà accomplit',
-                   poliakov,
-                   'SalmonLePoisson',
-                   'BG',
-                   CreditSuisse)
-    db.session.add(marty)
-    poliakov.interns.append(marty)
-    CreditSuisse.workers.append(marty)
-
-    db.session.commit()
-    print("after student commit")
-
-
-    alumnis = Alumni.query.all()
-    """
     return flask.render_template("testPrint.html.jinja2",organisations=organisations,
                                  positions=positions,
                                  pfes=pfes,
