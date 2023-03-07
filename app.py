@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import flask
 from flask import Flask
 from database.database import db, init_database
@@ -19,8 +21,6 @@ def clean():
     db.drop_all()
     db.create_all()
     return "Cleaned!"
-
-
 def getAlumnis(positions, organisations, personnes):
     alumnis_json = db.session.query(Personne.name, Personne.lastName).filter(Personne.promotion<2024).all()
     alumnis = []
@@ -28,14 +28,84 @@ def getAlumnis(positions, organisations, personnes):
         alumnis.append(al[0]+ ' '+al[1])
     return alumnis
 
+def getInformationOf(name,lastName,promotion):
+
+    personne = db.session.query(
+        Personne.name,
+        Personne.lastName,
+        Personne.promotion,
+        Personne.genre,
+        Personne.dateNaissance)\
+        .filter(
+        Personne.name.like(name),
+
+        Personne.promotion==promotion).all()
+    return personne
+
+def  addEntreprise(nom):
+    nvlle_entreprise = Organisation(nom)
+    db.session.add(nvlle_entreprise)
+    db.session.commit()
+    print(nom + "créee")
+    return 0
+
+def addPromotion(): ### DEMANDER
+    return 0
+def addTaf():
+    return 0
+
+def getTaf():
+    return 0
+# retour pour chaque eleve = [name, lastName, dateNaissance, tafa2, tafa2]
+def getPromotion(annee):
+    promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
+    liste_eleves = []
+    for eleve in promo:
+        caract_eleve = []
+        caract_eleve.append(eleve[1]) #prénom
+        caract_eleve.appedn(eleve[2]) #nom
+        caract_eleve.append(eleve[3]) #dateNaissance
+        #Récupération des tafs:
+        for taf in TAF:
+            print('qsdq')
+        tafs_eleve = db.session.query(TAF.name).filter(TAF.personnes.id==eleve[0]).all()
+
+
+        liste_eleves.append(caract_eleve)
+    return liste_eleves
+def modifyPromotion(eleve):
+    return 0
+
+#filtres :
+
+# modifier les 4 (enlever de la promotion
+def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
+    return 0
+
+@app.route('/test')
+def test():
+    return db.session.query(TAF.name).filter(TAF.personnes.id==2).all()
+@app.route('/clean')
+def routeClean():
+    clean()
+    return 'Database Cleaned'
+@app.route('/testadd')
+def routeAdd():
+
+    addEntreprise('QMSDJKQSDJ')
+
+    db.session.commit()
+    return 'blalba'
+
+
 @app.route('/testbdd')
 def testbdd2():
-    clean()
-
     organisations, positions, pfes, tafs, personnes = createBase()
     alumnis = getAlumnis(positions,organisations,personnes)
-    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis))
+    testp = getInformationOf('Rory', '',2024)
 
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp))
+"""
 @app.route('/old' )
 def testInput():
     clean()
@@ -210,7 +280,7 @@ def testInput():
                                  pfes=pfes,
                                  tafs = tafs,
                                  personnes=personnes)
-
+"""
 @app.route('/drop')
 def drop_page():
     clean()
