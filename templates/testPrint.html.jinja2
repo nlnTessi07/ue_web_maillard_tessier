@@ -17,22 +17,13 @@
     <br>
         <p>POSITIONS :</p>
         {% for p in positions %}
-            <p>  {{p.titre}}(id={{p.id}}),
+            <p>  {{p.titre}}(id={{p.id}}), organisations =
 
-                {{ p.personnes }}</p>
-
+                {{ p.organisations }}</p>
         {% endfor %}
     <br><br>
     </div>
-    <div>
-        <p>LIEN ENTRE POSITIONS/ORGANISATIONS</p>
-        <p>Postes dans les organisations : </p>
-        {% for orga in organisations %}
-            <p>{{ orga.name }} : {{ orga.postes }}</p>
-        {% endfor %}
-        <br><br>
-    </div>
-    <div>
+
         <p>PFEs : </p>
         {% for pfe in pfes %}
             <p>projet {{ pfe.titre }} : {{ pfe.description }}</p>
@@ -52,8 +43,7 @@
     <br><br>
     </div>
     <div>
-        <p>LIEN PFE/PERSONNES <br>(affichage des titres des positions des
-            gens personnes, marty doit en avoir deux pour voir)</p>
+        <p>LIEN POSITIONS/PERSONNES <br></p>
         {% for p in positions %}
              {{ p.titre }} : {{ p.personnes }},
         {% endfor %}

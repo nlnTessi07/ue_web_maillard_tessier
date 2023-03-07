@@ -9,14 +9,15 @@ jun_taf_personnes = db.Table('tafs',
                              Column('taf_id', Integer, ForeignKey('taf.id')),
                              Column('personne_id',Integer, ForeignKey('personne.id'))
                              )
+"""
 jun_personnes_pfe = db.Table('pfe_personnes',
                              Column('pfe_id',Integer, ForeignKey('pfe.id')),
                              Column('personne_id', Integer, ForeignKey('personne.id')))
-"""                       
-jun_orga_pos = db.Table('postes',
+"""
+jun_orga_pos = db.Table('positions_orga',
                         Column('orga_id',Integer, ForeignKey('organisation.id')),
                         Column('pos_id', Integer, ForeignKey('position.id')))
-"""
+
 class TAF(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String)
@@ -41,7 +42,7 @@ class Position(db.Model):
 
     ### Relation Many to Many vers Organisation
     #organisation_id = Column(Integer, ForeignKey('organisation.id'))
-    organisations = relationship('Organisation', backref='orga')
+    organisations = relationship('Organisation', backref='orga',secondary=jun_orga_pos)
 
     def __init__(self,titre):
         self.titre=titre
@@ -52,10 +53,12 @@ class Organisation(db.Model):
     name = Column(String)
 
     ### Relation One to Many vers Position
-    position_id = Column(Integer, ForeignKey('position.id'))
+    #position_id = Column(Integer, ForeignKey('position.id'))
     personnes = relationship('Personne', backref='personnes')
     def __init__(self, name):
         self.name=name
+    def __repr__(self):
+        return self.name
 
 class PFE(db.Model):
     id = Column(Integer, primary_key=True)
