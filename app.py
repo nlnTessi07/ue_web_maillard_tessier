@@ -308,34 +308,88 @@ def filtrer(name, tafa2,tafa3, promo, internship_company,current_company):
 
 
 @app.route('/base',methods=['POST'])
-def taMaman():
+def TestFilter():
     name = flask.request.form['testFiltrer']
     print(name)
     ans = filtrer(name,'','','','','')
     print(ans)
     return flask.render_template('testPrint.html.jinja2', ans = ans)
 
-@app.route('/menu')
-def menu():
-    return flask.render_template("mainMenu.html.jinja2")
+@app.route('/login')
+def loginMain():
+    return flask.render_template('loginMain.html.jinja2')
 
-@app.route('/menu', methods=['POST'])
-def loginPost():
-    flask.redirect(flask.url_for("recherche"))
-@app.route('/recherche')
-def recherche():
-    return flask.render_template("main_layout.html.jinja2")
+@app.route('/loginUser')
+def loginUser():
+    return flask.render_template('loginUser.html.jinja2')
 
-@app.route('/recherche',methods=["POST"])
-def recherchePost():
-    name = flask.request.form['name']
-    taf1 = flask.request.form['taf1']
-    taf2 = flask.request.form['taf2']
-    promo = flask.request.form['promo']
-    stage = flask.request.form['stage']
-    entreprise = flask.request.form['entreprise']
-    resultats = filtrer(name,taf1,taf2,promo,stage,entreprise)
-    return flask.render_template("resultat.html.jinja2",name=name, taf1=taf1,taf2=taf2,promo=promo,stage=stage,entreprise=entreprise)
+@app.route('/loginAdmin')
+def loginAdmin():
+    return flask.render_template('loginAdmin.html.jinja2')
+
+@app.route('/loginUser', methods=['POST'])
+def loginUserPost():
+    return flask.redirect('/UserDashboard')
+
+@app.route('/loginAdmin', methods=['POST'])
+def loginAdminPost():
+    return flask.redirect('/AdminDashboard')
+@app.route('/UserDashboard')
+def userDashboard():
+    return flask.render_template('userDashboard.html.jinja2')
+
+@app.route('/AdminDashboard')
+def adminDashboard():
+    return flask.render_template('adminDashboard.html.jinja2')
+@app.route('/UserDashboard',methods=["POST"])
+def userDashboardPost():
+    if 'modifier' in flask.request.form:
+        return flask.redirect('/UserModif')
+    elif 'rechercher' in flask.request.form:
+        name = flask.request.form['name']
+        taf1 = flask.request.form['taf1']
+        taf2 = flask.request.form['taf2']
+        promo = flask.request.form['promo']
+        stage = flask.request.form['stage']
+        entreprise = flask.request.form['entreprise']
+        resultats = filtrer(name,taf1,taf2,promo,stage,entreprise)
+        return flask.render_template('resultat.html.jinja2',name=name, taf1=taf1,taf2=taf2,promo=promo,stage=stage,entreprise=entreprise)
+
+
+@app.route('/UserModif')
+def userModif():
+    return flask.render_template('modifUserData.jinja2')
+
+@app.route('/UserModif',methods=["POST"])
+def userModifPost():
+    return()
+
+@app.route('/AdminDashboard',methods=["POST"])
+def adminRecherchePost():
+    if 'modifier' in flask.request.form:
+        return flask.redirect('/UserModif')
+    elif 'ajouterEtudiant' in flask.request.form:
+        return flask.redirect('/StudentAdd')
+    elif 'modifEtudiant' in flask.request.form:
+        return flask.redirect('/StudentFind')
+    elif 'rechercher' in flask.request.form:
+        name = flask.request.form['name']
+        taf1 = flask.request.form['taf1']
+        taf2 = flask.request.form['taf2']
+        promo = flask.request.form['promo']
+        stage = flask.request.form['stage']
+        entreprise = flask.request.form['entreprise']
+        resultats = filtrer(name,taf1,taf2,promo,stage,entreprise)
+        return flask.render_template('resultat.html.jinja2',name=name, taf1=taf1,taf2=taf2,promo=promo,stage=stage,entreprise=entreprise)
+
+@app.route('/StudentAdd')
+def addStudent():
+    return flask.render_template('createStudent.jinja2')
+
+@app.route('/StudentFind')
+def findStudent():
+    return flask.render_template('findStudent.jinja2')
+
 if __name__ == '__main__':
     app.run()
 
