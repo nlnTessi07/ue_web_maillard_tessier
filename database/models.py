@@ -1,5 +1,5 @@
 from database.database import db
-from sqlalchemy import  Column, ForeignKey, Integer, String
+from sqlalchemy import  Column, ForeignKey, Integer, String, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -17,8 +17,8 @@ jun_personnes_pfe = db.Table('pfe_personnes',
 class TAF(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String)
-    annee = Column(String)
     personnes = relationship('Personne', backref='taf',secondary=jun_taf_personnes)
+    annee = Column(Integer)
     def __repr__(self):
         return self.name
     def __init__(self, name):
@@ -32,6 +32,7 @@ class Position(db.Model):
     id_Organisation = Column(Integer)
     titre = Column(String)
     date_entree = Column(Integer)
+
     ### Relation Many to One vers Organisation
     organisation_id = Column(Integer, ForeignKey('organisation.id'))
     ### Relation Many to One vers Personne (poste)
@@ -52,6 +53,10 @@ class PFE(db.Model):
     id = Column(Integer, primary_key=True)
     titre = Column(String)
     description = Column(String)
+    link_rapport = Column(String)
+    eleve = relationship('Personne', backref='eleve')
+    tuteur = relationship('Personne', backref='tuteur')
+
     def __repr__(self):
         return self.titre + ' : ' + self.description
     def __init__(self, titre, description):
@@ -62,13 +67,24 @@ class PFE(db.Model):
 
 
 class Personne(db.Model):
+
     id = Column(Integer, primary_key=True)
     name = Column(Integer)
+    lastName = Column(String)
+    dateNaissance = Column(Date)
+    genre = Column(String)
+    promotion = Column(Integer)
+    annee2 = Column(Integer)
+    annee3 = Column(Integer)
+
 ###  One to Many vers Position (role)
     position_id = Column(Integer, ForeignKey('position.id'))
     def __repr__(self):
         return self.name
-    def __init__(self, name):
+    def __init__(self, name, lastName,dateNaissance,genre):
+        self.dateNaissance=dateNaissance
+        self.lastName=lastName
+        self.genre=genre
         self.name = name
     ### Relation Many to Many vers TAF voir la jointure jun_taf_personnes
     ### Relation One to Many vers PFE voir la jointure jun_personnes_pfe

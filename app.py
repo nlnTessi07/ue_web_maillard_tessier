@@ -2,7 +2,7 @@ import flask
 from flask import Flask
 from database.database import db, init_database
 from database.models import *
-
+from fun import *
 
 app = Flask(__name__)
 #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
@@ -27,7 +27,7 @@ def clean():
 
 
 
-@app.route('/' )
+@app.route('/old' )
 def testInput():
     clean()
 
@@ -46,7 +46,6 @@ def testInput():
     engie = Organisation('ENGIE')
     total = Organisation('TotalEnergie')
     imt = Organisation('IMT-Atlantique')
-
 
     db.session.add(edf)
     db.session.add(engie)
@@ -192,6 +191,8 @@ def testInput():
 
 
     # LIEN POSITIONS PERSONNES
+
+
     # LIEN PERSONNES/POSITION (poste)
     # LIEN
     """
