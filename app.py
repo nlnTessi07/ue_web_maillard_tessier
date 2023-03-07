@@ -21,12 +21,20 @@ def clean():
     return "Cleaned!"
 
 
+def getAlumnis(positions, organisations, personnes):
+    alumnis_json = db.session.query(Personne.name, Personne.lastName).filter(Personne.promotion<2024).all()
+    alumnis = []
+    for al in alumnis_json:
+        alumnis.append(al[0]+ ' '+al[1])
+    return alumnis
 
 @app.route('/testbdd')
 def testbdd2():
     clean()
+
     organisations, positions, pfes, tafs, personnes = createBase()
-    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes))
+    alumnis = getAlumnis(positions,organisations,personnes)
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis))
 
 @app.route('/old' )
 def testInput():

@@ -86,6 +86,7 @@ class Personne(db.Model):
     lastName = Column(String)
     dateNaissance = Column(Date)
     genre = Column(String)
+    email = Column(String)
     promotion = Column(Integer)
     annee2 = Column(Integer)
     annee3 = Column(Integer)
