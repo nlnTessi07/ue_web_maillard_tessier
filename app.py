@@ -28,83 +28,110 @@ def getAlumnis(positions, organisations, personnes):
         alumnis.append(al[0]+ ' '+al[1])
     return alumnis
 
-def getInformationOf(name,lastName,promotion):
+def getList(name,lastName,promotion,taf1,taf2):
+    #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
+    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion)
+    if(promotion):
+        personnes = personnes.filter(Personne.promotion==promotion).all()
+    if(name):
+        personnes = personnes.filter(Personne.name.contains(name)).all()
+    if(lastName):
+        personnes = personnes.filter(Personne.lastName.contains(lastName)).all()
+    #remise en forme des données et ajout des tafs :
+    liste_personnes = []
 
-    personne = db.session.query(
-        Personne.name,
-        Personne.lastName,
-        Personne.promotion,
-        Personne.genre,
-        Personne.dateNaissance)\
-        .filter(
-        Personne.name.like(name),
+    for p in personnes:
+        personne = []
+        tafs = getTaf(p.id)
+        personne.append(p.id)
+        personne.append(p.name)
+        personne.append(p.lastName)
+        personne.append((p.promotion))
+        for taf in tafs:
+            personne.append(taf)
+        liste_personnes.append(personne)
 
-        Personne.promotion==promotion).all()
-    return personne
+    #Avec les données remises en forme on continue avec les filtres des tafs si les champs sont rentrés:
+    if(taf1):
+        nouvelle_liste = []
+        for p in (liste_personnes):
+            for field in p:
+                if taf1 in str(field).lower():
+                    nouvelle_liste.append(p)
+                    break
+    liste_personnes = nouvelle_liste
 
+    if(taf2):
+        nouvelle_liste = []
+        for p in (liste_personnes):
+            for field in p:
+                if taf2 in str(field).lower():
+                    nouvelle_liste.append(p)
+                    break
+    liste_personnes = nouvelle_liste
+    return liste_personnes
+
+
+
+#OK
 def  addEntreprise(nom):
     nvlle_entreprise = Organisation(nom)
     db.session.add(nvlle_entreprise)
     db.session.commit()
     print(nom + "créee")
     return 0
+#OK
+def addTaf(nom):
+    new_taf = TAF(nom)
+    db.session.add(new_taf)
+    db.session.commit()
+    return 0
+#OK
+def getTaf(eleve_id):
+    tafs = db.session.query(TAF).all()
+    res = []
+    for taf in tafs:
+        for p in taf.personnes:
+            if(p.id==eleve_id):
+                res.append(taf.name)
+    return res
 
-def addPromotion(): ### DEMANDER
-    return 0
-def addTaf():
-    return 0
-
-def getTaf():
-    return 0
-# retour pour chaque eleve = [name, lastName, dateNaissance, tafa2, tafa2]
+# retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
 def getPromotion(annee):
     promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
     liste_eleves = []
+    tafs = db.session.query(TAF.name)
     for eleve in promo:
         caract_eleve = []
         caract_eleve.append(eleve[1]) #prénom
-        caract_eleve.appedn(eleve[2]) #nom
+        caract_eleve.append(eleve[2]) #nom
         caract_eleve.append(eleve[3]) #dateNaissance
-        #Récupération des tafs:
-        for taf in TAF:
-            print('qsdq')
+        caract_eleve.append(getTaf(eleve[0]))
+
         tafs_eleve = db.session.query(TAF.name).filter(TAF.personnes.id==eleve[0]).all()
 
 
         liste_eleves.append(caract_eleve)
     return liste_eleves
-def modifyPromotion(eleve):
-    return 0
 
-#filtres :
+
 
 # modifier les 4 (enlever de la promotion
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
-
-@app.route('/test')
-def test():
-    return db.session.query(TAF.name).filter(TAF.personnes.id==2).all()
 @app.route('/clean')
 def routeClean():
     clean()
     return 'Database Cleaned'
-@app.route('/testadd')
-def routeAdd():
-
-    addEntreprise('QMSDJKQSDJ')
-
-    db.session.commit()
-    return 'blalba'
-
-
 @app.route('/testbdd')
 def testbdd2():
+    clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     alumnis = getAlumnis(positions,organisations,personnes)
-    testp = getInformationOf('Rory', '',2024)
+    testp = getList('R',None,None,'dcl','login')
+    testGetTaf = getTaf(4)
 
-    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp))
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp,testGetTaf=testGetTaf))
 """
 @app.route('/old' )
 def testInput():

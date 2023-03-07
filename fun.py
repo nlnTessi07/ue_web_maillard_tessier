@@ -211,7 +211,7 @@ def createBase():
     # CREATION PERSONNES
     #élèves actuels
     tom= Personne(name='Tom',lastName='Dupont',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
-    rory = Personne(name='Rory',lastName='Martin',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
+    rory = Personne(name='Rory',lastName='Maillard',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
     marty= Personne(name='Marty',lastName='Dubois',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024)
     alexis= Personne(name='Alexis',lastName='Bernard',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
     julien= Personne(name='Julien',lastName='Rousseau',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
