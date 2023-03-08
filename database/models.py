@@ -1,5 +1,5 @@
 from database.database import db
-from sqlalchemy import  Column, ForeignKey, Integer, String, Date
+from sqlalchemy import  Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -84,7 +84,7 @@ class Personne(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(Integer)
     lastName = Column(String)
-    dateNaissance = Column(Date)
+    dateNaissance = Column(DateTime)
     genre = Column(String)
     email = Column(String)
     promotion = Column(Integer)

@@ -74,8 +74,31 @@
     </div>
     <div>
         <br><br>
-        {{ testGetTaf }}
-    </div>
+        TEST getTafFromEleve : {{ testGetTaf }}
 
+    </div>
+    <div>
+        <br><br>
+        TEST getTafId : DCL ID : {{ dcl_id }}
+    </div>
+    <div>
+        <br><br>
+        TEST getPromotion :
+
+        {% for eleve in testGetPromotion %}
+         <p>{{ eleve }}</p>
+
+        {% endfor %}
+    </div>
+      <div>
+        <br><br>
+        TEST getNSafran  : {{ testGetSafran }}
+    </div>  <div>
+        <br><br>
+        TEST testGetNNASA : {{ testGetNNASA }}
+    </div>  <div>
+        <br><br>
+        TEST testGetNIMT : {{ testGetNIMT }}
+    </div>
     </body>
 </html>
