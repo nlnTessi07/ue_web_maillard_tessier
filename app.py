@@ -120,7 +120,24 @@ def getPromotion(annee):
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
 
+@app.route('/test')
+def test():
+    return db.session.query(TAF.name).filter(TAF.personnes.id==2).all()
+@app.route('/clean')
+def routeClean():
+    clean()
+    return 'Database Cleaned'
+@app.route('/testadd')
+def routeAdd():
 
+    addEntreprise('QMSDJKQSDJ')
+
+    db.session.commit()
+    return 'blalba'
+
+@app.route('/dashboard')
+def dashboard():
+    return flask.render_template('Dashboard.html.jinja2')
 @app.route('/testbdd')
 def testbdd2():
     clean()
@@ -135,6 +152,41 @@ def testbdd2():
 def drop_page():
     clean()
     return 'Database Cleaned'
+
+
+
+@app.route('/companies')
+def testCompany():
+    # Create companies:
+
+
+    companies= Company.query.all()
+    return flask.render_template("test_print_company.html.jinja2",companies=companies)
+
+
+def filtrer(name, tafa2,tafa3, promo, internship_company,current_company):
+    #enlever les chanmps vides
+    #ordre : nom, taf, promo, entrerpise-stage, entreprise alumni
+    interns = db.session.query(Company.interns).filter(Company.name==internship_company)
+
+    return interns.query(Alumni).filter(Alumni.name.contains(name),
+                                         Alumni.tafa2.contains(tafa2),
+                                     Alumni.tafa3.contains(tafa3),
+                                     Alumni.promo.contains(promo))
+                                  #   Alumni.current_company.name.contains(current_company))
+
+
+@app.route('/base',methods=['POST'])
+def TestFilter():
+    name = flask.request.form['testFiltrer']
+    print(name)
+    ans = filtrer(name,'','','','','')
+    print(ans)
+    return flask.render_template('testPrint.html.jinja2', ans = ans)
+
+@app.route('/')
+def main():
+    return flask.redirect('/login')
 @app.route('/login')
 def loginMain():
     return flask.render_template('loginMain.html.jinja2')
