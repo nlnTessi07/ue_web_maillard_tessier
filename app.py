@@ -21,7 +21,7 @@ def clean():
     db.drop_all()
     db.create_all()
     return "Cleaned!"
-def getAlumnis(positions, organisations, personnes):
+def getAlumnis():
     alumnis_json = db.session.query(Personne.name, Personne.lastName).filter(Personne.promotion<2024).all()
     alumnis = []
     for al in alumnis_json:
@@ -137,12 +137,13 @@ def routeAdd():
 
 @app.route('/dashboard')
 def dashboard():
+    alumnis = getAlumnis()
     return flask.render_template('Dashboard.html.jinja2')
 @app.route('/testbdd')
 def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
-    alumnis = getAlumnis(positions,organisations,personnes)
+    alumnis = getAlumnis()
     testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
 
