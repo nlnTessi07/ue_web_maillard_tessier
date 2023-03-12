@@ -411,6 +411,8 @@ def createBase():
     personnes = Personne.query.all()
     return(organisations,positions,pfes,tafs,personnes)
 
+
+
  # liste des étudiants avec toutes les infos (sous forme de personne) = tout le monde sauf le personnel
  # que les étudiants [personnes]
  # que les alumnis [personnes]

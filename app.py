@@ -156,7 +156,19 @@ def getPromotion(annee):
         liste_eleves.append(caract_eleve)
     return liste_eleves
 
+def getNEntreprise(id,name,organisation):
+    if(id):
+        entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
+        nombre = len(entreprise.personnes)
+        return nombre
+    if(organisation):
+        nombre = len(organisation.personnes) #doit venir d'un .first()
+        return nombre
+    if(name):
+        entreprise = db.session.query(Organisation).filter(Organisation.name.contains(name)).first()
 
+        nombre = len(entreprise.personnes)
+        return nombre
 
 # modifier les 4 (enlever de la promotion
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
@@ -187,8 +199,11 @@ def testbdd2():
     alumnis = getAlumnis(positions,organisations,personnes)
     testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
-
-    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp,testGetTaf=testGetTaf))
+    testGetSafran = getNEntreprise(None,'Safran',None)
+    imt = db.session.query(Organisation).filter(Organisation.name.contains('IMT-Atlantique')).first()
+    testGetNIMT = getNEntreprise(None,None,imt)
+    testGetNNASA = getNEntreprise(10,None,None)
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp,testGetTaf=testGetTaf, testGetSafran=testGetSafran,testGetNIMT=testGetNIMT,testGetNNASA=testGetNNASA))
 
 @app.route('/drop')
 def drop_page():
