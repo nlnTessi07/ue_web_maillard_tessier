@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Tableau de Bord</title>
+        <title>Modification de données</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -9,38 +9,8 @@
         </style>
     </head>
     <body>
-    <datalist id="Taf">
-            <option value="LOGIN">
-            <option value="DCL">
-            <option value="MCE">
-            <option value="TEE">
-        </datalist>
-        <datalist id="Tuteur">
-            <option value="Rory">
-            <option value="Nolann">
-            <option value="Julien">
-            <option value="Safou">
-        </datalist>
-        <datalist id="Position">
-            <option value="Développeur">
-            <option value="Ingénieur">
-            <option value="Ressources Humaines">
-            <option value="Patron">
-        </datalist>
-        <datalist id="Entreprise">
-            <option value="Adnovum">
-            <option value="IMT">
-            <option value="Nasa">
-            <option value="Carrefour">
-        </datalist>
-        <datalist id="Promo">
-            <option value="2023">
-            <option value="2024">
-            <option value="2025">
-            <option value="2026">
-        </datalist>
         <HR>
-        <h1>Rechercher un étudiant</h1>
+        <h1>Modification des données</h1>
         <HR>
         <div class ="row">
             <div class="col">
@@ -55,7 +25,7 @@
                               <div class = "row align-items-center">
                                   <div class = "col-auto">
                                       <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="Genre" id="mr">
+                                          <input class="form-check-input" type="radio" name="Genre" id="mr" checked disabled>
                                           <label class="form-check-label" for="mr">
                                             Mr
                                           </label>
@@ -63,17 +33,9 @@
                                   </div>
                                   <div class = "col-auto">
                                     <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="Genre" id="mme">
+                                      <input class="form-check-input" type="radio" name="Genre" id="mme" disabled>
                                       <label class="form-check-label" for="mme">
                                         Mme
-                                      </label>
-                                    </div>
-                                  </div>
-                                  <div class = "col-auto">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="Genre" id="nsp" checked>
-                                      <label class="form-check-label" for="nsp">
-                                        Ne sais pas
                                       </label>
                                     </div>
                                   </div>
@@ -84,13 +46,13 @@
                                     <label for="Name" class="form-label">Nom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom">
+                                        <b>Maillard</b>
                                   </div>
                                   <div class = "col-auto">
                                     <label for="Prenom" class="form-label">Prénom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Prenom" name="prenom">
+                                    <b>Rory</b>
                                   </div>
                               </div>
                               <br>
@@ -99,7 +61,7 @@
                                     <label for="Date" class="form-label">Date de Naissance :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="date" class="form-control" id="Date" name="date">
+                                    <b>29/10/2002</b>
                                   </div>
                               </div>
                                 <br>
@@ -111,13 +73,13 @@
                                       <label for="taf1" class="form-label">TAF 2A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                      <input autocomplete="off" class="form-control" list="Taf" id="taf1" name="tafa2">
+                                      <b>DCL</b>
                                   </div>
                                   <div class = "col-auto">
                                       <label for="taf2" class="form-label">TAF 3A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                       <input autocomplete="off" class="form-control" list="Taf" id="taf2" name="tafa3">
+                                       <b>LOGIN</b>
                                   </div>
                               </div>
                               <br>
@@ -126,7 +88,7 @@
                                     <label for="promo" class="form-label">Promo :</label>
                                 </div>
                                 <div class = "col-sm-1">
-                                    <input autocomplete="off" class="form-control" list="Promo" id="promo" name="promo">
+                                    <b>2024</b>
                                 </div>
                             </div>
                               <br>
@@ -138,16 +100,25 @@
                                     <label for="stage" class="form-label">Titre :</label>
                                 </div>
                                 <div class = "col-sm-11">
-                                    <input autocomplete="off" type="text" class="form-control" id="stage" name="stage">
+                                    <b>Étude de lefficacité de la thérapie par lart pour le traitement de la dépression</b>
                                 </div>
                             </div>
+                              <br>
+                              <div class = "row align-items-center">
+                                  <div class="col-sm-1">
+                                      <label for="description" class="form-label">Description :</label>
+                                  </div>
+                                  <div class = "col-sm-11">
+                                      <textarea autocomplete="off" class="form-control" id="description" rows="5" wrap="soft" name="description" disabled>Ce projet vise à étudier limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers sur la qualité des soins et lefficacité de la formation.</textarea>
+                                  </div>
+                              </div>
                               <br>
                               <div class="row align-items-center">
                                   <div class="col-sm-1">
                                       <label for="tuteur" class="form-label">Tuteur :</label>
                                   </div>
                                   <div class="col-auto">
-                                      <input autocomplete="off" class="form-control" list="Tuteur" id="tuteur" name="tuteur">
+                                      <b>Nolann</b>
                                   </div>
                               </div>
                               <br>
@@ -156,7 +127,7 @@
                                       <label for="entreprise_stage" class="form-label">Entreprise</label>
                                   </div>
                                   <div class="col-auto">
-                                      <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise_stage" name="entreprise_stage">
+                                      <b>Adnovum</b>
                                   </div>
                               </div>
                               <br>
@@ -168,17 +139,27 @@
                                     <label for="position" class="form-label">Position:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <input autocomplete="off" class="form-control" list="Position" id="position" name="position">
+                                    <b>Développeur</b>
                                 </div>
                                 <div class = "col-auto">
                                     <label for="entreprise" class="form-label">Entreprise:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise" name="entreprise">
+                                    <b>Adnovum</b>
                                 </div>
                             </div>
                           </div>
-                          <button type="submit" class="btn btn-primary">Rechercher</button>
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary" name="modifier">Modifier</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary" name="retouyr">Retour</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-danger" name="supprimer">Supprimer</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
