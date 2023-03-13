@@ -22,11 +22,11 @@ def clean():
     db.create_all()
     return "Cleaned!"
 def getAlumnis(positions, organisations, personnes):
-    alumnis_json = db.session.query(Personne.name, Personne.lastName).filter(Personne.promotion<2024).all()
+    alumnis_json = db.session.query(Personne).filter(Personne.promotion<2024).all()
     alumnis = []
-    for al in alumnis_json:
-        alumnis.append(al[0]+ ' '+al[1])
-    return alumnis
+    #for al in alumnis_json:
+     #   alumnis.append(al[0]+ ' '+al[1])
+    return alumnis_json
 
 def getList(name,lastName,promotion,taf1,taf2):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
@@ -169,7 +169,16 @@ def getNEntreprise(id,name,organisation):
 
         nombre = len(entreprise.personnes)
         return nombre
-
+#OK
+def getListPosition(titre):
+    personnes = Personne.query.join(Position).filter(Position.titre == titre).all()
+    return personnes
+#OK
+def getPersonnesPromo(annee):
+    personnes = Personne.query.filter_by(promotion=annee).all()
+    return personnes
+#def
+#   liste entreprise, étudiants, promo, personnes position
 # modifier les 4 (enlever de la promotion
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
@@ -203,7 +212,24 @@ def testbdd2():
     imt = db.session.query(Organisation).filter(Organisation.name.contains('IMT-Atlantique')).first()
     testGetNIMT = getNEntreprise(None,None,imt)
     testGetNNASA = getNEntreprise(10,None,None)
-    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,positions=positions,pfes=pfes,tafs=tafs,personnes=personnes,alumnis=alumnis, testp=testp,testGetTaf=testGetTaf, testGetSafran=testGetSafran,testGetNIMT=testGetNIMT,testGetNNASA=testGetNNASA))
+    testGetListPosition = getListPosition('etudiant')
+    testGetAlumnis = getAlumnis(None,None,None)
+    testPromo = getPersonnesPromo(2024)
+    return(flask.render_template('testPrint.html.jinja2', organisations=organisations,
+                                 positions=positions,
+                                 pfes=pfes,
+                                 tafs=tafs,
+                                 personnes=personnes,
+                                 alumnis=alumnis,
+                                 testp=testp,
+                                 testGetTaf=testGetTaf,
+                                 testGetSafran=testGetSafran,
+                                 testGetNIMT=testGetNIMT,
+                                 testGetNNASA=testGetNNASA,
+                                 testGetListPosition=testGetListPosition,
+                                 testgetAlumnis=testGetAlumnis,
+                                 testPromo=testPromo
+                                ))
 
 @app.route('/drop')
 def drop_page():

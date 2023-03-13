@@ -98,7 +98,8 @@ class Personne(db.Model):
     organisation_id = Column(Integer, ForeignKey('organisation.id'))
 
     def __repr__(self):
-        return self.name
+        return self.name + ' ' + self.lastName
+
     """def __init__(self, name, lastName,dateNaissance,genre):
         self.dateNaissance=dateNaissance
         self.lastName=lastName
