@@ -10,12 +10,11 @@
     </head>
     <body>
         <HR>
-        <h1>ADNOVUM</h1>
+        <h1>{{ entreprise[0].name }}</h1>
         <HR>
         <table class="table table-striped">
           <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Poste</th>
@@ -23,13 +22,14 @@
             </tr>
           </thead>
           <tbody>
+          {% for personne in entreprise[1] %}
             <tr>
-                <th scope="row">1</th>
-                <td>Rory</td>
-                <td>Maillard</td>
-                <td>Développeur</td>
-                <td>2023</td>
+                <td>{{ personne[0].name }}</td>
+                <td>{{ personne[0].lastName }}</td>
+                <td>{{ personne[2]}}</td>
+                <td>{{ personne[1] }}</td>
             </tr>
+          {% endfor %}
           </tbody>
         </table>
     </body>
