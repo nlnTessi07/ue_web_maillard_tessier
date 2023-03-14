@@ -41,23 +41,7 @@ def createBase():
     total = Organisation('TotalEnergie')
     imt = Organisation('IMT-Atlantique')
 
-    db.session.add(edf)
-    db.session.add(engie)
-    db.session.add(total)
-    db.session.add(poliakov)
-    db.session.add(Dassault)
-    db.session.add(Safran)
-    db.session.add(Labo)
-    db.session.add(Carouf)
-    db.session.add(CDiscount)
-    db.session.add(NASA)
-    db.session.add(ESA)
-    db.session.add(FTX)
-    db.session.add(CreditSuisse)
-    db.session.add(imt)
-
-    db.session.commit()
-    organisations = Organisation.query.all()   ### AFFICHAGE OK
+       ### AFFICHAGE OK
 
     # CREATION POSITIONS
     inge_nuc = Position('inge_nuc')
@@ -71,19 +55,7 @@ def createBase():
     RH = Position('RH (707574650a)')
     stagiaire_pfe = Position('stagiaire_pfe')
 
-    db.session.add(inge_nuc)
-    db.session.add(inge_bat)
-    db.session.add(inge_info)
-    db.session.add(patron)
-    db.session.add(etudiant)
-    db.session.add(chercheur)
-    db.session.add(enseignant)
-    db.session.add(tuteur)
-    db.session.add(RH)
-    db.session.add(stagiaire_pfe)
 
-    db.session.commit()
-    positions = Position.query.all()
 
     # Attribution entrerpise :
 
@@ -186,8 +158,7 @@ def createBase():
     Safran.postes.append(stagiaire_pfe)
     Safran.postes.append(patron)
     """
-    organisations = Organisation.query.all()
-    db.session.commit()
+
 
     # CREATION TAFs
     dcl = TAF('DCL')
@@ -198,16 +169,8 @@ def createBase():
     TEE = TAF('TEE')
     cyber = TAF('cyber')
 
-    db.session.add(dcl)
-    db.session.add(login)
-    db.session.add(ascii)
-    db.session.add(demain)
-    db.session.add(nemo)
-    db.session.add(TEE)
-    db.session.add(cyber)
 
-    db.session.commit()
-    tafs = TAF.query.all()
+
 
     # CREATION PERSONNES
     #élèves actuels
@@ -235,29 +198,6 @@ def createBase():
     Octave = Personne(name='Octave',lastName='Vidal',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022,annee_position=2015)
     Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020,annee_position=2015)
 
-
-    db.session.add(tom)
-    db.session.add(rory)
-    db.session.add(marty)
-    db.session.add(alexis)
-    db.session.add(julien)
-    db.session.add(eugenie)
-    db.session.add(Mael)
-    db.session.add(Theo)
-    db.session.add(Lilian)
-    db.session.add(Nino)
-    db.session.add(Pablo)
-    db.session.add(Emma)
-    db.session.add(Gregoire)
-    db.session.add(Lea)
-    db.session.add(Nathan)
-    db.session.add(Octave)
-    db.session.add(Thibault)
-    db.session.add(Mario)
-    db.session.add(Safou)
-
-    db.session.commit()
-    personnes = Personne.query.all()
 
     # Attribution des positions :
     etudiant.personnes.append(tom)
@@ -312,20 +252,9 @@ def createBase():
     depression = PFE(NASA,'Étude de lefficacité de la thérapie par lart pour le traitement de la dépression', 'Ce projet vise à étudier lefficacité de la thérapie par lart pour le traitement de la dépression en comparaison aux traitements traditionnels.')
     anim = PFE(NASA,'Développement dun système de suivi des animaux de compagnie ', 'Ce projet consiste en la création dun système de suivi des animaux de compagnie qui permettra aux propriétaires de suivre la localisation et lactivité de leur animal en temps réel.')
 
-    db.session.add(reco)
-    db.session.add(sysSurv)
-    db.session.add(secu)
-    db.session.add(ia)
-    db.session.add(jeuSimu)
-    db.session.add(etudeDistance)
-    db.session.add(mouvement)
-    db.session.add(appli)
-    db.session.add(reaVirt)
-    db.session.add(depression)
-    db.session.add(anim)
 
-    db.session.commit()
-    pfes = PFE.query.all()
+
+
 
     # Attribution PFE tuteur/eleve
     #reco.tuteur_id= db.session.query(Personne).filter(Personne.name=='Theo')
@@ -353,8 +282,6 @@ def createBase():
     mouvement.eleve=Thibault
     depression.eleve=Lea
     anim.eleve=Octave
-
-    db.session.commit()
 
     # Attributions organisation
     imt.personnes.append(Theo)
@@ -405,10 +332,79 @@ def createBase():
     demain.personnes.append(Thibault)
     cyber.personnes.append(Thibault)
 
-    positions = Position.query.all()
-    pfes = PFE.query.all()
-    tafs = TAF.query.all()
-    personnes = Personne.query.all()
+
+
+    db.session.add(edf)
+    db.session.add(engie)
+    db.session.add(total)
+    db.session.add(poliakov)
+    db.session.add(Dassault)
+    db.session.add(Safran)
+    db.session.add(Labo)
+    db.session.add(Carouf)
+    db.session.add(CDiscount)
+    db.session.add(NASA)
+    db.session.add(ESA)
+    db.session.add(FTX)
+    db.session.add(CreditSuisse)
+    db.session.add(imt)
+
+    db.session.add(reco)
+    db.session.add(sysSurv)
+    db.session.add(secu)
+    db.session.add(ia)
+    db.session.add(jeuSimu)
+    db.session.add(etudeDistance)
+    db.session.add(mouvement)
+    db.session.add(appli)
+    db.session.add(reaVirt)
+    db.session.add(depression)
+    db.session.add(anim)
+    db.session.add(tom)
+    db.session.add(rory)
+    db.session.add(marty)
+    db.session.add(alexis)
+    db.session.add(julien)
+    db.session.add(eugenie)
+    db.session.add(Mael)
+    db.session.add(Theo)
+    db.session.add(Lilian)
+    db.session.add(Nino)
+    db.session.add(Pablo)
+    db.session.add(Emma)
+    db.session.add(Gregoire)
+    db.session.add(Lea)
+    db.session.add(Nathan)
+    db.session.add(Octave)
+    db.session.add(Thibault)
+    db.session.add(Mario)
+    db.session.add(Safou)
+    db.session.add(dcl)
+    db.session.add(login)
+    db.session.add(ascii)
+    db.session.add(demain)
+    db.session.add(nemo)
+    db.session.add(TEE)
+    db.session.add(cyber)
+    db.session.add(inge_nuc)
+    db.session.add(inge_bat)
+    db.session.add(inge_info)
+    db.session.add(patron)
+    db.session.add(etudiant)
+    db.session.add(chercheur)
+    db.session.add(enseignant)
+    db.session.add(tuteur)
+    db.session.add(RH)
+    db.session.add(stagiaire_pfe)
+
+    db.session.commit()
+
+    organisations = db.session.query(Organisation).all()
+    positions = db.session.query(Position).all()
+    pfes = db.session.query(PFE).all()
+    tafs = db.session.query(TAF).all()
+    personnes = db.session.query(Personne).all()
+
     return(organisations,positions,pfes,tafs,personnes)
 
 

@@ -98,7 +98,7 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
         nouvelle_liste = []
         for p in (liste_personnes):
             for field in p:
-                if taf1 in str(field).lower():
+                if taf1 in str(field):
                     nouvelle_liste.append(p)
                     break
         liste_personnes = nouvelle_liste
@@ -107,7 +107,7 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
         nouvelle_liste = []
         for p in (liste_personnes):
             for field in p:
-                if taf2 in str(field).lower():
+                if taf2 in str(field):
                     nouvelle_liste.append(p)
                     break
         liste_personnes = nouvelle_liste
@@ -296,6 +296,8 @@ def testbdd2():
 
 @app.route('/')
 def main():
+    clean()
+    createBase()
     return flask.redirect('/login')
 @app.route('/login')
 def loginMain():
@@ -319,8 +321,6 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
-    clean()
-    organisations, positions, pfes, tafs, personnes = createBase()
     persons=getList(None,None,None,None,None,None,None,None,None,None)
     tafs = getTafs()
     entreprises = getOrganisations()
@@ -355,10 +355,11 @@ def userModif(id):
 def userModifPost():
     return()
 
-@app.route('/UserDetails/<isAdmin>/<id>')
-def userDetails(isAdmin,id):
+@app.route('/UserDetails/<isAdmin>/<id>/<current_id>')
+def userDetails(isAdmin,id,current_id):
+    addTaf("gvvtfrtrffgrfrr")
     personne=getList(id,None,None,None,None,None,None,None,None,None)[0]
-    return flask.render_template('detailsStudent.jinja2',personne=personne,isADmin=isAdmin)
+    return flask.render_template('detailsStudent.jinja2',personne=personne,isAdmin=isAdmin,current_id=current_id)
 @app.route('/EntrepriseDetails/<isAdmin>/<id>')
 def entrepriseDetails(isAdmin,id):
     entreprise = getPersonnesOrganisation(id)

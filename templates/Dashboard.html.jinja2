@@ -195,7 +195,7 @@
                                   </div>
                                     <div class = "row align-items-center">
                                         <div class = "col-sm-4">
-                                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userDetails' ,isAdmin=isAdmin, id=personne[0] ) }}';" >Détails</button>
+                                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userDetails' ,isAdmin=isAdmin, id=personne[0] ,current_id=current_id) }}';" >Détails</button>
                                         </div>
                                         {% if isAdmin=="True" %}
                                             <div class = "col-sm-4">
