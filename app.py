@@ -43,7 +43,7 @@ def getOrganisationById(id):
 
 def getList(name,lastName,promotion,taf1,taf2):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
-    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre)
+    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre,Personne.dateNaissance)
     if(promotion):
         personnes = personnes.filter(Personne.promotion==promotion).all()
     if(name):
@@ -56,6 +56,7 @@ def getList(name,lastName,promotion,taf1,taf2):
     for p in personnes:
         personne = []
         tafs = getTaf(p.id)
+
         personne.append(p.id)
         personne.append(p.name)
         personne.append(p.lastName)
@@ -66,6 +67,7 @@ def getList(name,lastName,promotion,taf1,taf2):
         personne.append(getOrganisationById(p.id))
         personne.append(getPositionById(p.id))
         personne.append(getStageById(p.id))
+        personne.append(p.dateNaissance)
         # stage, tuteur de stage, pfe, description du pfe
         liste_personnes.append(personne)
 
@@ -113,6 +115,11 @@ def getTaf(eleve_id):
         for p in taf.personnes:
             if(p.id==eleve_id):
                 res.append(taf.name)
+    if len(res)==0:
+        res.append('')
+        res.append('')
+    if len(res)==1:
+        res.append('')
     return res
 def getTafs():
     tafs = db.session.query(TAF).all()
@@ -173,7 +180,7 @@ def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     testp = getList('R',None,None,'dcl',None)
-    testp = getList('R',None,None,'dcl','login')
+    #testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
     testGetSafran = getNEntreprise(None,'Safran',None)
     imt = db.session.query(Organisation).filter(Organisation.name.contains('IMT-Atlantique')).first()
@@ -182,6 +189,8 @@ def testbdd2():
     testGetListPosition = getListPosition('etudiant')
     testGetAlumnis = getAlumnis(None,None,None)
     testPromo = getStageById(3)
+    tom = getList('tom',None,None,None,None)
+
     return(flask.render_template('testPrint.html.jinja2', organisations=organisations,
                                  positions=positions,
                                  pfes=pfes,
@@ -194,7 +203,8 @@ def testbdd2():
                                  testGetNNASA=testGetNNASA,
                                  testGetListPosition=testGetListPosition,
                                  testgetAlumnis=testGetAlumnis,
-                                 testPromo=testPromo
+                                 testPromo=testPromo,
+                                 tom=tom
                                 ))
 
 @app.route('/drop')
