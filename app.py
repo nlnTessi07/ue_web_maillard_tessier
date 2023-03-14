@@ -22,24 +22,25 @@ def clean():
     db.drop_all()
     db.create_all()
     return "Cleaned!"
-
+#OK------------------------------------------------------------------------------
 def getAlumnis(positions, organisations, personnes):
     alumnis = db.session.query(Personne).filter(Personne.promotion<2024).all()
     return alumnis
-
+#OK------------------------------------------------------------------------------
 def getStageById(id):
     stages = db.session.query(PFE).all()
     for stage in stages:
         if stage.eleve.id == id:
             return stage
-
+#OK------------------------------------------------------------------------------
 def getPositionById(id):
     position = Position.query.join(Personne).filter(Personne.id==id).all()
     return position
-
+#OK------------------------------------------------------------------------------
 def getOrganisationById(id):
     organisation = Organisation.query.join(Personne).filter(Personne.id==id).all()
     return organisation
+#OK------------------------------------------------------------------------------
 def getOrganisations(): # [[Organisation, toutes les personnes, nombre gens]]
     organisations =  db.session.query(Organisation).all()
     liste_orga = [[] for i in range(len(organisations))]
@@ -48,7 +49,7 @@ def getOrganisations(): # [[Organisation, toutes les personnes, nombre gens]]
         liste_orga[i].append(organisations[i].personnes)
         liste_orga[i].append(getNEntreprise(None,None,organisations[i]))
     return liste_orga
-
+#OK------------------------------------------------------------------------------
 
 def getList(id,name,lastName,promotion,taf1,taf2):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
@@ -102,10 +103,7 @@ def getList(id,name,lastName,promotion,taf1,taf2):
                     break
         liste_personnes = nouvelle_liste
     return liste_personnes
-
-
-
-#OK
+#OK------------------------------------------------------------------------------
 def  addEntreprise(nom):
     nvlle_entreprise = Organisation(nom)
     db.session.add(nvlle_entreprise)
@@ -132,10 +130,18 @@ def getTaf(eleve_id):
     if len(res)==1:
         res.append('')
     return res
+#OK------------------------------------------------------------------------------
 def getTafs():
     tafs = db.session.query(TAF).all()
-    return tafs
-###########################################################################""
+    liste_tafs = [[] for i in range(len(tafs))]
+    for i in range(len(tafs)):
+        liste_tafs[i].append(tafs[i])
+        liste_tafs[i].append(tafs[i].personnes)
+        liste_tafs[i].append(getNTaf(tafs[i].id))
+
+
+    return liste_tafs
+# [[Taf, [liste personnes], nombre de personnes dans la taf], ...]
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
 def getPromotion(annee):
     promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
@@ -153,7 +159,7 @@ def getPromotion(annee):
 
         liste_eleves.append(caract_eleve)
     return liste_eleves
-
+#OK------------------------------------------------------------------------------
 def getNEntreprise(id,name,organisation):
     if(id):
         entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
@@ -166,14 +172,19 @@ def getNEntreprise(id,name,organisation):
         entreprise = db.session.query(Organisation).filter(Organisation.name.contains(name)).first()
         nombre = len(entreprise.personnes)
         return nombre
-#OK
+#OK------------------------------------------------------------------------------
+def getNTaf(id):
+    taf = db.session.query(TAF).filter(TAF.id==id).first()
+    nombre = len(taf.personnes)
+    return nombre
 def getListPosition(titre):
     personnes = Personne.query.join(Position).filter(Position.titre == titre).all()
     return personnes
-#OK
+#OK------------------------------------------------------------------------------
 def getPersonnesPromo(annee):
     personnes = Personne.query.filter_by(promotion=annee).all()
     return personnes
+#OK------------------------------------------------------------------------------
 #def
 #   liste entreprise, étudiants, promo, personnes position
 # modifier les 4 (enlever de la promotion
@@ -226,20 +237,8 @@ def drop_page():
 
 @app.route('/companies')
 def testCompany():
-    # Create companies:
 
-
-    companies= Company.query.all()
-    return flask.render_template("test_print_company.html.jinja2",companies=companies)
-
-
-@app.route('/base',methods=['POST'])
-def TestFilter():
-    name = flask.request.form['testFiltrer']
-    print(name)
-    ans = filtrer(name,'','','','','')
-    print(ans)
-    return flask.render_template('testPrint.html.jinja2', ans = ans)
+    return flask.render_template("test_print_company.html.jinja2")
 
 @app.route('/')
 def main():
