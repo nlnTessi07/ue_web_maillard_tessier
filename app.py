@@ -292,7 +292,7 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
-     clean()
+    clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     persons=getList(None,None,None,None,None,None)
     tafs = getTafs()
