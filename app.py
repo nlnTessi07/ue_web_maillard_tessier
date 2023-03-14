@@ -218,10 +218,11 @@ def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
 def routeClean():
     clean()
     return 'Database Cleaned'
-@app.route('/testbuild')
-def lkdsjfs():
+@app.route('/build')
+def build():
     createBase()
-    return 'base créée'
+    return 'ok'
+
 @app.route('/testbdd')
 def testbdd2():
     clean()
@@ -254,18 +255,9 @@ def testbdd2():
                                  tom=tom
                                 ))
 
-@app.route('/drop')
-def drop_page():
-    clean()
-    return 'Database Cleaned'
 
 
 
-@app.route('/companies')
-def testCompany():
-    addTaf('QSDQKSJDLKQJSDLKJ')
-
-    return 'test add'
 
 @app.route('/')
 def main():
@@ -310,6 +302,7 @@ def userModifPost():
 
 @app.route('/UserDetails/<isAdmin>/<id>')
 def userDetails(isAdmin,id):
+    addTaf('LDFJSLDKFJDSKFJLKSDJ')
     personne=getList(id,None,None,None,None,None)[0]
     return flask.render_template('detailsStudent.jinja2',personne=personne,isADmin=isAdmin)
 

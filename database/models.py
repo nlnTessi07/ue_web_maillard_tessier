@@ -31,7 +31,6 @@ class Position(db.Model):
     id_personne = Column(Integer)
     id_Organisation = Column(Integer)
     titre = Column(String)
-    date_entree = Column(Integer)
 
     ### Relation Many to One vers Personne (poste)
     personnes = relationship('Personne', backref='postes')
@@ -87,7 +86,7 @@ class Personne(db.Model):
     promotion = Column(Integer)
     annee2 = Column(Integer)
     annee3 = Column(Integer)
-
+    annee_position = Column(Integer) # A ajouter sur la database
 ###  One to Many vers Position (role)
     position_id = Column(Integer, ForeignKey('position.id'))
     eleve_id = Column(Integer, ForeignKey('pfe.id'))

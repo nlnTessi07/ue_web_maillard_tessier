@@ -211,29 +211,29 @@ def createBase():
 
     # CREATION PERSONNES
     #élèves actuels
-    tom= Personne(name='Tom',lastName='Dupont',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
-    rory = Personne(name='Rory',lastName='Maillard',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024)
-    marty= Personne(name='Marty',lastName='Dubois',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024)
-    alexis= Personne(name='Alexis',lastName='Bernard',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
-    julien= Personne(name='Julien',lastName='Rousseau',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024) # Césure
-    eugenie= Personne(name='Eugenie',lastName='Petit',genre='Mme',dateNaissance=datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024)
-    Mael = Personne(name='Mael',lastName='Lefebvre',genre='Mr',dateNaissance=datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024)
+    tom= Personne(name='Tom',lastName='Dupont',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
+    rory = Personne(name='Rory',lastName='Maillard',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
+    marty= Personne(name='Marty',lastName='Dubois',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
+    alexis= Personne(name='Alexis',lastName='Bernard',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2015) # Césure
+    julien= Personne(name='Julien',lastName='Rousseau',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2015) # Césure
+    eugenie= Personne(name='Eugenie',lastName='Petit',genre='Mme',dateNaissance=datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
+    Mael = Personne(name='Mael',lastName='Lefebvre',genre='Mr',dateNaissance=datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
     #profs :
-    Theo = Personne(name='Theo',lastName='Moreau',genre='Mr',dateNaissance=datetime(year=1970,month=1,day=24))
-    Mario = Personne(name='Mario',lastName='Fournier',genre='Mr',dateNaissance=datetime(year=1972,month=2,day=27))
-    Safou = Personne(name='Safouana',lastName='Girard',genre='Mr',dateNaissance=datetime(year=1570,month=3,day=7))
+    Theo = Personne(name='Theo',lastName='Moreau',genre='Mr',dateNaissance=datetime(year=1970,month=1,day=24),annee_position=2015)
+    Mario = Personne(name='Mario',lastName='Fournier',genre='Mr',dateNaissance=datetime(year=1972,month=2,day=27),annee_position=2015)
+    Safou = Personne(name='Safouana',lastName='Girard',genre='Mr',dateNaissance=datetime(year=1570,month=3,day=7),annee_position=2015)
 
 
     #alumnis
-    Lilian = Personne(name='Lilian',lastName='Laurent',genre='Mr',dateNaissance=datetime(year=1998,month=12,day=21),promotion=2020,annee2=2018,annee3=2020) #Cesure
-    Nino = Personne(name='Nino',lastName='Simon',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020) #Cesure
-    Pablo = Personne(name='Pablo',lastName='Durand',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019)
-    Emma = Personne(name='Emma',lastName='Roux',genre='Mme',dateNaissance=datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018)
-    Gregoire = Personne(name='Gregoire',lastName='Leclerc',genre='Mr',dateNaissance=datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020)
-    Lea = Personne(name='Lea',lastName='Lambert',genre='Mme',dateNaissance=datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019)
-    Nathan = Personne(name='Nathan',lastName='Mercier',genre='Mr',dateNaissance=datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018)
-    Octave = Personne(name='Octave',lastName='Vidal',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022)
-    Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020)
+    Lilian = Personne(name='Lilian',lastName='Laurent',genre='Mr',dateNaissance=datetime(year=1998,month=12,day=21),promotion=2020,annee2=2018,annee3=2020,annee_position=2015) #Cesure
+    Nino = Personne(name='Nino',lastName='Simon',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020,annee_position=2015) #Cesure
+    Pablo = Personne(name='Pablo',lastName='Durand',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019,annee_position=2015)
+    Emma = Personne(name='Emma',lastName='Roux',genre='Mme',dateNaissance=datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018,annee_position=2015)
+    Gregoire = Personne(name='Gregoire',lastName='Leclerc',genre='Mr',dateNaissance=datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020,annee_position=2015)
+    Lea = Personne(name='Lea',lastName='Lambert',genre='Mme',dateNaissance=datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019,annee_position=2015)
+    Nathan = Personne(name='Nathan',lastName='Mercier',genre='Mr',dateNaissance=datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018,annee_position=2015)
+    Octave = Personne(name='Octave',lastName='Vidal',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022,annee_position=2015)
+    Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020,annee_position=2015)
 
 
     db.session.add(tom)
