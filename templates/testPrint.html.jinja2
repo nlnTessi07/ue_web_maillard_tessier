@@ -69,7 +69,11 @@
     <div>
         <br><br>
         Voici les personnes avec la requete getList('R',None,None,'dcl','login')
-        {{ testp }}
+
+        {% for p in testp %}
+            <br>
+            {{ p }}
+        {% endfor %}
         <br>
     </div>
     <div>
