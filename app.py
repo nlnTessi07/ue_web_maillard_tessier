@@ -7,8 +7,8 @@ from database.models import *
 from fun import createBase
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -97,20 +97,10 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     if(taf1):
         nouvelle_liste = []
         for p in (liste_personnes):
-            for field in p:
-                if taf1 in str(field):
+                if taf1 in str(p[4:6]):
                     nouvelle_liste.append(p)
-                    break
         liste_personnes = nouvelle_liste
 
-    if(taf2):
-        nouvelle_liste = []
-        for p in (liste_personnes):
-            for field in p:
-                if taf2 in str(field):
-                    nouvelle_liste.append(p)
-                    break
-        liste_personnes = nouvelle_liste
     if (entreprise_stage):
         nouvelle_liste=[]
         for p in (liste_personnes):
