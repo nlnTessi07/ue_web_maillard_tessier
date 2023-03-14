@@ -9,35 +9,30 @@
         </style>
     </head>
     <body>
-        <datalist id="Taf">
-            <option value="LOGIN">
-            <option value="DCL">
-            <option value="MCE">
-            <option value="TEE">
+         <datalist id="Taf">
+            {% for taf in tafs %}
+                <option value={{taf[0].name}}>
+            {% endfor %}
         </datalist>
         <datalist id="Tuteur">
-            <option value="Rory">
-            <option value="Nolann">
-            <option value="Julien">
-            <option value="Safou">
+            {% for tuteur in tuteurs %}
+                <option value={{tuteur.name}} {{ tuteur.lastName }}>
+            {% endfor %}
         </datalist>
         <datalist id="Position">
-            <option value="Développeur">
-            <option value="Ingénieur">
-            <option value="Ressources Humaines">
-            <option value="Patron">
+            {% for position in positions %}
+                <option value={{position.titre}}>
+            {% endfor %}
         </datalist>
         <datalist id="Entreprise">
-            <option value="Adnovum">
-            <option value="IMT">
-            <option value="Nasa">
-            <option value="Carrefour">
+            {% for entreprise in entreprises %}
+                <option value={{entreprise[0].name}}>
+            {% endfor %}
         </datalist>
         <datalist id="Promo">
-            <option value="2023">
-            <option value="2024">
-            <option value="2025">
-            <option value="2026">
+            {% for promo in promos %}
+                <option value={{promo[0]}}>
+            {% endfor %}
         </datalist>
         <HR>
         <h1>Modification des données</h1>
