@@ -269,10 +269,12 @@ def dashboard(isAdmin, current_id):
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     persons=getList(None,None,None,None,None,None)
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs)
+    tafs = getTafs()
+    entreprises = getOrganisations()
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises)
 @app.route('/UserModif/<id>')
 def userModif(id):
-    personne=getList(id,None,None,None,None,None)
+    personne=getList(id,None,None,None,None,None)[0]
     return flask.render_template('modifUserData.jinja2',personne=personne)
 
 @app.route('/UserModif',methods=["POST"])
@@ -281,7 +283,7 @@ def userModifPost():
 
 @app.route('/UserDetails/<isAdmin>/<id>')
 def userDetails(isAdmin,id):
-    personne=getList(id,None,None,None,None)
+    personne=getList(id,None,None,None,None,None)[0]
     return flask.render_template('detailsStudent.jinja2',personne=personne,isADmin=isAdmin)
 
 @app.route('/StudentAdd')
