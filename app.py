@@ -173,6 +173,7 @@ def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     testp = getList('R',None,None,'dcl',None)
+    testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
     testGetSafran = getNEntreprise(None,'Safran',None)
     imt = db.session.query(Organisation).filter(Organisation.name.contains('IMT-Atlantique')).first()
@@ -186,7 +187,6 @@ def testbdd2():
                                  pfes=pfes,
                                  tafs=tafs,
                                  personnes=personnes,
-
                                  testp=testp,
                                  testGetTaf=testGetTaf,
                                  testGetSafran=testGetSafran,
@@ -246,9 +246,9 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
+    personnes = getList(None,None,None,None,None)
 
-    alumnis = getAlumnis()
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin)
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=personnes)
 @app.route('/UserModif')
 def userModif():
     return flask.render_template('modifUserData.jinja2')

@@ -104,13 +104,13 @@
                         <div class = "card">
                             <div class="card-body">
                                 <form method = "POST">
-                                    <h4 class="card-header">{{ personne.name }} {{ personne.lastName }}</h4>
+                                    <h4 class="card-header">{{ personne[1] }} {{ personne[2]}}</h4>
                                   <div class="mb-3">
                                       <br>
                                       <div class = "row align-items-center">
                                           <div class = "col-auto">
                                               <div class="form-check">
-                                                  <input class="form-check-input" type="radio" name="Genre" id="mr" checked= {{personne.genre}}=='Mr' disabled>
+                                                  <input class="form-check-input" type="radio" name="Genre" id="mr" checked disabled>
                                                   <label class="form-check-label" for="mr">
                                                     Mr
                                                   </label>
@@ -118,7 +118,7 @@
                                           </div>
                                           <div class = "col-auto">
                                             <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="Genre" id="mme" checked= {{personne.genre }}=='Mme' disabled>
+                                              <input class="form-check-input" type="radio" name="Genre" id="mme" disabled>
                                               <label class="form-check-label" for="mme">
                                                 Mme
                                               </label>
@@ -128,7 +128,7 @@
                                             Date de Naissance :
                                           </div>
                                           <div class = "col-auto">
-                                              <b>{{ personne.dateNaissance }}</b>
+                                              <b>29/10/2002</b>
                                           </div>
                                        </div>
                                       <br>
@@ -137,19 +137,19 @@
                                             Nom :
                                           </div>
                                           <div class = "col-auto">
-                                              <b>{{ personne.lastName }}</b>
+                                              <b>{{ personne[2] }}</b>
                                           </div>
                                           <div class = "col-auto">
                                             Prénom :
                                           </div>
                                           <div class = "col-auto">
-                                            <b>{{ personne.nom }}</b>
+                                            <b>{{ personne[1] }}</b>
                                           </div>
                                           <div class = "col-auto">
                                             Promo :
                                         </div>
                                         <div class = "col-auto">
-                                            <b>{{ personne.promo }}</b>
+                                            <b>{{ personne[3] }}</b>
                                         </div>
                                       </div>
                                       <br>
@@ -158,19 +158,19 @@
                                               TAF 2A :
                                           </div>
                                           <div class = "col-auto">
-                                              <b>{{ personne.taf1 }}</b>
+                                              <b>{{ personne[4] }}</b>
                                           </div>
                                           <div class = "col-auto">
                                               TAF 3A :
                                           </div>
                                           <div class = "col-auto">
-                                              <b>{{ personne.taf2 }}</b>
+                                              <b>{{ personne[5] }}</b>
                                           </div>
                                     </div>
                                       <br>
                                       <div class ="row align-items-center">
                                         <div class = "col-auto">
-                                            PFE : <b>{{personne.pfe.name}}</b>
+                                            PFE : <b>PFEEE</b>
                                         </div>
                                       </div>
                                     <br>
@@ -179,26 +179,28 @@
                                             Position:
                                         </div>
                                         <div class = "col-auto">
-                                            <b>{{ personne.position }}</b>
+                                            <b>POSITION</b>
                                         </div>
                                         <div class = "col-auto">
                                             Entreprise:
                                         </div>
                                         <div class = "col-auto">
-                                            <b>{{ personne.entreprise }}</b>
+                                            <b>ENTREPRISE</b>
                                         </div>
                                     </div>
                                   </div>
                                     <div class = "row align-items-center">
                                         <div class = "col-sm-4">
-                                            <button type="submit" class="btn btn-primary" name="detailsEtudiant{{ personne.id }}">Détails</button>
+                                            <button type="submit" class="btn btn-primary" name="detailsEtudiant{{ personne[0] }}">Détails</button>
                                         </div>
-                                        <div class = "col-sm-4">
-                                            <button type="submit" class="btn btn-primary" name="modifierEtudiant{{ personne.id }}">Modifier</button>
-                                        </div>
-                                        <div class = "col-sm-4">
-                                            <button type="submit" class="btn btn-danger" name="supprimerEtudiant{{ personne.id }}">Supprimer</button>
-                                        </div>
+                                        {% if isAdmin=="True" %}
+                                            <div class = "col-sm-4">
+                                                <button type="submit" class="btn btn-primary" name="modifierEtudiant{{ personne[0] }}">Modifier</button>
+                                            </div>
+                                            <div class = "col-sm-4">
+                                                <button type="submit" class="btn btn-danger" name="supprimerEtudiant{{ personne[0] }}">Supprimer</button>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </form>
                             </div>
