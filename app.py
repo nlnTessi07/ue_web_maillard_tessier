@@ -17,6 +17,7 @@ db.init_app(app)
 with app.test_request_context():
     init_database()
 
+
 def clean():
     db.drop_all()
     db.create_all()
@@ -179,7 +180,7 @@ def routeClean():
 def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
-    testp = getList('R',None,None,'dcl',None)
+    testp = getList(None,None,None,None ,None)
     #testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
     testGetSafran = getNEntreprise(None,'Safran',None)
@@ -256,9 +257,10 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
-    personnes = getList(None,None,None,None,None)
-
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=personnes)
+    clean()
+    organisations, positions, pfes, tafs, personnes = createBase()
+    persons=getList(None,None,None,None,None)
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs)
 @app.route('/UserModif')
 def userModif():
     return flask.render_template('modifUserData.jinja2')
