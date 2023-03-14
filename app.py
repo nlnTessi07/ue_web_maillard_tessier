@@ -138,9 +138,9 @@ def getTafs():
         liste_tafs[i].append(tafs[i])
         liste_tafs[i].append(tafs[i].personnes)
         liste_tafs[i].append(getNTaf(tafs[i].id))
-
-
     return liste_tafs
+#OK------------------------------------------------------------------------------
+
 # [[Taf, [liste personnes], nombre de personnes dans la taf], ...]
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
 def getPromotion(annee):
@@ -160,6 +160,21 @@ def getPromotion(annee):
         liste_eleves.append(caract_eleve)
     return liste_eleves
 #OK------------------------------------------------------------------------------
+def getPromotions():
+    personnes = db.session.query(Personne).all()
+    liste_promos = []
+    for personne in personnes:
+        if personne.promotion not in liste_promos:
+            liste_promos.append([personne.promo])
+    for i in range(len(liste_promos)):
+        for personne in personnes:
+            if personne.promotion == liste_promos[i][0]:
+                liste_promos[i].append(personne)
+
+    for promo in liste_promos:
+        promo.append(len(promo[1]))
+    return liste_promos
+
 def getNEntreprise(id,name,organisation):
     if(id):
         entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
@@ -177,6 +192,8 @@ def getNTaf(id):
     taf = db.session.query(TAF).filter(TAF.id==id).first()
     nombre = len(taf.personnes)
     return nombre
+#OK------------------------------------------------------------------------------
+
 def getListPosition(titre):
     personnes = Personne.query.join(Position).filter(Position.titre == titre).all()
     return personnes
@@ -190,7 +207,15 @@ def getPersonnesPromo(annee):
 # modifier les 4 (enlever de la promotion
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
-
+def getGenreById(id):
+    return db.session.query(Personne.genre).filter(Personne.id==id).first()
+#OK-----------------------------------------------------------------------------
+def getListeGenre(genre):
+    return db.session.query(Personne).filter(Personne.genre==genre).all()
+#OK-----------------------------------------------------------------------------
+#get Mr/Mme ok
+#getPromotions #[[annee, [élèves], nombre eleves], ...]
+#add, modify, delete
 
 @app.route('/clean')
 def routeClean():
