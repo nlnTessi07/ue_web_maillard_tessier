@@ -47,7 +47,7 @@
                 <div class = "card">
                     <div class="card-body">
                         <form method = "POST">
-                            <h3 class="card-header">Mes informations</h3>
+                            <h3 class="card-header">{{ personne[1]}} {{ personne[2] }}</h3>
                           <div class="mb-3">
                               <br>
                               <h5>Informations personnelles</h5>
@@ -76,13 +76,13 @@
                                     <label for="Name" class="form-label">Nom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value="Maillard">
+                                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ personne[1] }}>
                                   </div>
                                   <div class = "col-auto">
                                     <label for="Prenom" class="form-label">Prénom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Prenom" name="prenom" value="Rory">
+                                    <input autocomplete="off" type="text" class="form-control" id="Prenom" name="prenom" value={{ personne[2] }}>
                                   </div>
                               </div>
                               <br>
@@ -91,7 +91,7 @@
                                     <label for="Date" class="form-label">Date de Naissance :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="date" class="form-control" id="Date" name="date" value="2002-10-29">
+                                    <input autocomplete="off" type="date" class="form-control" id="Date" name="date" value={{ personne[10] }}>
                                   </div>
                               </div>
                                 <br>
@@ -103,13 +103,13 @@
                                       <label for="taf1" class="form-label">TAF 2A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                      <input autocomplete="off" class="form-control" list="Taf" id="taf1" name="tafa2" value="DCL">
+                                      <input autocomplete="off" class="form-control" list="Taf" id="taf1" name="tafa2" value={{ personne[4] }}>
                                   </div>
                                   <div class = "col-auto">
                                       <label for="taf2" class="form-label">TAF 3A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                      <input autocomplete="off" class="form-control" list="Taf" id="taf2" name="tafa3" value="LOGIN">
+                                      <input autocomplete="off" class="form-control" list="Taf" id="taf2" name="tafa3" value={{ personne[5] }}>
                                   </div>
                               </div>
                               <br>
@@ -118,7 +118,7 @@
                                     <label for="promo" class="form-label">Promo :</label>
                                 </div>
                                 <div class = "col-sm-1">
-                                    <input autocomplete="off" class="form-control" list="Promo" id="promo" name="promo" value="2024">
+                                    <input autocomplete="off" class="form-control" list="Promo" id="promo" name="promo" value={{ personne[3] }}>
                                 </div>
                             </div>
                               <br>
@@ -130,7 +130,7 @@
                                     <label for="stage" class="form-label">Titre :</label>
                                 </div>
                                 <div class = "col-sm-11">
-                                    <input autocomplete="off" type="text" class="form-control" id="stage" name="stage" value="Étude de lefficacité de la thérapie par lart pour le traitement de la dépression">
+                                    <input autocomplete="off" type="text" class="form-control" id="stage" name="stage" value={{ personne[9].titre }}>
                                 </div>
                             </div>
                               <br>
@@ -139,7 +139,7 @@
                                       <label for="description" class="form-label">Description :</label>
                                   </div>
                                   <div class = "col-sm-11">
-                                      <textarea autocomplete="off" class="form-control" id="description" rows="5" wrap="soft" name="description">Ce projet vise à étudier limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers sur la qualité des soins et lefficacité de la formation.</textarea>
+                                      <textarea autocomplete="off" class="form-control" id="description" rows="5" wrap="soft" name="description">{{ personne[9].description }}</textarea>
                                   </div>
                               </div>
                               <br>
@@ -148,7 +148,7 @@
                                       <label for="tuteur" class="form-label">Tuteur :</label>
                                   </div>
                                   <div class="col-auto">
-                                      <input autocomplete="off" class="form-control" list="Tuteur" id="tuteur" name="tuteur" value="Nolann">
+                                      <input autocomplete="off" class="form-control" list="Tuteur" id="tuteur" name="tuteur" value={{ personne[9].tuteur}}>
                                   </div>
                               </div>
                               <br>
@@ -157,7 +157,7 @@
                                       <label for="entreprise_stage" class="form-label">Entreprise</label>
                                   </div>
                                   <div class="col-auto">
-                                      <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise_stage" name="entreprise_stage" value="Adnovum">
+                                      <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise_stage" name="entreprise_stage" value={{ personne[9].titre }}>
                                   </div>
                               </div>
                               <br>
@@ -169,13 +169,13 @@
                                     <label for="position" class="form-label">Position:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <input autocomplete="off" class="form-control" list="Position" id="position" name="position" value="Développeur">
+                                    <input autocomplete="off" class="form-control" list="Position" id="position" name="position" value={{ personne[8][0] }}>
                                 </div>
                                 <div class = "col-auto">
                                     <label for="entreprise" class="form-label">Entreprise:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise" name="entreprise" value="Adnovum">
+                                    <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise" name="entreprise" value={{ personne[7][0] }}>
                                 </div>
                             </div>
                           </div>
