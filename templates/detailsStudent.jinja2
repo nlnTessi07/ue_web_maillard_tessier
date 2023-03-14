@@ -17,7 +17,7 @@
                 <div class = "card">
                     <div class="card-body">
                         <form method = "POST">
-                            <h3 class="card-header">Informations de l'étudiant</h3>
+                            <h3 class="card-header">{{ personne[1]}} {{ personne[2] }}</h3>
                           <div class="mb-3">
                               <br>
                               <h5>Informations personnelles</h5>
@@ -46,13 +46,13 @@
                                     <label for="Name" class="form-label">Nom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                        <b>Maillard</b>
+                                        <b>{{ personne[2] }}</b>
                                   </div>
                                   <div class = "col-auto">
                                     <label for="Prenom" class="form-label">Prénom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <b>Rory</b>
+                                    <b>{{ personne[1] }}</b>
                                   </div>
                               </div>
                               <br>
@@ -61,7 +61,7 @@
                                     <label for="Date" class="form-label">Date de Naissance :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <b>29/10/2002</b>
+                                    <b>{{ personne[10] }}</b>
                                   </div>
                               </div>
                                 <br>
@@ -73,13 +73,13 @@
                                       <label for="taf1" class="form-label">TAF 2A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                      <b>DCL</b>
+                                      <b>{{ personne[4] }}</b>
                                   </div>
                                   <div class = "col-auto">
                                       <label for="taf2" class="form-label">TAF 3A :</label>
                                   </div>
                                   <div class = "col-auto">
-                                       <b>LOGIN</b>
+                                       <b>{{ personne[5] }}</b>
                                   </div>
                               </div>
                               <br>
@@ -88,7 +88,7 @@
                                     <label for="promo" class="form-label">Promo :</label>
                                 </div>
                                 <div class = "col-sm-1">
-                                    <b>2024</b>
+                                    <b>{{ personne[3] }}</b>
                                 </div>
                             </div>
                               <br>
@@ -100,7 +100,7 @@
                                     <label for="stage" class="form-label">Titre :</label>
                                 </div>
                                 <div class = "col-sm-11">
-                                    <b>Étude de lefficacité de la thérapie par lart pour le traitement de la dépression</b>
+                                    <b>{{ personne[9].titre }}</b>
                                 </div>
                             </div>
                               <br>
@@ -109,7 +109,7 @@
                                       <label for="description" class="form-label">Description :</label>
                                   </div>
                                   <div class = "col-sm-11">
-                                      <textarea autocomplete="off" class="form-control" id="description" rows="5" wrap="soft" name="description" disabled>Ce projet vise à étudier limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers sur la qualité des soins et lefficacité de la formation.</textarea>
+                                      <textarea autocomplete="off" class="form-control" id="description" rows="5" wrap="soft" name="description" disabled>{{ personne[9].description }}</textarea>
                                   </div>
                               </div>
                               <br>
@@ -118,7 +118,7 @@
                                       <label for="tuteur" class="form-label">Tuteur :</label>
                                   </div>
                                   <div class="col-auto">
-                                      <b>Nolann</b>
+                                      <b>{{ personne[9].tuteur }}</b>
                                   </div>
                               </div>
                               <br>
@@ -139,26 +139,28 @@
                                     <label for="position" class="form-label">Position:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <b>Développeur</b>
+                                    <b>{{ personne[8][0] }}</b>
                                 </div>
                                 <div class = "col-auto">
                                     <label for="entreprise" class="form-label">Entreprise:</label>
                                 </div>
                                 <div class = "col-auto">
-                                    <b>Adnovum</b>
+                                    <b>{{ personne[7][0] }}</b>
                                 </div>
                             </div>
                           </div>
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary" name="modifier">Modifier</button>
+                                    <button type="submit" class="btn btn-primary" name="retour">Retour</button>
                                 </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary" name="retouyr">Retour</button>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-danger" name="supprimer">Supprimer</button>
-                                </div>
+                                {% if isADmin=='True' %}
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary" name="modifier">Modifier</button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-danger" name="supprimer">Supprimer</button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </form>
                     </div>

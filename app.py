@@ -268,24 +268,21 @@ def loginAdminPost():
 def dashboard(isAdmin, current_id):
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
-    persons=getList(None,None,None,None,None)
+    persons=getList(None,None,None,None,None,None)
     return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs)
-@app.route('/UserModif')
-def userModif():
-    return flask.render_template('modifUserData.jinja2')
+@app.route('/UserModif/<id>')
+def userModif(id):
+    personne=getList(id,None,None,None,None,None)
+    return flask.render_template('modifUserData.jinja2',personne=personne)
 
 @app.route('/UserModif',methods=["POST"])
 def userModifPost():
     return()
 
-@app.route('/AdminDashboard',methods=["POST"])
-def adminRecherchePost():
-    if 'modifier' in flask.request.form:
-        return flask.redirect('/UserModif')
-    elif 'ajouterEtudiant' in flask.request.form:
-        return flask.redirect('/StudentAdd')
-    elif 'modifEtudiant' in flask.request.form:
-        return flask.redirect('/StudentFind')
+@app.route('/UserDetails/<isAdmin>/<id>')
+def userDetails(isAdmin,id):
+    personne=getList(id,None,None,None,None)
+    return flask.render_template('detailsStudent.jinja2',personne=personne,isADmin=isAdmin)
 
 @app.route('/StudentAdd')
 def addStudent():
