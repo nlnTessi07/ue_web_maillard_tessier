@@ -11,7 +11,7 @@
     <body>
         <datalist id="Taf">
             {% for taf in tafss %}
-                <option value={{taf.name}}>
+                <option value={{taf[0].name}}>
             {% endfor %}
         </datalist>
         <datalist id="Tuteur">
@@ -26,7 +26,7 @@
         </datalist>
         <datalist id="Entreprise">
             {% for entreprise in entreprises %}
-                <option value={{entreprise.name}}>
+                <option value={{entreprise[0].name}}>
             {% endfor %}
         </datalist>
         <datalist id="Promo">
@@ -221,16 +221,18 @@
                 </tr>
               </thead>
               <tbody>
+              {% for entreprise in entreprises %}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>IMT</td>
-                  <td>37</td>
+                  <th scope="row">{{ entreprise[0].id }}</th>
+                  <td>{{ entreprise[0].name }}</td>
+                  <td>{{ entreprise[2] }}</td>
                     <td>
                     <button type="submit" class="btn btn-primary" name="detailsEntreprise">Détails</button>
                     <button type="submit" class="btn btn-primary" name="modifEntreprise">Modifier</button>
                     <button type="submit" class="btn btn-danger" name="supprimerEntreprise">Supprimer</button>
                     </td>
                 </tr>
+              {% endfor %}
               </tbody>
             </table>
           </div>
@@ -245,16 +247,18 @@
                 </tr>
               </thead>
               <tbody>
+              {% for taf in tafs %}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>DCL</td>
-                  <td>12</td>
+                  <th scope="row">{{ taf[0].id }}</th>
+                  <td>{{ taf[0].name }}</td>
+                  <td>{{ taf[2] }}</td>
                     <td>
                     <button type="submit" class="btn btn-primary" name="detailsTafs">Détails</button>
                     <button type="submit" class="btn btn-primary" name="modifTafs">Modifier</button>
                     <button type="submit" class="btn btn-danger" name="supprimerTafs">Supprimer</button>
                     </td>
                 </tr>
+              {% endfor %}
               </tbody>
             </table>
           </div>
