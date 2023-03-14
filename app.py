@@ -60,7 +60,7 @@ def getList(name,lastName,promotion,taf1,taf2):
                 if taf1 in str(field).lower():
                     nouvelle_liste.append(p)
                     break
-    liste_personnes = nouvelle_liste
+        liste_personnes = nouvelle_liste
 
     if(taf2):
         nouvelle_liste = []
@@ -69,49 +69,7 @@ def getList(name,lastName,promotion,taf1,taf2):
                 if taf2 in str(field).lower():
                     nouvelle_liste.append(p)
                     break
-    liste_personnes = nouvelle_liste
-    return liste_personnes
-def getList(name,lastName,promotion,taf1,taf2):
-    #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
-    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion)
-    if(promotion):
-        personnes = personnes.filter(Personne.promotion==promotion).all()
-    if(name):
-        personnes = personnes.filter(Personne.name.contains(name)).all()
-    if(lastName):
-        personnes = personnes.filter(Personne.lastName.contains(lastName)).all()
-    #remise en forme des données et ajout des tafs :
-    liste_personnes = []
-
-    for p in personnes:
-        personne = []
-        tafs = getTaf(p.id)
-        personne.append(p.id)
-        personne.append(p.name)
-        personne.append(p.lastName)
-        personne.append((p.promotion))
-        for taf in tafs:
-            personne.append(taf)
-        liste_personnes.append(personne)
-
-    #Avec les données remises en forme on continue avec les filtres des tafs si les champs sont rentrés:
-    if(taf1):
-        nouvelle_liste = []
-        for p in (liste_personnes):
-            for field in p:
-                if taf1 in str(field).lower():
-                    nouvelle_liste.append(p)
-                    break
-    liste_personnes = nouvelle_liste
-
-    if(taf2):
-        nouvelle_liste = []
-        for p in (liste_personnes):
-            for field in p:
-                if taf2 in str(field).lower():
-                    nouvelle_liste.append(p)
-                    break
-    liste_personnes = nouvelle_liste
+        liste_personnes = nouvelle_liste
     return liste_personnes
 
 
@@ -202,7 +160,7 @@ def routeAdd():
 def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
-    alumnis = getAlumnis()
+    alumnis = getAlumnis(None,None,None)
     testp = getList('R',None,None,'dcl','login')
     testGetTaf = getTaf(4)
     testGetSafran = getNEntreprise(None,'Safran',None)
@@ -277,9 +235,9 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
+    personnes = getList(None,None,None,None,None)
 
-    alumnis = getAlumnis()
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin)
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=personnes)
 @app.route('/UserModif')
 def userModif():
     return flask.render_template('modifUserData.jinja2')
