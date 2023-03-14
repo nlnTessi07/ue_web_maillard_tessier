@@ -7,8 +7,8 @@ from database.models import *
 from fun import createBase
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -23,15 +23,27 @@ def clean():
     return "Cleaned!"
 
 def getAlumnis(positions, organisations, personnes):
-    alumnis_json = db.session.query(Personne).filter(Personne.promotion<2024).all()
-    alumnis = []
-    #for al in alumnis_json:
-     #   alumnis.append(al[0]+ ' '+al[1])
-    return alumnis_json
+    alumnis = db.session.query(Personne).filter(Personne.promotion<2024).all()
+    return alumnis
+
+def getStageById(id):
+
+    stages = db.session.query(PFE).all()
+    for stage in stages:
+        if stage.eleve.id == id:
+            return stage
+
+def getPositionById(id):
+    position = Position.query.join(Personne).filter(Personne.id==id).all()
+    return position
+
+def getOrganisationById(id):
+    organisation = Organisation.query.join(Personne).filter(Personne.id==id).all()
+    return organisation
 
 def getList(name,lastName,promotion,taf1,taf2):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
-    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion)
+    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre)
     if(promotion):
         personnes = personnes.filter(Personne.promotion==promotion).all()
     if(name):
@@ -50,7 +62,13 @@ def getList(name,lastName,promotion,taf1,taf2):
         personne.append((p.promotion))
         for taf in tafs:
             personne.append(taf)
+        personne.append(p.genre)
+        personne.append(getOrganisationById(p.id))
+        personne.append(getPositionById(p.id))
+        personne.append(getStageById(p.id))
+        # stage, tuteur de stage, pfe, description du pfe
         liste_personnes.append(personne)
+
 
     #Avec les données remises en forme on continue avec les filtres des tafs si les champs sont rentrés:
     if(taf1):
@@ -60,7 +78,7 @@ def getList(name,lastName,promotion,taf1,taf2):
                 if taf1 in str(field).lower():
                     nouvelle_liste.append(p)
                     break
-    liste_personnes = nouvelle_liste
+        liste_personnes = nouvelle_liste
 
     if(taf2):
         nouvelle_liste = []
@@ -69,49 +87,7 @@ def getList(name,lastName,promotion,taf1,taf2):
                 if taf2 in str(field).lower():
                     nouvelle_liste.append(p)
                     break
-    liste_personnes = nouvelle_liste
-    return liste_personnes
-def getList(name,lastName,promotion,taf1,taf2):
-    #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
-    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion)
-    if(promotion):
-        personnes = personnes.filter(Personne.promotion==promotion).all()
-    if(name):
-        personnes = personnes.filter(Personne.name.contains(name)).all()
-    if(lastName):
-        personnes = personnes.filter(Personne.lastName.contains(lastName)).all()
-    #remise en forme des données et ajout des tafs :
-    liste_personnes = []
-
-    for p in personnes:
-        personne = []
-        tafs = getTaf(p.id)
-        personne.append(p.id)
-        personne.append(p.name)
-        personne.append(p.lastName)
-        personne.append((p.promotion))
-        for taf in tafs:
-            personne.append(taf)
-        liste_personnes.append(personne)
-
-    #Avec les données remises en forme on continue avec les filtres des tafs si les champs sont rentrés:
-    if(taf1):
-        nouvelle_liste = []
-        for p in (liste_personnes):
-            for field in p:
-                if taf1 in str(field).lower():
-                    nouvelle_liste.append(p)
-                    break
-    liste_personnes = nouvelle_liste
-
-    if(taf2):
-        nouvelle_liste = []
-        for p in (liste_personnes):
-            for field in p:
-                if taf2 in str(field).lower():
-                    nouvelle_liste.append(p)
-                    break
-    liste_personnes = nouvelle_liste
+        liste_personnes = nouvelle_liste
     return liste_personnes
 
 
@@ -138,7 +114,9 @@ def getTaf(eleve_id):
             if(p.id==eleve_id):
                 res.append(taf.name)
     return res
-
+def getTafs():
+    tafs = TAF.query
+###########################################################################""
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
 def getPromotion(annee):
     promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
@@ -184,26 +162,16 @@ def getPersonnesPromo(annee):
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
 
-@app.route('/test')
-def test():
-    return db.session.query(TAF.name).filter(TAF.personnes.id==2).all()
+
 @app.route('/clean')
 def routeClean():
     clean()
     return 'Database Cleaned'
-@app.route('/testadd')
-def routeAdd():
-
-    addEntreprise('QMSDJKQSDJ')
-
-    db.session.commit()
-    return 'blalba'
 @app.route('/testbdd')
 def testbdd2():
     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
-    alumnis = getAlumnis()
-    testp = getList('R',None,None,'dcl','login')
+    testp = getList('R',None,None,'dcl',None)
     testGetTaf = getTaf(4)
     testGetSafran = getNEntreprise(None,'Safran',None)
     imt = db.session.query(Organisation).filter(Organisation.name.contains('IMT-Atlantique')).first()
@@ -211,13 +179,13 @@ def testbdd2():
     testGetNNASA = getNEntreprise(10,None,None)
     testGetListPosition = getListPosition('etudiant')
     testGetAlumnis = getAlumnis(None,None,None)
-    testPromo = getPersonnesPromo(2024)
+    testPromo = getStageById(3)
     return(flask.render_template('testPrint.html.jinja2', organisations=organisations,
                                  positions=positions,
                                  pfes=pfes,
                                  tafs=tafs,
                                  personnes=personnes,
-                                 alumnis=alumnis,
+
                                  testp=testp,
                                  testGetTaf=testGetTaf,
                                  testGetSafran=testGetSafran,
