@@ -9,14 +9,38 @@
         </style>
     </head>
     <body>
-
+        <datalist id="Taf">
+            {% for taf in tafss %}
+                <option value={{taf.name}}>
+            {% endfor %}
+        </datalist>
+        <datalist id="Tuteur">
+            {% for tuteur in tuteurs %}
+                <option value={{tuteur.name}} {{ tuteur.lastName }}>
+            {% endfor %}
+        </datalist>
+        <datalist id="Position">
+            {% for position in positions %}
+                <option value={{position.titre}}>
+            {% endfor %}
+        </datalist>
+        <datalist id="Entreprise">
+            {% for entreprise in entreprises %}
+                <option value={{entreprise.name}}>
+            {% endfor %}
+        </datalist>
+        <datalist id="Promo">
+            {% for promo in promos %}
+                <option value={{position.titre}}>
+            {% endfor %}
+        </datalist>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         <HR>
         <h1>Tableau de bord</h1>
         <HR>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="etudiants-tab" data-bs-toggle="tab" data-bs-target="#etudiants" type="button" role="tab" aria-controls="etudiants" aria-selected="true">Étudiants</button>
+            <button class="nav-link active" id="personnes-tab" data-bs-toggle="tab" data-bs-target="#personnes" type="button" role="tab" aria-controls="personnes" aria-selected="true">Personnes</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="entreprises-tab" data-bs-toggle="tab" data-bs-target="#entreprises" type="button" role="tab" aria-controls="entreprises" aria-selected="false">Entreprises</button>
@@ -29,112 +53,159 @@
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="etudiants" role="tabpanel" aria-labelledby="etudiants-tab">
-              <div class ="row">
-            <div class="col-sm-4">
-                <div class = "card">
-                    <div class="card-body">
-                        <form method = "POST">
-                            <h4 class="card-header">Rory MAILLARD</h4>
-                          <div class="mb-3">
-                              <br>
-                              <div class = "row align-items-center">
-                                  <div class = "col-auto">
-                                      <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="Genre" id="mr" checked disabled>
-                                          <label class="form-check-label" for="mr">
-                                            Mr
-                                          </label>
-                                        </div>
+          <div class="tab-pane fade show active" id="personnes" role="tabpanel" aria-labelledby="personnes-tab">
+              <nav class="navbar bg-light">
+                  <div class="container-fluid">
+                      <div class="row align-items-center">
+                          <form method="POST">
+                              <div class="row align-items-center justify-content-start">
+                                  <div class="col-sm-1">
+                                  <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" placeholder="Nom">
                                   </div>
-                                  <div class = "col-auto">
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="Genre" id="mme" disabled>
-                                      <label class="form-check-label" for="mme">
-                                        Mme
-                                      </label>
+                                  <div class="col-1">
+                                  <input autocomplete="off" type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
+                                  </div>
+                                  <div class="col-1">
+                                  <input autocomplete="off" class="form-control" list="Taf" id="taf1" name="tafa2" placeholder="Taf">
+                                  </div>
+                                  <div class="col-1">
+                                  <input autocomplete="off" class="form-control" list="Promo" id="promo" name="promo" placeholder="Promo">
+                                  </div>
+                                  <div class="col-2">
+                                  <input autocomplete="off" class="form-control" list="Entreprise" id="satge" name="stage" placeholder="Entreprise de stage">
+                                  </div>
+                                  <div class="col-1">
+                                  <input autocomplete="off" class="form-control" list="Tuteur" id="tuteur" name="tuteur" placeholder="Tuteur">
+                                  </div>
+                                  <div class="col-2">
+                                  <input autocomplete="off" class="form-control" list="Position" id="position" name="position" placeholder="Position Actuelle">
+                                  </div>
+                                  <div class="col-2">
+                                  <input autocomplete="off" class="form-control" list="Entreprise" id="entreprise" name="entreprise" placeholder="Entreprise de actuelle">
+                                  </div>
+                                  <div class="col-1">
+                                      <button class="btn btn-primary" type="submit" name="filtrer">Filtrer</button>
+                                  </div>
+                              </div>
+                              <br>
+                              <div class="row justify-content-end">
+                                  <div class="col-1">
+                                      <button class="btn btn-primary" type="submit" name="addStudent">Ajouter</button>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+
+              </nav>
+              <div class ="row">
+                  {% for personne in personnes %}
+                    <div class="col-sm-4">
+                        <div class = "card">
+                            <div class="card-body">
+                                <form method = "POST">
+                                    <h4 class="card-header">{{ personne.name }} {{ personne.lastName }}</h4>
+                                  <div class="mb-3">
+                                      <br>
+                                      <div class = "row align-items-center">
+                                          <div class = "col-auto">
+                                              <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="Genre" id="mr" checked= {{personne.genre}}=='Mr' disabled>
+                                                  <label class="form-check-label" for="mr">
+                                                    Mr
+                                                  </label>
+                                                </div>
+                                          </div>
+                                          <div class = "col-auto">
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="Genre" id="mme" checked= {{personne.genre }}=='Mme' disabled>
+                                              <label class="form-check-label" for="mme">
+                                                Mme
+                                              </label>
+                                            </div>
+                                          </div>
+                                          <div class = "col-auto">
+                                            Date de Naissance :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne.dateNaissance }}</b>
+                                          </div>
+                                       </div>
+                                      <br>
+                                      <div class="row align-items-center">
+                                          <div class = "col-auto">
+                                            Nom :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne.lastName }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                            Prénom :
+                                          </div>
+                                          <div class = "col-auto">
+                                            <b>{{ personne.nom }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                            Promo :
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne.promo }}</b>
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class = "row align-items-center">
+                                          <div class = "col-auto">
+                                              TAF 2A :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne.taf1 }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                              TAF 3A :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne.taf2 }}</b>
+                                          </div>
+                                    </div>
+                                      <br>
+                                      <div class ="row align-items-center">
+                                        <div class = "col-auto">
+                                            PFE : <b>{{personne.pfe.name}}</b>
+                                        </div>
+                                      </div>
+                                    <br>
+                                    <div class = "row align-items-center">
+                                        <div class = "col-auto">
+                                            Position:
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne.position }}</b>
+                                        </div>
+                                        <div class = "col-auto">
+                                            Entreprise:
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne.entreprise }}</b>
+                                        </div>
                                     </div>
                                   </div>
-                                  <div class = "col-auto">
-                                    Date de Naissance :
-                                  </div>
-                                  <div class = "col-auto">
-                                      <b>29/10/2002</b>
-                                  </div>
-                               </div>
-                              <br>
-                              <div class="row align-items-center">
-                                  <div class = "col-auto">
-                                    Nom :
-                                  </div>
-                                  <div class = "col-auto">
-                                      <b>Maillard</b>
-                                  </div>
-                                  <div class = "col-auto">
-                                    Prénom :
-                                  </div>
-                                  <div class = "col-auto">
-                                    <b>Rory</b>
-                                  </div>
-                                  <div class = "col-auto">
-                                    Promo :
-                                </div>
-                                <div class = "col-auto">
-                                    <b>2024</b>
-                                </div>
-                              </div>
-                              <br>
-                              <div class = "row align-items-center">
-                                  <div class = "col-auto">
-                                      TAF 2A :
-                                  </div>
-                                  <div class = "col-auto">
-                                      <b>DCL</b>
-                                  </div>
-                                  <div class = "col-auto">
-                                      TAF 3A :
-                                  </div>
-                                  <div class = "col-auto">
-                                      <b>LOGIN</b>
-                                  </div>
+                                    <div class = "row align-items-center">
+                                        <div class = "col-sm-4">
+                                            <button type="submit" class="btn btn-primary" name="detailsEtudiant{{ personne.id }}">Détails</button>
+                                        </div>
+                                        <div class = "col-sm-4">
+                                            <button type="submit" class="btn btn-primary" name="modifierEtudiant{{ personne.id }}">Modifier</button>
+                                        </div>
+                                        <div class = "col-sm-4">
+                                            <button type="submit" class="btn btn-danger" name="supprimerEtudiant{{ personne.id }}">Supprimer</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                              <br>
-                              <div class ="row align-items-center">
-                                <div class = "col-auto">
-                                    PFE : <b>Étude de l'efficacité de la thérapie par l'art pour le traitement de la dépression</b>
-                                </div>
-                              </div>
-                            <br>
-                            <div class = "row align-items-center">
-                                <div class = "col-auto">
-                                    Position:
-                                </div>
-                                <div class = "col-auto">
-                                    <b>Developpeur</b>
-                                </div>
-                                <div class = "col-auto">
-                                    Entreprise:
-                                </div>
-                                <div class = "col-auto">
-                                    <b>Adnovum</b>
-                                </div>
-                            </div>
-                          </div>
-                            <div class = "row align-items-center">
-                                <div class = "col-sm-4">
-                                    <button type="submit" class="btn btn-primary" name="detailsEtudiant">Détails</button>
-                                </div>
-                                <div class = "col-sm-4">
-                                    <button type="submit" class="btn btn-primary" name="modifierEtudiant">Modifier</button>
-                                </div>
-                                <div class = "col-sm-4">
-                                    <button type="submit" class="btn btn-danger" name="supprimerEtudiant">Supprimer</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-            </div>
+                  {% endfor %}
+
           </div>
           </div>
           <div class="tab-pane fade" id="entreprises" role="tabpanel" aria-labelledby="entreprises-tab">
