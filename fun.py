@@ -291,26 +291,26 @@ def createBase():
 
 
     #Creation PFE
-    reco = PFE('Développement dun système de reconnaissance de la parole pour les personnes atteintes de troubles de la communication',
+    reco = PFE(Dassault,'Développement dun système de reconnaissance de la parole pour les personnes atteintes de troubles de la communication',
                  ' Ce projet consiste en la création dun logiciel qui peut aider les personnes atteintes de troubles de la communication à communiquer plus facilement en utilisant leur voix.')
-    sysSurv = PFE('Conception dun système de surveillance et de contrôle pour les cultures maraîchères ',
+    sysSurv = PFE(Safran,'Conception dun système de surveillance et de contrôle pour les cultures maraîchères ',
                    'Ce projet implique la mise en place dun système de surveillance et de contrôle pour les cultures maraîchères qui permettra de surveiller lhumidité, la température, et la qualité du sol pour maximiser les récoltes.')
-    secu = PFE('Évaluation de la sécurité des systèmes de contrôle industriel', 'Ce projet porte sur lévaluation de la sécurité des systèmes de contrôle industriel pour assurer la sécurité des travailleurs et des installations industrielles.')
-    ia = PFE('Étude de la performance de lintelligence artificielle pour la classification des maladies cardiaques ',
+    secu = PFE(imt,'Évaluation de la sécurité des systèmes de contrôle industriel', 'Ce projet porte sur lévaluation de la sécurité des systèmes de contrôle industriel pour assurer la sécurité des travailleurs et des installations industrielles.')
+    ia = PFE(Dassault,'Étude de la performance de lintelligence artificielle pour la classification des maladies cardiaques ',
                       'Ce projet vise à évaluer la performance de lintelligence artificielle dans la classification des maladies cardiaques à partir de données de santé.')
-    jeuSimu = PFE('Conception dun jeu de simulation pour lapprentissage des langues étrangères'
+    jeuSimu = PFE(Dassault,'Conception dun jeu de simulation pour lapprentissage des langues étrangères'
                  ,'Ce projet implique la création dun jeu de simulation pour aider les étudiants à apprendre une langue étrangère de manière plus interactive et amusante.')
-    etudeDistance = PFE('Évaluation de lefficacité de lenseignement à distance pour les étudiants en ligne',
+    etudeDistance = PFE(edf,'Évaluation de lefficacité de lenseignement à distance pour les étudiants en ligne',
                    'Ce projet vise à évaluer lefficacité de lenseignement à distance pour les étudiants en ligne en comparaison à lenseignement traditionnel en classe.')
-    appli = PFE('Développement dune application de gestion des tâches pour les travailleurs indépendants ',
+    appli = PFE(edf,'Développement dune application de gestion des tâches pour les travailleurs indépendants ',
                       'Ce projet consiste en la création dune application de gestion des tâches pour aider les travailleurs indépendants à organiser leur travail et à suivre leur temps.')
 
-    reaVirt = PFE('Étude de limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers', 'Ce projet vise à étudier limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers sur la qualité des soins et lefficacité de la formation.')
+    reaVirt = PFE(NASA,'Étude de limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers', 'Ce projet vise à étudier limpact de lutilisation de la réalité virtuelle dans la formation des soins infirmiers sur la qualité des soins et lefficacité de la formation.')
 
-    mouvement = PFE('Conception dun dispositif de détection des objets en mouvement pour la sécurité routière','Ce projet implique la création dun dispositif de détection des objets en mouvement pour améliorer la sécurité routière en détectant les véhicules et les piétons.')
+    mouvement = PFE(ESA,'Conception dun dispositif de détection des objets en mouvement pour la sécurité routière','Ce projet implique la création dun dispositif de détection des objets en mouvement pour améliorer la sécurité routière en détectant les véhicules et les piétons.')
 
-    depression = PFE('Étude de lefficacité de la thérapie par lart pour le traitement de la dépression', 'Ce projet vise à étudier lefficacité de la thérapie par lart pour le traitement de la dépression en comparaison aux traitements traditionnels.')
-    anim = PFE('Développement dun système de suivi des animaux de compagnie ', 'Ce projet consiste en la création dun système de suivi des animaux de compagnie qui permettra aux propriétaires de suivre la localisation et lactivité de leur animal en temps réel.')
+    depression = PFE(NASA,'Étude de lefficacité de la thérapie par lart pour le traitement de la dépression', 'Ce projet vise à étudier lefficacité de la thérapie par lart pour le traitement de la dépression en comparaison aux traitements traditionnels.')
+    anim = PFE(NASA,'Développement dun système de suivi des animaux de compagnie ', 'Ce projet consiste en la création dun système de suivi des animaux de compagnie qui permettra aux propriétaires de suivre la localisation et lactivité de leur animal en temps réel.')
 
     db.session.add(reco)
     db.session.add(sysSurv)
