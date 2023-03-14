@@ -41,16 +41,21 @@ def getOrganisationById(id):
     organisation = Organisation.query.join(Personne).filter(Personne.id==id).all()
     return organisation
 #OK------------------------------------------------------------------------------
-def getOrganisations(): # [[Organisation, toutes les personnes, nombre gens]]
+def getOrganisations(): # [[Organisation, nombre gens]]
     organisations =  db.session.query(Organisation).all()
     liste_orga = [[] for i in range(len(organisations))]
     for i in range(len(organisations)):
         liste_orga[i].append(organisations[i])
-        liste_orga[i].append(organisations[i].personnes)
         liste_orga[i].append(getNEntreprise(None,None,organisations[i]))
     return liste_orga
 #OK------------------------------------------------------------------------------
-
+def getPersonnesOrganisation(id):
+    entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
+    travailleurs = entreprise.personnes
+    personnes=[]
+    for personne in travailleurs:
+        personnes.append([personne, personne.annee_position, getPositionById(personne.id)])
+    return [entreprise, personnes]
 def getList(id,name,lastName,promotion,taf1,taf2):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
     personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre,Personne.dateNaissance)
@@ -312,7 +317,10 @@ def userModifPost():
 def userDetails(isAdmin,id):
     personne=getList(id,None,None,None,None,None)[0]
     return flask.render_template('detailsStudent.jinja2',personne=personne,isADmin=isAdmin)
-
+@app.route('/EntrepriseDetails/<isAdmin>/<id>')
+def entrepriseDetails(isAdmin,id):
+    entreprise = getPersonnesOrganisation(id)
+    return flask.render_template('detailsEntreprise.html.jinja2',entreprise=entreprise,isAdmin=isAdmin)
 @app.route('/StudentAdd')
 def addStudent():
     return flask.render_template('createStudent.jinja2')
