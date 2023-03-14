@@ -191,11 +191,11 @@
                                   </div>
                                     <div class = "row align-items-center">
                                         <div class = "col-sm-4">
-                                            <button type="submit" class="btn btn-primary" >Détails</button>
+                                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userDetails' , id=personne[0] ) }}';" >Détails</button>
                                         </div>
                                         {% if isAdmin=="True" %}
                                             <div class = "col-sm-4">
-                                                <button type="submit" class="btn btn-primary" name="modifierEtudiant{{ personne[0] }}">Modifier</button>
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userModif' , id=personne[0] ) }}';">Modifier</button>
                                             </div>
                                             <div class = "col-sm-4">
                                                 <button type="submit" class="btn btn-danger" name="supprimerEtudiant{{ personne[0] }}">Supprimer</button>
