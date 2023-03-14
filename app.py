@@ -7,8 +7,8 @@ from database.models import *
 from fun import createBase
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -144,15 +144,14 @@ def getTaf(eleve_id):
     res = []
     for taf in tafs:
         for p in taf.personnes:
-            if(p.id==eleve_id):
-                res.append(taf.name)
+            if p.id==eleve_id:
+                res.append(taf)
     if len(res)==0:
         res.append('')
         res.append('')
     if len(res)==1:
         res.append('')
     return res
-#OK------------------------------------------------------------------------------
 def getTafs():
     tafs = db.session.query(TAF).all()
     liste_tafs = [[] for i in range(len(tafs))]
