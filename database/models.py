@@ -9,11 +9,7 @@ jun_taf_personnes = db.Table('tafs',
                              Column('taf_id', Integer, ForeignKey('taf.id')),
                              Column('personne_id',Integer, ForeignKey('personne.id'))
                              )
-"""
-jun_personnes_pfe = db.Table('pfe_personnes',
-                             Column('pfe_id',Integer, ForeignKey('pfe.id')),
-                             Column('personne_id', Integer, ForeignKey('personne.id')))
-"""
+
 jun_orga_pos = db.Table('positions_orga',
                         Column('orga_id',Integer, ForeignKey('organisation.id')),
                         Column('pos_id', Integer, ForeignKey('position.id')))
@@ -51,9 +47,8 @@ class Position(db.Model):
 class Organisation(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    entreprise_stage_id = Column(Integer, ForeignKey('pfe.id'))
 
-    ### Relation One to Many vers Position
-    #position_id = Column(Integer, ForeignKey('position.id'))
     personnes = relationship('Personne', backref='personnes')
     def __init__(self, name):
         self.name=name
@@ -69,12 +64,14 @@ class PFE(db.Model):
     tuteur_id  = Column(Integer, ForeignKey("personne.id"))
     eleve = relationship('Personne', backref='eleve',foreign_keys=[eleve_id])
     tuteur = relationship('Personne', backref='tuteur',foreign_keys=[tuteur_id])
-
+    entreprise_stage_id = Column(Integer,ForeignKey("organisation.id"))
+    entreprise_stage = relationship('Organisation', backref ='entreprise_de_stage', foreign_keys=[entreprise_stage_id])
     def __repr__(self):
         return self.titre + ' : ' + self.description
-    def __init__(self, titre, description):
+    def __init__(self,entreprise_stage, titre, description):
         self.titre=titre
         self.description=description
+        self.entreprise_stage=entreprise_stage
     ### Relation Many to Many vers PFE (tuteur peut avoir plusieurs PFE en charge)
     ### voir haut-dessus jointure jun_personnes_pfe
 
