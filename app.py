@@ -175,7 +175,8 @@ def getPromotions():
     for promo in liste_promos:
         promo.append(len(promo[1]))
     return liste_promos
-
+# [[annee, [élèves], nombre eleves], ...]
+# OK ----------------------------------------------------------------------------
 def getNEntreprise(id,name,organisation):
     if(id):
         entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
@@ -208,20 +209,19 @@ def getPersonnesPromo(annee):
 # modifier les 4 (enlever de la promotion
 def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
     return 0
-def getGenreById(id):
-    return db.session.query(Personne.genre).filter(Personne.id==id).first()
-#OK-----------------------------------------------------------------------------
-def getListeGenre(genre):
-    return db.session.query(Personne).filter(Personne.genre==genre).all()
-#OK-----------------------------------------------------------------------------
-#get Mr/Mme ok
-#getPromotions #[[annee, [élèves], nombre eleves], ...]
+
+#getPromotions #[[annee, [élèves], nombre eleves], ...] ok
 #add, modify, delete
+
 
 @app.route('/clean')
 def routeClean():
     clean()
     return 'Database Cleaned'
+@app.route('/testbuild')
+def lkdsjfs():
+    createBase()
+    return 'base créée'
 @app.route('/testbdd')
 def testbdd2():
     clean()
@@ -263,8 +263,9 @@ def drop_page():
 
 @app.route('/companies')
 def testCompany():
+    addTaf('QSDQKSJDLKQJSDLKJ')
 
-    return flask.render_template("test_print_company.html.jinja2")
+    return 'test add'
 
 @app.route('/')
 def main():
@@ -291,7 +292,7 @@ def loginAdminPost():
 
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
-    clean()
+     clean()
     organisations, positions, pfes, tafs, personnes = createBase()
     persons=getList(None,None,None,None,None,None)
     tafs = getTafs()
