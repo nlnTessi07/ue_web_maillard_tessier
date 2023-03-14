@@ -10,7 +10,7 @@
     </head>
     <body>
         <datalist id="Taf">
-            {% for taf in tafss %}
+            {% for taf in tafs %}
                 <option value={{taf[0].name}}>
             {% endfor %}
         </datalist>
@@ -89,9 +89,13 @@
                               </div>
                               <br>
                               <div class="row justify-content-end">
-                                  <div class="col-1">
-                                      <button class="btn btn-primary" type="submit" name="addStudent">Ajouter</button>
+                                  <div class="col-auto">
+                                      <button class="btn btn-primary" type="button" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Enlever le filtre</button>
                                   </div>
+                                  <div class="col-auto">
+                                      <button class="btn btn-primary" type="submit" name="addStudent">Ajouter une personne</button>
+                                  </div>
+
                               </div>
                           </form>
                       </div>
@@ -227,9 +231,11 @@
                   <td>{{ entreprise[0].name }}</td>
                   <td>{{ entreprise[1] }}</td>
                     <td>
-                    <button type="submit" class="btn btn-primary" name="detailsEntreprise">Détails</button>
-                    <button type="submit" class="btn btn-primary" name="modifEntreprise">Modifier</button>
-                    <button type="submit" class="btn btn-danger" name="supprimerEntreprise">Supprimer</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseDetails' ,isAdmin=isAdmin, id=entreprise[0].id) }}';">Détails</button>
+                        {% if isAdmin=='True' %}
+                            <button type="submit" class="btn btn-primary" name="modifEntreprise">Modifier</button>
+                            <button type="submit" class="btn btn-danger" name="supprimerEntreprise">Supprimer</button>
+                        {% endif %}
                     </td>
                 </tr>
               {% endfor %}
@@ -251,9 +257,9 @@
                 <tr>
                   <th scope="row">{{ taf[0].id }}</th>
                   <td>{{ taf[0].name }}</td>
-                  <td>{{ taf[2] }}</td>
+                  <td>{{ taf[1] }}</td>
                     <td>
-                    <button type="submit" class="btn btn-primary" name="detailsTafs">Détails</button>
+                    <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafDetails' ,isAdmin=isAdmin, id=taf[0].id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
                             <button type="submit" class="btn btn-primary" name="modifTafs">Modifier</button>
                             <button type="submit" class="btn btn-danger" name="supprimerTafs">Supprimer</button>

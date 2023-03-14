@@ -10,24 +10,24 @@
     </head>
     <body>
         <HR>
-        <h1>TAF DCL</h1>
+        <h1>{{ taf[0].name }}</h1>
         <HR>
         <table class="table table-striped">
           <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Anée</th>
             </tr>
           </thead>
           <tbody>
+          {% for personne in taf[1] %}
             <tr>
-                <th scope="row">1</th>
-                <td>Rory</td>
-                <td>Maillard</td>
-                <td>2022</td>
+                <td>{{ personne[0].name }}</td>
+                <td>{{ personne[0].lastName }}</td>
+                <td>{{ personne[1] }}</td>
             </tr>
+          {% endfor %}
           </tbody>
         </table>
     </body>
