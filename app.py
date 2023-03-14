@@ -164,12 +164,13 @@ def getPromotions():
     personnes = db.session.query(Personne).all()
     liste_promos = []
     for personne in personnes:
-        if personne.promotion not in liste_promos:
-            liste_promos.append([personne.promo])
+        if [personne.promotion] not in liste_promos:
+            liste_promos.append([personne.promotion])
     for i in range(len(liste_promos)):
+        liste_promos[i].append([])
         for personne in personnes:
             if personne.promotion == liste_promos[i][0]:
-                liste_promos[i].append(personne)
+                liste_promos[i][1].append(personne)
 
     for promo in liste_promos:
         promo.append(len(promo[1]))
@@ -295,7 +296,8 @@ def dashboard(isAdmin, current_id):
     persons=getList(None,None,None,None,None,None)
     tafs = getTafs()
     entreprises = getOrganisations()
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises)
+    promos=getPromotions()
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises,promos=promos)
 @app.route('/UserModif/<id>')
 def userModif(id):
     personne=getList(id,None,None,None,None,None)[0]
