@@ -115,7 +115,8 @@ def getTaf(eleve_id):
                 res.append(taf.name)
     return res
 def getTafs():
-    tafs = TAF.query
+    tafs = db.session.query(TAF).all()
+    return tafs
 ###########################################################################""
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
 def getPromotion(annee):
