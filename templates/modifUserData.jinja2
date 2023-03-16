@@ -16,7 +16,7 @@
         </datalist>
         <datalist id="Tuteur">
             {% for tuteur in tuteurs %}
-                <option value={{tuteur.name}} {{ tuteur.lastName }}>
+                <option value="{{tuteur.name}} {{ tuteur.lastName }}">
             {% endfor %}
         </datalist>
         <datalist id="Position">
@@ -101,10 +101,25 @@
                                       <input autocomplete="off" class="form-control" list="Taf" id="taf1" name="tafa2" value={{ personne[4] }}>
                                   </div>
                                   <div class = "col-auto">
+                                      <label for="taf1" class="form-label">Année :</label>
+                                  </div>
+                                  <div class = "col-auto">
+                                      <input autocomplete="off" class="form-control" id="taf1annee" name="annee2" value={{ personne[11] }}>
+                                  </div>
+                              </div>
+                              <br>
+                              <div class="row align-items-center">
+                                  <div class = "col-auto">
                                       <label for="taf2" class="form-label">TAF 3A :</label>
                                   </div>
                                   <div class = "col-auto">
                                       <input autocomplete="off" class="form-control" list="Taf" id="taf2" name="tafa3" value={{ personne[5] }}>
+                                  </div>
+                                  <div class = "col-auto">
+                                      <label for="taf1" class="form-label">Année :</label>
+                                  </div>
+                                  <div class = "col-auto">
+                                      <input autocomplete="off" class="form-control" id="taf2annee" name="annee3" value={{ personne[12] }}>
                                   </div>
                               </div>
                               <br>
@@ -166,6 +181,15 @@
                                 <div class = "col-auto">
                                     <input autocomplete="off" class="form-control" list="Position" id="position" name="position" value={{ personne[8][0] }}>
                                 </div>
+                                <div class = "col-auto">
+                                    <label for="aneePosition" class="form-label">Année d'entrée:</label>
+                                </div>
+                                <div class = "col-auto">
+                                    <input autocomplete="off" class="form-control" id="anneePosition" name="anneePosition" value="{{ personne[13] }}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "row align-items-center">
                                 <div class = "col-auto">
                                     <label for="entreprise" class="form-label">Entreprise:</label>
                                 </div>

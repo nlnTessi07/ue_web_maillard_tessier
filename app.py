@@ -7,8 +7,8 @@ from database.models import *
 from fun import createBase
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -74,7 +74,7 @@ def getTuteurByStudentId(id):
 #OK----------------------------------------------------------------------------------
 def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,position,entreprise):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
-    personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre,Personne.dateNaissance)
+    personnes = db.session.query(Personne)
     if(id):
         personnes = personnes.filter(Personne.id==id).all()
     if(promotion):
@@ -89,7 +89,6 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     for p in personnes:
         personne = []
         tafs = getTaf(p.id)
-
         personne.append(p.id)
         personne.append(p.name)
         personne.append(p.lastName)
@@ -101,6 +100,9 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
         personne.append(getPositionById(p.id))
         personne.append(getStageById(p.id))
         personne.append(p.dateNaissance)
+        personne.append(p.annee2)
+        personne.append(p.annee3)
+        personne.append(p.annee_position)
         # stage, tuteur de stage, pfe, description du pfe
         liste_personnes.append(personne)
 
@@ -262,9 +264,11 @@ def getPersonnesPromo(annee):
 #def
 #   liste entreprise, étudiants, promo, personnes position
 # modifier les 4 (enlever de la promotion
+def getOrganisationByName(nom):
+    return db.session.query(Organisation).filter(Organisation.name==nom).first()
 def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
-    personne = Personne(name=name,lastName=lastname,genre=genre,dateNaissance=datetime(dateNaissance),promotion=promotion,annee2=annee2,annee3=annee3,annee_position=annee_position)
-    pfe = PFE(entreprise_pfe,titre_pfe,description_pfe)
+    personne = Personne(name=name,lastName=lastname,genre=genre,dateNaissance=dateNaissance,promotion=int(promotion),annee2=int(annee2),annee3=int(annee3),annee_position=int(annee_position))
+    pfe = PFE(getOrganisationByName(entreprise_pfe),titre_pfe,description_pfe)
 
     tafs = db.session.query(TAF.name).all()
     if tafa2 in tafs:
@@ -339,9 +343,6 @@ def getPostesEntreprise(id):
         personnes_poste = poste.personnes
         personnes=[]
         for personne in personnes_poste:
-            print(personne)
-            print(personne.id)
-            print(getOrganisationById(personne.id))
             if getOrganisationById(personne.id)[0]==entreprise:
                 personnes.append(personne)
         postes.append([poste,len(personnes)])
@@ -452,10 +453,14 @@ def entrepriseModif(id):
 
 @app.route('/UserModif/<id>')
 def userModif(id):
+    tafs = getTafs()
+    entreprises = getOrganisations()
+    promos = getPromotions()
+    tuteurs = getTuteurs()
     personne=getList(id,None,None,None,None,None,None,None,None,None)[0]
-    return flask.render_template('modifUserData.jinja2',personne=personne)
+    return flask.render_template('modifUserData.jinja2',personne=personne,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
 
-@app.route('/UserModif',methods=["POST"])
+@app.route('/UserModif/',methods=["POST"])
 def userModifPost():
     return()
 
@@ -477,9 +482,35 @@ def tafDetails(isAdmin,id):
 def tafModif(id):
     taf = getTafByTafId(id)
     return flask.render_template('modifTaf.html.jinja2',taf=taf)
-@app.route('/StudentAdd')
-def addStudent():
-    return flask.render_template('createStudent.jinja2')
+@app.route('/StudentAdd/<current_id>')
+def addStudent(current_id):
+    tafs = getTafs()
+    entreprises = getOrganisations()
+    promos = getPromotions()
+    tuteurs = getTuteurs()
+    return flask.render_template('createStudent.jinja2',current_id=current_id,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
+
+@app.route('/StudentAdd/<current_id>',methods=["POST"])
+def addStudentPost(current_id):
+    genre=flask.request.form['Genre']
+    nom = flask.request.form['nom']
+    prenom = flask.request.form['prenom']
+    naissance=flask.request.form['date']
+    tafa2 = flask.request.form['tafa2']
+    annee2=flask.request.form['annee2']
+    tafa3 = flask.request.form['tafa3']
+    annee3=flask.request.form['annee3']
+    promo = flask.request.form['promo']
+    titre_stage = flask.request.form['stage']
+    description = flask.request.form['description']
+    tuteur = flask.request.form['tuteur']
+    entreprise_stage=flask.request.form['entreprise_stage']
+    position = flask.request.form['position']
+    annee_position=flask.request.form['anneePosition']
+    entreprise = flask.request.form['entreprise']
+    date= datetime(year=int(naissance[0:4]),month=int(naissance[5:7]),day=int(naissance[8:]))
+    addPersonne(prenom,nom,genre,date,promo,tafa2,tafa3,annee2,annee3,titre_stage,entreprise_stage,description,tuteur,position,annee_position,entreprise)
+    return flask.redirect(flask.url_for('dashboard', isAdmin=True, current_id=current_id))
 
 
 if __name__ == '__main__':

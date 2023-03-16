@@ -93,7 +93,7 @@
                                       <button class="btn btn-primary" type="button" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Enlever le filtre</button>
                                   </div>
                                   <div class="col-auto">
-                                      <button class="btn btn-primary" type="button" onclick="window.location.href='{{ url_for( 'addStudent')}}';">Ajouter une personne</button>
+                                      <button class="btn btn-primary" type="button" onclick="window.location.href='{{ url_for( 'addStudent',current_id=current_id)}}';">Ajouter une personne</button>
                                   </div>
 
                               </div>
