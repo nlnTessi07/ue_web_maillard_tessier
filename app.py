@@ -359,8 +359,26 @@ def deletePosteEntreprise(position,entreprise):
             position.organisations.pop(i)
 
     db.session.commit()
-def modifyPositionName(poste, entreprise):
-    return 0
+def modifyPosition(ancien, nouveau_nom, entreprise):
+    positions_names = db.session.query(Position.name).all()
+    if  nouveau_nom not in positions_names:
+        nvlle = Position(nouveau_nom)
+        nvlle.organisations.append(entreprise)
+
+
+        db.session.add(nvlle)
+    else:
+        nvlle = db.session.query(Position).filter_by(name=nouveau_nom)
+        for i in range(len(ancien.personnes)):
+            if ancien.personnes[i] in entreprise.personnes:
+                nvlle.organisations.append(ancien.personnes[i])
+                ancien.personnes.pop[i]
+
+        if entreprise in ancien.organisations:
+            nvlle.organisations.append(entreprise)
+        db.session.add(nvlle)
+    db.session.commit()
+
 def modifyPositionPersonne(personne, old, new):
     for i in range(len(old.personnes)):
         if(old.personnes[i].id==personne.id):
