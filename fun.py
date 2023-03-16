@@ -6,8 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 db.init_app(app)
@@ -41,7 +41,7 @@ def createBase():
     total = Organisation('TotalEnergie')
     imt = Organisation('IMT-Atlantique')
 
-       ### AFFICHAGE OK
+    ### AFFICHAGE OK
 
     # CREATION POSITIONS
     inge_nuc = Position('inge_nuc')
