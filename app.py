@@ -312,6 +312,12 @@ def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,a
     db.session.add(personne)
     db.session.commit()
     return 0
+
+
+def modifierPersonne(id, name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
+    deletePersonne(id)
+    addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle)
+    db.session.commit()
 def deletePersonne(id):
     db.session.query(Personne).filter_by(id=id).delete()
     db.session.commit()
@@ -346,6 +352,21 @@ def getPostesEntreprise(id):
                 personnes.append(personne)
         postes.append([poste,len(personnes)])
     return (entreprise,postes)
+
+def deletePosteEntreprise(position,entreprise):
+    for i in range(len(position.organisations)):
+        if position.organisations[i].id == entreprise.id:
+            position.organisations.pop(i)
+
+    db.session.commit()
+def modifyPositionName(poste, entreprise):
+    return 0
+def modifyPositionPersonne(personne, old, new):
+    for i in range(len(old.personnes)):
+        if(old.personnes[i].id==personne.id):
+            old.personnes.pop(i)
+    new.personnes.append(personne)
+    db.session.commit()
 
 @app.route('/clean')
 def routeClean():
