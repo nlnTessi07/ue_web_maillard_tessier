@@ -316,6 +316,12 @@ def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,a
     db.session.add(personne)
     db.session.commit()
     return 0
+
+
+def modifierPersonne(id, name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
+    deletePersonne(id)
+    addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle)
+    db.session.commit()
 def deletePersonne(id):
     db.session.query(Personne).filter_by(id=id).delete()
     db.session.commit()
@@ -347,6 +353,39 @@ def getPostesEntreprise(id):
                 personnes.append(personne)
         postes.append([poste,len(personnes)])
     return (entreprise,postes)
+
+def deletePosteEntreprise(position,entreprise):
+    for i in range(len(position.organisations)):
+        if position.organisations[i].id == entreprise.id:
+            position.organisations.pop(i)
+
+    db.session.commit()
+def modifyPosition(ancien, nouveau_nom, entreprise):
+    positions_names = db.session.query(Position.name).all()
+    if  nouveau_nom not in positions_names:
+        nvlle = Position(nouveau_nom)
+        nvlle.organisations.append(entreprise)
+
+
+        db.session.add(nvlle)
+    else:
+        nvlle = db.session.query(Position).filter_by(name=nouveau_nom)
+        for i in range(len(ancien.personnes)):
+            if ancien.personnes[i] in entreprise.personnes:
+                nvlle.organisations.append(ancien.personnes[i])
+                ancien.personnes.pop[i]
+
+        if entreprise in ancien.organisations:
+            nvlle.organisations.append(entreprise)
+        db.session.add(nvlle)
+    db.session.commit()
+
+def modifyPositionPersonne(personne, old, new):
+    for i in range(len(old.personnes)):
+        if(old.personnes[i].id==personne.id):
+            old.personnes.pop(i)
+    new.personnes.append(personne)
+    db.session.commit()
 
 @app.route('/clean')
 def routeClean():
