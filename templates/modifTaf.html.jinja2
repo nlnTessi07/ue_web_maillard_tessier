@@ -10,33 +10,37 @@
     </head>
     <body>
         <HR>
-        <h1>TAF DCL</h1>
+        <h1>Modification de la taf</h1>
         <HR>
-        <div class="row align-items-center">
-              <div class = "col-auto">
-                <label for="Name" class="form-label">Nom :</label>
-              </div>
-              <div class = "col-auto">
-                <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value="DCL">
-              </div>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Anée</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Rory</td>
-                <td>Maillard</td>
-                <td>2022</td>
-            </tr>
-          </tbody>
-        </table>
+        <form method="POST">
+            <div class="row align-items-center">
+                  <div class = "col-auto">
+                    <label for="Name" class="form-label">Nom :</label>
+                  </div>
+                  <div class = "col-auto">
+                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ taf.name }}>
+                  </div>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Année</th>
+                    <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for personne in taf.personnes %}
+                <tr>
+                    <td>{{ personne.lastName }}</td>
+                    <td>{{ personne.name }}</td>
+                    <td>Annéeeeeee</td>
+                    <td><button type="submit" class="btn btn-danger" name="supprimerPoste">Supprimer</button></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+        </form>
     </body>
 </html>

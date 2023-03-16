@@ -16,7 +16,7 @@
         </datalist>
         <datalist id="Tuteur">
             {% for tuteur in tuteurs %}
-                <option value={{tuteur.name}} {{ tuteur.lastName }}>
+                <option value="{{tuteur.name}} {{tuteur.lastName }}">
             {% endfor %}
         </datalist>
         <datalist id="Position">
@@ -43,7 +43,7 @@
             <button class="nav-link active" id="personnes-tab" data-bs-toggle="tab" data-bs-target="#personnes" type="button" role="tab" aria-controls="personnes" aria-selected="true">Personnes</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="entreprises-tab" data-bs-toggle="tab" data-bs-target="#entreprises" type="button" role="tab" aria-controls="entreprises" aria-selected="false">Entreprises</button>
+            <button class="nav-link" id="entreprises-tab"  data-bs-toggle="tab" data-bs-target="#entreprises" type="button" role="tab" aria-controls="entreprises" aria-selected="false">Entreprises</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="tafs-tab" data-bs-toggle="tab" data-bs-target="#tafs" type="button" role="tab" aria-controls="tafs" aria-selected="false">TAFs</button>
@@ -259,9 +259,9 @@
                   <td>{{ taf[0].name }}</td>
                   <td>{{ taf[1] }}</td>
                     <td>
-                    <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafDetails' ,isAdmin=isAdmin, id=taf[0].id) }}';">Détails</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafDetails' ,isAdmin=isAdmin, id=taf[0].id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
-                            <button type="submit" class="btn btn-primary" name="modifTafs">Modifier</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafModif', id=taf[0].id) }}';">Modifier</button>
                             <button type="submit" class="btn btn-danger" name="supprimerTafs">Supprimer</button>
                         {% endif%}
                     </td>

@@ -32,6 +32,7 @@ def getStageById(id):
     for stage in stages:
         if stage.eleve.id == id:
             return stage
+    return None
 #OK------------------------------------------------------------------------------
 def getPositionById(id):
     position = Position.query.join(Personne).filter(Personne.id==id).all()
@@ -49,6 +50,14 @@ def getOrganisations(): # [[Organisation, nombre gens]]
         liste_orga[i].append(getNEntreprise(None,None,organisations[i]))
     return liste_orga
 #OK------------------------------------------------------------------------------
+
+def getTuteurs():
+    tuteurs=[]
+    pfes = db.session.query(PFE).all()
+    for pfe in pfes:
+        if pfe.tuteur not in tuteurs:
+            tuteurs.append(pfe.tuteur)
+    return tuteurs
 def getPersonnesOrganisation(id):
     entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
     travailleurs = entreprise.personnes
@@ -60,7 +69,7 @@ def getPersonnesOrganisation(id):
 def getTuteurByStudentId(id):
     pfe = db.session.query(PFE).filter(PFE.eleve_id==id).first()
     if pfe != None:
-        return pfe.tuteur.name + pfe.tuteur.lastName
+        return pfe.tuteur.name +" "+ pfe.tuteur.lastName
     return ""
 
 def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,position,entreprise):
@@ -107,11 +116,11 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     if (entreprise_stage):
         nouvelle_liste=[]
         for p in (liste_personnes):
-            if personne[9]!=None:
-                entr= personne[9].entreprise_stage
-                if entreprise_stage.lower() in entr.name.lower():
+            if p[9]!=None:
+                if entreprise_stage.lower() in p[9].entreprise_stage.name.lower():
                     nouvelle_liste.append(p)
         liste_personnes=nouvelle_liste
+
     if (tuteur):
         nouvelle_liste=[]
         for p in liste_personnes:
@@ -121,7 +130,7 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     if (entreprise):
         nouvelle_liste=[]
         for p in liste_personnes:
-            if entreprise in p[7][0].name.lower():
+            if entreprise.lower() in p[7][0].name.lower():
                 nouvelle_liste.append(p)
         liste_personnes= nouvelle_liste
 
@@ -201,6 +210,10 @@ def getPromotion(annee):
         liste_eleves.append(caract_eleve)
     return liste_eleves
 #OK------------------------------------------------------------------------------
+
+def getTafByTafId(id):
+    return db.session.query(TAF).filter(TAF.id==id).first()
+
 def getPromotions():
     personnes = db.session.query(Personne).all()
     liste_promos = []
@@ -345,7 +358,8 @@ def dashboard(isAdmin, current_id):
     tafs = getTafs()
     entreprises = getOrganisations()
     promos=getPromotions()
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises,promos=promos)
+    tuteurs = getTuteurs()
+    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
 
 @app.route('/dashboard/<isAdmin>/<current_id>', methods = ["POST"])
 def dashboardPost(isAdmin,current_id):
@@ -359,11 +373,12 @@ def dashboardPost(isAdmin,current_id):
         position= flask.request.form['position']
         entreprise= flask.request.form['entreprise']
         tafs = getTafs()
+        tuteurs = getTuteurs()
         entreprises = getOrganisations()
         promos = getPromotions()
         personnes = getList(None,prenom,nom,promo,tafa2,None,stage,tuteur,position,entreprise)
         return flask.render_template('Dashboard.html.jinja2', isAdmin=isAdmin, current_id=current_id, personnes=personnes,
-                                     tafs=tafs, entreprises=entreprises, promos=promos)
+                                     tafs=tafs, entreprises=entreprises, promos=promos,tuteurs=tuteurs)
 
 @app.route('/EntrepriseModif/<id>')
 def entrepriseModif(id):
@@ -392,6 +407,11 @@ def entrepriseDetails(isAdmin,id):
 def tafDetails(isAdmin,id):
     taf = getPersonnesTaf(id)
     return flask.render_template('detailsTaf.html.jinja2',isAdmin=isAdmin,taf=taf)
+
+@app.route('/TafModif/<id>')
+def tafModif(id):
+    taf = getTafByTafId(id)
+    return flask.render_template('modifTaf.html.jinja2',taf=taf)
 @app.route('/StudentAdd')
 def addStudent():
     return flask.render_template('createStudent.jinja2')
