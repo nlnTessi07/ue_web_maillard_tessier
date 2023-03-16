@@ -302,6 +302,8 @@ def createBase():
     NASA.personnes.append(Emma)
     Carouf.personnes.append(Gregoire)
     FTX.personnes.append(Lea)
+    Labo.personnes.append(Nino)
+    engie.personnes.append(Lilian)
     CreditSuisse.personnes.append(Nathan)
     ESA.personnes.append(Octave)
     edf.personnes.append(Thibault)

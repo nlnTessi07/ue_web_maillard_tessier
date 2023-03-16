@@ -56,6 +56,13 @@ def getPersonnesOrganisation(id):
     for personne in travailleurs:
         personnes.append([personne, personne.annee_position, getPositionById(personne.id)])
     return [entreprise, personnes]
+
+def getTuteurByStudentId(id):
+    pfe = db.session.query(PFE).filter(PFE.eleve_id==id).first()
+    if pfe != None:
+        return pfe.tuteur.name + pfe.tuteur.lastName
+    return ""
+
 def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,position,entreprise):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
     personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre,Personne.dateNaissance)
@@ -67,10 +74,6 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
         personnes = personnes.filter(Personne.name.contains(name)).all()
     if(lastName):
         personnes = personnes.filter(Personne.lastName.contains(lastName)).all()
-    if (tuteur):
-        personnes = personnes.filter(Personne.tuteur_id == tuteur.id).all()
-    if (entreprise):
-        personnes = personnes.filter(Personne.organisation_id == entreprise.id).all()
     #remise en forme des données et ajout des tafs :
     liste_personnes = []
 
@@ -97,21 +100,35 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     if(taf1):
         nouvelle_liste = []
         for p in (liste_personnes):
-                if taf1 in str(p[4:6]):
+                if taf1.lower() in str(p[4:6]).lower():
                     nouvelle_liste.append(p)
         liste_personnes = nouvelle_liste
 
     if (entreprise_stage):
         nouvelle_liste=[]
         for p in (liste_personnes):
-            if (personne[9].entreprise_stage.name == entreprise_stage):
+            if personne[9]!=None:
+                entr= personne[9].entreprise_stage
+                if entreprise_stage.lower() in entr.name.lower():
+                    nouvelle_liste.append(p)
+        liste_personnes=nouvelle_liste
+    if (tuteur):
+        nouvelle_liste=[]
+        for p in liste_personnes:
+            if tuteur.lower() in getTuteurByStudentId(p[0]).lower():
                 nouvelle_liste.append(p)
         liste_personnes=nouvelle_liste
+    if (entreprise):
+        nouvelle_liste=[]
+        for p in liste_personnes:
+            if entreprise in p[7][0].name.lower():
+                nouvelle_liste.append(p)
+        liste_personnes= nouvelle_liste
 
     if (position):
         nouvelle_liste=[]
         for p in liste_personnes:
-            if p[8][0].titre == position:
+            if position.lower() in p[8][0].titre.lower():
                 nouvelle_liste.append(p)
         liste_personnes= nouvelle_liste
     return liste_personnes
@@ -236,7 +253,21 @@ def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
 
 #getPromotions #[[annee, [élèves], nombre eleves], ...] ok
 #add, modify, delete
-
+def getPostesEntreprise(id):
+    entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
+    list_postes = db.session.query(Position).filter(Position.organisations.contains(entreprise))
+    postes=[]
+    for poste in list_postes:
+        personnes_poste = poste.personnes
+        personnes=[]
+        for personne in personnes_poste:
+            print(personne)
+            print(personne.id)
+            print(getOrganisationById(personne.id))
+            if getOrganisationById(personne.id)[0]==entreprise:
+                personnes.append(personne)
+        postes.append([poste,len(personnes)])
+    return (entreprise,postes)
 
 @app.route('/clean')
 def routeClean():
@@ -334,6 +365,10 @@ def dashboardPost(isAdmin,current_id):
         return flask.render_template('Dashboard.html.jinja2', isAdmin=isAdmin, current_id=current_id, personnes=personnes,
                                      tafs=tafs, entreprises=entreprises, promos=promos)
 
+@app.route('/EntrepriseModif/<id>')
+def entrepriseModif(id):
+    entreprise,postes = getPostesEntreprise(id)
+    return flask.render_template('modifEntreprise.html.jinja2',entreprise=entreprise,postes=postes)
 
 @app.route('/UserModif/<id>')
 def userModif(id):
@@ -346,7 +381,6 @@ def userModifPost():
 
 @app.route('/UserDetails/<isAdmin>/<id>/<current_id>')
 def userDetails(isAdmin,id,current_id):
-    addTaf("gvvtfrtrffgrfrr")
     personne=getList(id,None,None,None,None,None,None,None,None,None)[0]
     return flask.render_template('detailsStudent.jinja2',personne=personne,isAdmin=isAdmin,current_id=current_id)
 @app.route('/EntrepriseDetails/<isAdmin>/<id>')

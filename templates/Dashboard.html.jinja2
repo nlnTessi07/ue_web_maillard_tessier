@@ -72,7 +72,7 @@
                                   <input autocomplete="off" class="form-control" list="Promo" id="promo" name="promo" placeholder="Promo">
                                   </div>
                                   <div class="col-2">
-                                  <input autocomplete="off" class="form-control" list="Entreprise" id="satge" name="stage" placeholder="Entreprise de stage">
+                                  <input autocomplete="off" class="form-control" list="Entreprise" id="stage" name="stage" placeholder="Entreprise de stage">
                                   </div>
                                   <div class="col-1">
                                   <input autocomplete="off" class="form-control" list="Tuteur" id="tuteur" name="tuteur" placeholder="Tuteur">
@@ -233,7 +233,7 @@
                     <td>
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseDetails' ,isAdmin=isAdmin, id=entreprise[0].id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
-                            <button type="submit" class="btn btn-primary" name="modifEntreprise">Modifier</button>
+                            <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseModif', id=entreprise[0].id) }}';">Modifier</button>
                             <button type="submit" class="btn btn-danger" name="supprimerEntreprise">Supprimer</button>
                         {% endif %}
                     </td>

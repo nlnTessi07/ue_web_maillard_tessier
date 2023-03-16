@@ -10,7 +10,7 @@
     </head>
     <body>
         <HR>
-        <h1>ADNOVUM</h1>
+        <h1>Modification de l'entreprise</h1>
         <HR>
         <form method="POST">
             <div class="row align-items-center">
@@ -18,27 +18,34 @@
                     <label for="Name" class="form-label">Nom :</label>
                   </div>
                   <div class = "col-auto">
-                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value="Adnovum">
+                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ entreprise.name }}>
                   </div>
             </div>
             <table class="table table-striped">
               <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Nom</th>
                     <th scope="col">Poste</th>
-                    <th scope="col">Date d'entrée</th>
+                    <th scope="col">Nombre d'employés</th>
+                    <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
+              {% for poste in postes %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Rory</td>
-                    <td>Maillard</td>
-                    <td>Développeur</td>
-                    <td>2023</td>
+                    <td>
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <input autocomplete="off" type="text" class="form-control" name="titre" value={{ poste[0].titre }}>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary" name="Renommer Poste">Renommer</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ poste[1] }}</td>
+                    <td><button type="submit" class="btn btn-danger" name="supprimerPoste">Supprimer</button></td>
                 </tr>
+              {% endfor %}
               </tbody>
             </table>
         </form>
