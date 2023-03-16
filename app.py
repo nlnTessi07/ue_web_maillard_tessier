@@ -7,8 +7,8 @@ from database.models import *
 from fun import createBase
 
 app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 
@@ -62,7 +62,7 @@ def getTuteurByStudentId(id):
     if pfe != None:
         return pfe.tuteur.name + pfe.tuteur.lastName
     return ""
-
+#OK----------------------------------------------------------------------------------
 def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,position,entreprise):
     #id, name, lastName, promotion, taf1, taf2, nomPfe, EtatCivil
     personnes = db.session.query(Personne.id, Personne.name, Personne.lastName, Personne.promotion, Personne.genre,Personne.dateNaissance)
@@ -139,13 +139,14 @@ def  addEntreprise(nom):
     db.session.commit()
     print(nom + "créee")
     return 0
-#OK
+#OK-------------------------------------------------------------------------
 def addTaf(nom):
     new_taf = TAF(nom)
     db.session.add(new_taf)
     db.session.commit()
     return 0
-#OK
+#OK-------------------------------------------------------------------------
+
 def getTaf(eleve_id):
     tafs = db.session.query(TAF).all()
     res = []
@@ -248,7 +249,55 @@ def getPersonnesPromo(annee):
 #def
 #   liste entreprise, étudiants, promo, personnes position
 # modifier les 4 (enlever de la promotion
-def addStudent(name,lastname,genre,annee,mois,jour,promotion,annee2,annee3):
+def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
+    personne = Personne(name=name,lastName=lastname,genre=genre,dateNaissance=datetime(dateNaissance),promotion=promotion,annee2=annee2,annee3=annee3,annee_position=annee_position)
+    pfe = PFE(entreprise_pfe,titre_pfe,description_pfe)
+
+    tafs = db.session.query(TAF.name).all()
+    if tafa2 in tafs:
+        taf = db.session.query(TAF).filter(TAF.name == tafa2)
+        taf.personnes.append(personne)
+    else:
+        addTaf(tafa2)
+        taf = db.session.query(TAF).filter(TAF.name==tafa2).first()
+        taf.personnes.append(personne)
+    if tafa3 in tafs:
+        taf = db.session.query(TAF).filter(TAF.name == tafa2).first()
+        taf.personnes.append(personne)
+    else:
+        addTaf(tafa3)
+        taf = db.session.query(TAF).filter(TAF.name==tafa3).first()
+        taf.personnes.append(personne)
+
+    organisations = db.session.query(Organisation.name).all()
+    if entreprise_actuelle in organisations:
+        orga = db.session.query(Organisation).filter(Organisation.name==entreprise_actuelle).first()
+        orga.personnes.append(personne)
+    else:
+        orga = Organisation(entreprise_actuelle)
+        orga.personnes.append(personne)
+
+    if position_actuelle in db.session.query(Position.titre).all():
+        position = db.session.query(Position).filter(Position.titre==position_actuelle).first()
+        position.personnes.add(personne)
+        if orga not in position.organisations:
+            position.organisations.append(orga)
+
+    else:
+        position = Position(position_actuelle)
+        position = db.session.query(Position).filter(Position.titre == position_actuelle).first()
+        position.personnes.add(personne)
+        position.organisations.append(orga)
+
+
+    pfe.tuteur=tuteur_pfe
+    db.session.add(orga)
+    db.session.add(tafa2)
+    db.session.add(tafa3)
+    db.session.add(position)
+    db.session.add(pfe)
+    db.session.add(personne)
+    db.session.commit()
     return 0
 
 #getPromotions #[[annee, [élèves], nombre eleves], ...] ok
