@@ -299,6 +299,22 @@ def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,a
     db.session.add(personne)
     db.session.commit()
     return 0
+def deletePersonne(id):
+    db.session.query(Personne).filter_by(id=id).delete()
+    db.session.commit()
+def deleteTaf(name):
+    db.session.query(TAF).filter_by(name=name).delete()
+    db.session.commit()
+def modifyTaf(old,new):
+    taf = db.session.query(TAF).filter_by(name=old).first()
+    taf.name=new
+    db.session.add(taf)
+def enleverDeLaTaf(taf, id):
+    for i in range(len(taf.personnes)):
+        if(taf.personnes[i].id==id):
+            taf.personnes.pop(i)
+
+
 
 #getPromotions #[[annee, [élèves], nombre eleves], ...] ok
 #add, modify, delete
