@@ -387,7 +387,17 @@ def modifyPositionPersonne(personne, old, new):
     for i in range(len(old.personnes)):
         if(old.personnes[i].id==personne.id):
             old.personnes.pop(i)
-    new.personnes.append(personne)
+    # new = string du nom
+    positions_names=  db.session.query(Position.name).all()
+    if new not in positions_names:
+        nvlle = Position(new)
+        nvlle.personnes.append(personne)
+        orga = db.session.query(Organisation).filter(Organisation.personnes.contains(personne))
+        nvlle.organisations.append(orga)
+        db.session.add(nvlle)
+    else:
+        pos = db.session.query(Position).filter(Position.titre==new)
+        pos.personnes.append(personne)
     db.session.commit()
 
 @app.route('/clean')
