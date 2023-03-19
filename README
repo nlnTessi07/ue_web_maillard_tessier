@@ -1,0 +1,62 @@
+
+STRUCTURE DU PROJET :
+
+- Base de données : définie dans le dossier database suivant une structure similaire à celle du cours.
+On y retrouve donc les fichiers database.db, database.py et models.py dans lequel la structure de la base de donnée
+est implémentée.
+
+- fun.py : code python où est écrit en dur la création d'une base de donnée "par défault",
+que l'on peut appeler n'importe où dans l'application pour ne pas se retrouver avec une base vide.
+Grâce à la persistance des données d'une page à l'autre, nous pouvons nous permettre de
+la créer une seule fois en début de session et de la modifier. Cependant lors de la fermeture
+de la session, les modifications apportées seront perdues.
+
+- app.py : fichier où se trouve toutes les fonctions de traitement des données,
+ de modification, d'ajout, de filtre, de suppression ainsi que toutes les routes pour
+ renvoyer vers les différents templates correspondants.
+
+- dossier template :
+Contient les différents templates jinja avec la mise en page html/Bootstrap des différentes
+vues lors de l'exécution du projet. Le template testPrint.html.jinja2 était utilisé pour
+tester/déboguer le Back-End et n'est pas une vue qui s'affiche lors de l'exécution du projet.
+Les autres templates listés ci-dessous ont des noms assez explicites concernant leur usage:
+- createStudent.jinja2
+- Dashboard.html.jinja2
+- detailsEntreprise.html.jinja2
+- detailsStudent.jinja2
+- detailsTaf.html.jinja2
+- loginAdmin.html.jinja2
+- loginMain.html.jinja2
+- loginUser.html.jinja2
+- modifEntreprise.html.jinja2
+- modifTaf.html.jinja2
+- modifUserData.jinja2
+
+
+DE MANIERE PLUS PRECISE :
+MODELE DE LA BDD
+Nous avons construit notre bdd autour de 5 classes :
+- TAF
+- Position
+- Personne
+- Organisation
+- PFE
+
+Avec les relations suivantes :
+- Position--Personne : One to Many
+- Position--Organisation : Many to Many (tabe de jointure)
+- TAF--Personne : Many to Many (table de jointure)
+- Organisation--Personne : One to Many
+- PFE--Personne : Many to Many (cas du tuteur)
+- PFE--Organisation : Many to One
+
+ORGANISATION DU CODE PYTHON :
+fun.py : pas de remarques particulière, il s'agit simplement de créer du volume pour la base de données afin de
+pouvoir visualiser différents cas de figure
+
+app.py :
+FONCTIONS :
+Il y a un nombre relativement important de fonctions. Certaines permettent de répondre à des fonctionnalités du cahier
+des charges assez rapidement. D'autres demandent plus d'étapes de traitement et font appel à d'autres sous fonctions
+rédigées pour ces besoins spécifiques. On retrouve dans cette catégorie la fonction getList qui est notre principale fonction
+de recherche prenant en compte l'existence ou non des arguments.

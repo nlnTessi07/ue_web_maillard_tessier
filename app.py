@@ -17,7 +17,48 @@ db.init_app(app)
 with app.test_request_context():
     init_database()
 
+"""
+- add : 
+addPersonne : OK
+addEntreprise : OK
+addTaf : OK
 
+- getters : 
+filtre : getList : OK
+getPersonne : OK
+getAlumnis : OK
+getTuteurs : OK
+getTuteurByStudentId : OK
+getStageById : OK
+getPositionById : OK
+getOrganisationById : OK
+getOrganisations : OK
+getPersonnesOrganisation : OK
+getTafs : OK
+getPersonnesTafs : OK
+getPromotion : OK
+getTafById : OK
+getPromotion : OK
+getNEntreprise : OK
+getNTaf : OKg
+getListPosition : OK
+getPersonnePromo : OK
+getOrganisationByName : OK
+getPostesEntreprise : OK
+
+- modify : 
+modifyPersonne : à tester
+modifyTaf : à Tester
+modifyPosition : à tester
+modifyPositionPersonne : à tester
+
+- delete : 
+deletePersonne : à tester
+deleteTaf : à tester
+enleverDeLaTaf : à tester
+deletePosteEntreprise : à tester
+
+"""
 def clean():
     db.drop_all()
     db.create_all()
@@ -50,7 +91,6 @@ def getOrganisations(): # [[Organisation, nombre gens]]
         liste_orga[i].append(getNEntreprise(None,None,organisations[i]))
     return liste_orga
 #OK------------------------------------------------------------------------------
-
 def getTuteurs():
     tuteurs=[]
     pfes = db.session.query(PFE).all()
@@ -65,7 +105,6 @@ def getPersonnesOrganisation(id):
     for personne in travailleurs:
         personnes.append([personne, personne.annee_position, getPositionById(personne.id)])
     return [entreprise, personnes]
-
 def getTuteurByStudentId(id):
     pfe = db.session.query(PFE).filter(PFE.eleve_id==id).first()
     if pfe != None:
@@ -157,7 +196,6 @@ def addTaf(nom):
     db.session.commit()
     return 0
 #OK-------------------------------------------------------------------------
-
 def getTaf(eleve_id):
     tafs = db.session.query(TAF).all()
     res = []
@@ -179,10 +217,8 @@ def getTafs():
         liste_tafs[i].append(getNTaf(tafs[i].id))
     return liste_tafs
 #OK------------------------------------------------------------------------------
-
 # [[Taf, nombre de personnes dans la taf], ...]
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
-
 def getPersonnesTaf(id):
     taf = db.session.query(TAF).filter(TAF.id==id).first()
     gens= taf.personnes
@@ -213,10 +249,8 @@ def getPromotion(annee):
         liste_eleves.append(caract_eleve)
     return liste_eleves
 #OK------------------------------------------------------------------------------
-
 def getTafByTafId(id):
     return db.session.query(TAF).filter(TAF.id==id).first()
-
 def getPromotions():
     personnes = db.session.query(Personne).all()
     liste_promos = []
@@ -320,7 +354,13 @@ def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,a
 
 def modifierPersonne(id, name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
     deletePersonne(id)
-    addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle)
+    addPersonne(name,lastname,genre,
+                dateNaissance,
+                promotion,
+                tafa2,tafa3,annee2,annee3,
+                titre_pfe, entreprise_pfe,
+                description_pfe, tuteur_pfe,position_actuelle,
+                annee_position, entreprise_actuelle)
     db.session.commit()
 def deletePersonne(id):
     db.session.query(Personne).filter_by(id=id).delete()
