@@ -17,7 +17,12 @@ jun_orga_pos = db.Table('positions_orga',
 class TAF(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String)
+
     personnes = relationship('Personne', backref='taf',secondary=jun_taf_personnes)
+
+    personnes = relationship('Personne',  backref='taf',secondary=jun_taf_personnes)
+    annee = Column(Integer)
+
     def __repr__(self):
         return self.name
     def __init__(self, name):
@@ -71,7 +76,6 @@ class PFE(db.Model):
         self.description=description
         self.entreprise_stage=entreprise_stage
     ### Relation Many to Many vers PFE (tuteur peut avoir plusieurs PFE en charge)
-    ### voir haut-dessus jointure jun_personnes_pfe
 
 
 class Personne(db.Model):
@@ -95,14 +99,7 @@ class Personne(db.Model):
     def __repr__(self):
         return self.name + ' ' + self.lastName
 
-    """def __init__(self, name, lastName,dateNaissance,genre):
-        self.dateNaissance=dateNaissance
-        self.lastName=lastName
-        self.genre=genre
-        self.name = name
-        """
-    ### Relation Many to Many vers TAF voir la jointure jun_taf_personnes
-    ### Relation One to Many vers PFE voir la jointure jun_personnes_pfe
+
 
 
 

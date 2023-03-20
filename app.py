@@ -36,7 +36,6 @@ getOrganisations : OK
 getPersonnesOrganisation : OK
 getTafs : OK
 getPersonnesTafs : OK
-getPromotion : OK
 getTafById : OK
 getPromotion : OK
 getNEntreprise : OK
@@ -223,6 +222,7 @@ def getTafs():
 #OK------------------------------------------------------------------------------
 # [[Taf, nombre de personnes dans la taf], ...]
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
+
 def getPromotion(annee):
     promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
     liste_eleves = []
@@ -234,12 +234,21 @@ def getPromotion(annee):
         caract_eleve.append(eleve[3]) #dateNaissance
         caract_eleve.append(getTaf(eleve[0]))
 
-        tafs_eleve = db.session.query(TAF.name).filter(TAF.personnes.id==eleve[0]).all()
+def getPersonnesTaf(id):
+    taf = db.session.query(TAF).filter(TAF.id==id).first()
+    gens= taf.personnes
+    personnes=[]
+    for personne in gens:
+        tafs = getTaf(personne.id)
+        tab= [personne]
+        if tafs[0] == taf.name:
+            tab.append(personne.annee2)
+        elif tafs[1] == taf.name:
+            tab.append(personne.annee3)
+        personnes.append(tab)
+    return [taf, personnes]
 
 
-        liste_eleves.append(caract_eleve)
-    return liste_eleves
-#OK------------------------------------------------------------------------------
 def getTafByTafId(id):
     return db.session.query(TAF).filter(TAF.id==id).first()
 def getPromotions():
