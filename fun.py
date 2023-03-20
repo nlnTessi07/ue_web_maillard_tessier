@@ -6,8 +6,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////home/nolann/PycharmProjects/ue_web_maillard_tessier/database/database.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///E:\\Documents\\Programming\\Python\\ue_web_maillard_tessier\\database\\database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "secret_key1234"
 db.init_app(app)
@@ -35,7 +35,6 @@ def createBase():
     ESA=Organisation('ESA')
     FTX=Organisation('FTX')
     CreditSuisse=Organisation('CreditSuisse')
-    poliakov = Organisation('Poliakov (RoryCorporation)')
     edf = Organisation('EDF')
     engie = Organisation('ENGIE')
     total = Organisation('TotalEnergie')
@@ -44,16 +43,16 @@ def createBase():
     ### AFFICHAGE OK
 
     # CREATION POSITIONS
-    inge_nuc = Position('inge_nuc')
-    inge_bat = Position('inge_bat')
-    inge_info = Position('inge_info')
-    patron = Position('patron')
-    etudiant = Position('etudiant')
-    chercheur = Position('chercheur')
-    enseignant = Position('enseignant')
-    tuteur = Position('tuteur')
-    RH = Position('RH (707574650a)')
-    stagiaire_pfe = Position('stagiaire_pfe')
+    inge_nuc = Position('ingénieur nucléaire')
+    inge_bat = Position('ingénieur civil')
+    inge_info = Position('développeur')
+    patron = Position('CEO')
+    etudiant = Position('Etudiant')
+    chercheur = Position('Chercheur')
+    enseignant = Position('Enseignant')
+    tuteur = Position('Tuteur')
+    RH = Position('RH')
+    stagiaire_pfe = Position('Stagiaire PFE')
 
 
 
@@ -65,7 +64,6 @@ def createBase():
     etudiant.organisations.append(imt)
 
     inge_bat.organisations.append(edf)
-    inge_bat.organisations.append(poliakov)
     inge_bat.organisations.append(Dassault)
     inge_bat.organisations.append(Safran)
 
@@ -82,7 +80,6 @@ def createBase():
     inge_info.organisations.append(ESA)
     inge_info.organisations.append(FTX)
     inge_info.organisations.append(CreditSuisse)
-    inge_info.organisations.append(poliakov)
     inge_info.organisations.append(edf)
     inge_info.organisations.append(engie)
     inge_info.organisations.append(total)
@@ -97,7 +94,6 @@ def createBase():
     RH.organisations.append(ESA)
     RH.organisations.append(CreditSuisse)
     RH.organisations.append(FTX)
-    RH.organisations.append(poliakov)
     RH.organisations.append(edf)
     RH.organisations.append(engie)
     RH.organisations.append(total)
@@ -111,7 +107,6 @@ def createBase():
     stagiaire_pfe.organisations.append(ESA)
     stagiaire_pfe.organisations.append(CreditSuisse)
     stagiaire_pfe.organisations.append(FTX)
-    stagiaire_pfe.organisations.append(poliakov)
     stagiaire_pfe.organisations.append(edf)
     stagiaire_pfe.organisations.append(engie)
     stagiaire_pfe.organisations.append(total)
@@ -125,78 +120,49 @@ def createBase():
     patron.organisations.append(ESA)
     patron.organisations.append(CreditSuisse)
     patron.organisations.append(FTX)
-    patron.organisations.append(poliakov)
     patron.organisations.append(edf)
     patron.organisations.append(engie)
     patron.organisations.append(total)
 
-    """
-    poliakov.postes.append(inge_bat)
-    poliakov.postes.append(inge_nuc)
-    poliakov.postes.append(inge_info)
-    poliakov.postes.append(chercheur)
-    poliakov.postes.append(tuteur)
-    poliakov.postes.append(RH)
-    poliakov.postes.append(stagiaire_pfe)
-    poliakov.postes.append(patron)
-
-    Dassault.postes.append(inge_bat)
-    Dassault.postes.append(inge_nuc)
-    Dassault.postes.append(inge_info)
-    Dassault.postes.append(chercheur)
-    Dassault.postes.append(tuteur)
-    Dassault.postes.append(RH)
-    Dassault.postes.append(stagiaire_pfe)
-    Dassault.postes.append(patron)
-
-    Safran.postes.append(inge_bat)
-    Safran.postes.append(inge_nuc)
-    Safran.postes.append(inge_info)
-    Safran.postes.append(chercheur)
-    Safran.postes.append(tuteur)
-    Safran.postes.append(RH)
-    Safran.postes.append(stagiaire_pfe)
-    Safran.postes.append(patron)
-    """
 
 
     # CREATION TAFs
     dcl = TAF('DCL')
     login = TAF('Login')
-    ascii = TAF('ascii')
-    demain = TAF('demain')
-    nemo = TAF('nemo')
+    ascii = TAF('Ascii')
+    demain = TAF('Demin')
+    nemo = TAF('Nemo')
     TEE = TAF('TEE')
-    cyber = TAF('cyber')
+    cyber = TAF('Cyber')
 
 
 
 
     # CREATION PERSONNES
     #élèves actuels
-    tom= Personne(name='Tom',lastName='Dupont',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
-    rory = Personne(name='Rory',lastName='Maillard',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
-    marty= Personne(name='Marty',lastName='Dubois',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
-    alexis= Personne(name='Alexis',lastName='Bernard',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2015) # Césure
-    julien= Personne(name='Julien',lastName='Rousseau',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2015) # Césure
-    eugenie= Personne(name='Eugenie',lastName='Petit',genre='Mme',dateNaissance=datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
-    Mael = Personne(name='Mael',lastName='Lefebvre',genre='Mr',dateNaissance=datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2015)
+    tom= Personne(name='Tom',lastName='Moalic',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2023)
+    rory = Personne(name='Rory',lastName='Maillard',genre='Mr',dateNaissance=datetime(year=2002,month=12,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2023)
+    marty= Personne(name='Marty',lastName='Simon',genre='Mr',dateNaissance=datetime(year=2000,month=11,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2023)
+    alexis= Personne(name='Alexis',lastName='GrandJacot',genre='Mr',dateNaissance=datetime(year=1999,month=11,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2023) # Césure
+    julien= Personne(name='Julien',lastName='Dai',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=11),promotion=2024,annee2=2022,annee3=2024,annee_position=2023) # Césure
+    eugenie= Personne(name='Eugenie',lastName='Lanier',genre='Mme',dateNaissance=datetime(year=2001,month=5,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2023)
+    Mael = Personne(name='Mael',lastName='Lefebvre',genre='Mr',dateNaissance=datetime(year=2001,month=7,day=11),promotion=2024,annee2=2023,annee3=2024,annee_position=2023)
     #profs :
-    Theo = Personne(name='Theo',lastName='Moreau',genre='Mr',dateNaissance=datetime(year=1970,month=1,day=24),annee_position=2015)
-    Mario = Personne(name='Mario',lastName='Fournier',genre='Mr',dateNaissance=datetime(year=1972,month=2,day=27),annee_position=2015)
-    Safou = Personne(name='Safouana',lastName='Girard',genre='Mr',dateNaissance=datetime(year=1570,month=3,day=7),annee_position=2015)
-
+    Theo = Personne(name='Theo',lastName='Moreau',genre='Mr',dateNaissance=datetime(year=1970,month=1,day=24),annee_position=2000)
+    Mario = Personne(name='Mario',lastName='Fournier',genre='Mr',dateNaissance=datetime(year=1972,month=2,day=27),annee_position=2004)
+    Safou = Personne(name='Safouana',lastName='Girard',genre='Mr',dateNaissance=datetime(year=1570,month=3,day=7),annee_position=2003)
+    cedric = Personne(name='Cédric',lastName='Chedaleux',genre='Mr',dateNaissance=datetime(year=1978,month=4,day=7),annee_position=2011,promotion=2010,annee2=2008,annee3=2009)
 
     #alumnis
-    Lilian = Personne(name='Lilian',lastName='Laurent',genre='Mr',dateNaissance=datetime(year=1998,month=12,day=21),promotion=2020,annee2=2018,annee3=2020,annee_position=2015) #Cesure
-    Nino = Personne(name='Nino',lastName='Simon',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020,annee_position=2015) #Cesure
-    Pablo = Personne(name='Pablo',lastName='Durand',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019,annee_position=2015)
-    Emma = Personne(name='Emma',lastName='Roux',genre='Mme',dateNaissance=datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018,annee_position=2015)
-    Gregoire = Personne(name='Gregoire',lastName='Leclerc',genre='Mr',dateNaissance=datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020,annee_position=2015)
-    Lea = Personne(name='Lea',lastName='Lambert',genre='Mme',dateNaissance=datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019,annee_position=2015)
-    Nathan = Personne(name='Nathan',lastName='Mercier',genre='Mr',dateNaissance=datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018,annee_position=2015)
-    Octave = Personne(name='Octave',lastName='Vidal',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022,annee_position=2015)
-    Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020,annee_position=2015)
+    Lilian = Personne(name='Lilian',lastName='Laurent',genre='Mr',dateNaissance=datetime(year=1998,month=12,day=21),promotion=2021,annee2=2018,annee3=2020,annee_position=2021) #Cesure
+    Nino = Personne(name='Nino',lastName='Simon',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=23),promotion=2020,annee2=2018,annee3=2020,annee_position=2020) #Cesure
+    Pablo = Personne(name='Pablo',lastName='Durand',genre='Mr',dateNaissance=datetime(year=2000,month=4,day=14),promotion=2020,annee2=2018,annee3=2019,annee_position=2018)
+    Emma = Personne(name='Emma',lastName='Roux',genre='Mme',dateNaissance=datetime(year=1999,month=6,day=15),promotion=2019,annee2=2017,annee3=2018,annee_position=2019)
+    Gregoire = Personne(name='Gregoire',lastName='Leclerc',genre='Mr',dateNaissance=datetime(year=1999,month=9,day=16),promotion=2020,annee2=2018,annee3=2020,annee_position=2020)
+    Lea = Personne(name='Lea',lastName='Lambert',genre='Mme',dateNaissance=datetime(year=1998,month=10,day=21),promotion=2019,annee2=2018,annee3=2019,annee_position=2019)
+    Nathan = Personne(name='Nathan',lastName='Mercier',genre='Mr',dateNaissance=datetime(year=1997,month=10,day=22),promotion=2018,annee2=2016,annee3=2018,annee_position=2018)
+    Octave = Personne(name='Octave',lastName='Boel',genre='Mr',dateNaissance=datetime(year=1998,month=6,day=28),promotion=2022,annee2=2021,annee3=2022,annee_position=2022)
+    Thibault = Personne(name='Thibault',lastName='Caron',genre='Mr',dateNaissance=datetime(year=1999,month=1,day=3),promotion=2020,annee2=2019,annee3=2020,annee_position=2020)
 
 
     # Attribution des positions :
@@ -219,6 +185,7 @@ def createBase():
     tuteur.personnes.append(Mario)
 
     inge_info.personnes.append(Nino)
+    inge_info.personnes.append(cedric)
     inge_info.personnes.append(Pablo)
     inge_info.personnes.append(Emma)
     inge_bat.personnes.append(Lilian)
@@ -298,6 +265,7 @@ def createBase():
 
     Dassault.personnes.append(alexis)
     Safran.personnes.append(julien)
+    Safran.personnes.append(cedric)
     NASA.personnes.append(Pablo)
     NASA.personnes.append(Emma)
     Carouf.personnes.append(Gregoire)
@@ -339,7 +307,6 @@ def createBase():
     db.session.add(edf)
     db.session.add(engie)
     db.session.add(total)
-    db.session.add(poliakov)
     db.session.add(Dassault)
     db.session.add(Safran)
     db.session.add(Labo)
