@@ -10,7 +10,7 @@
     </head>
     <body>
         <HR>
-        <h1>Modification des données</h1>
+        <h1>Détails de l'utilisateur</h1>
         <HR>
         <div class ="row">
             <div class="col">
@@ -180,9 +180,6 @@
                                 {% if isAdmin=='True' %}
                                     <div class="col-auto">
                                         <button type="button" class="btn btn-primary"  onclick="window.location.href='{{ url_for( 'userModif' , isAdmin=isAdmin,id=personne[0],current_id=current_id ) }}';">Modifier</button>
-                                    </div>
-                                    <div class="col-auto">
-                                        <button type="submit" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletepersonne' , id=personne[0],current_id=current_id ) }}';">Supprimer</button>
                                     </div>
                                 {% endif %}
                             </div>
