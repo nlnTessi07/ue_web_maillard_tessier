@@ -177,12 +177,12 @@
                                 <div class="col-auto">
                                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Retour</button>
                                 </div>
-                                {% if isADmin=='True' %}
+                                {% if isAdmin=='True' %}
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-primary" name="modifier">Modifier</button>
+                                        <button type="button" class="btn btn-primary"  onclick="window.location.href='{{ url_for( 'userModif' , id=personne[0],current_id=current_id ) }}';">Modifier</button>
                                     </div>
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-danger" name="supprimer">Supprimer</button>
+                                        <button type="submit" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletepersonne' , id=personne[0],current_id=current_id ) }}';">Supprimer</button>
                                     </div>
                                 {% endif %}
                             </div>

@@ -20,6 +20,13 @@
                   <div class = "col-auto">
                     <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ taf.name }}>
                   </div>
+                    <div class ="col-auto">
+                       <button type="submit" class="btn btn-primary">Modifier</button>
+                    </div>
+                <div class ="col-auto">
+                       <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=True, current_id=current_id ) }}';">Retour</button>
+                    </div>
+
             </div>
             <table class="table table-striped">
               <thead>
@@ -31,12 +38,12 @@
                 </tr>
               </thead>
               <tbody>
-              {% for personne in taf.personnes %}
+              {% for personne in gens %}
                 <tr>
-                    <td>{{ personne.lastName }}</td>
-                    <td>{{ personne.name }}</td>
-                    <td>Annéeeeeee</td>
-                    <td><button type="submit" class="btn btn-danger" name="supprimerPoste">Supprimer</button></td>
+                    <td>{{ personne[0].lastName }}</td>
+                    <td>{{ personne[0].name }}</td>
+                    <td>{{ personne[1] }}</td>
+                    <td><button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletepersonnetaf' ,id=personne[0].id,tafid=taf.id, current_id=current_id ) }}';">Supprimer</button></td>
                 </tr>
               {% endfor %}
               </tbody>

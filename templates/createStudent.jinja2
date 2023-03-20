@@ -198,7 +198,8 @@
                                 </div>
                             </div>
                           </div>
-                          <button type="submit" class="btn btn-primary">Valider</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=True, current_id=current_id ) }}';">Retour</button>
+                          <button type="submit" class="btn btn-success">Valider</button>
                         </form>
                     </div>
                 </div>

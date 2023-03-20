@@ -10,7 +10,7 @@
     </head>
     <body>
         <HR>
-        <h1>{{ taf.name }}</h1>
+        <h1>{{ promo[0] }}</h1>
         <HR>
         <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Retour</button>
         <table class="table table-striped">
@@ -18,15 +18,13 @@
             <tr>
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
-                <th scope="col">Année</th>
             </tr>
           </thead>
           <tbody>
-          {% for personne in gens %}
+          {% for personne in promo[1] %}
             <tr>
-                <td>{{ personne[0].name }}</td>
-                <td>{{ personne[0].lastName }}</td>
-                <td>{{ personne[1] }}</td>
+                <td>{{ personne.name }}</td>
+                <td>{{ personne.lastName }}</td>
             </tr>
           {% endfor %}
           </tbody>

@@ -71,13 +71,13 @@
                                     <label for="Name" class="form-label">Nom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ personne[1] }}>
+                                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ personne[2] }}>
                                   </div>
                                   <div class = "col-auto">
                                     <label for="Prenom" class="form-label">Prénom :</label>
                                   </div>
                                   <div class = "col-auto">
-                                    <input autocomplete="off" type="text" class="form-control" id="Prenom" name="prenom" value={{ personne[2] }}>
+                                    <input autocomplete="off" type="text" class="form-control" id="Prenom" name="prenom" value={{ personne[1] }}>
                                   </div>
                               </div>
                               <br>
@@ -198,7 +198,8 @@
                                 </div>
                             </div>
                           </div>
-                          <button type="submit" class="btn btn-primary">Valider</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Retour</button>
+                          <button type="submit" class="btn btn-success">Valider</button>
                         </form>
                     </div>
                 </div>

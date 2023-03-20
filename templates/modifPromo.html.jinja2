@@ -10,7 +10,7 @@
     </head>
     <body>
         <HR>
-        <h1>Modification de l'entreprise</h1>
+        <h1>Modification de la promo</h1>
         <HR>
         <form method="POST">
             <div class="row align-items-center">
@@ -18,38 +18,15 @@
                     <label for="Name" class="form-label">Nom :</label>
                   </div>
                   <div class = "col-auto">
-                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ entreprise.name }}>
+                    <input autocomplete="off" type="text" class="form-control" id="Name" name="nom" value={{ promo }}>
                   </div>
                     <div class ="col-auto">
                        <button type="submit" class="btn btn-primary">Modifier</button>
                     </div>
-                    <div class ="col-auto">
+                <div class ="col-auto">
                        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=True, current_id=current_id ) }}';">Retour</button>
-                    </div>
-
+                </div>
             </div>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                    <th scope="col">Poste</th>
-                    <th scope="col">Nombre d'employés</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for poste in postes %}
-                <tr>
-                    <td>
-                        <div class="row align-items-center">
-                            <div class="col">
-                                {{ poste[0].titre}}
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{ poste[1] }}</td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
         </form>
     </body>
 </html>

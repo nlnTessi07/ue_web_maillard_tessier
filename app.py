@@ -98,6 +98,10 @@ def getTuteurs():
         if pfe.tuteur not in tuteurs:
             tuteurs.append(pfe.tuteur)
     return tuteurs
+
+def deleteOrganisation(id):
+    db.session.query(Organisation).filter(Organisation.id==id).delete()
+    db.session.commit()
 def getPersonnesOrganisation(id):
     entreprise = db.session.query(Organisation).filter(Organisation.id==id).first()
     travailleurs = entreprise.personnes
@@ -128,7 +132,7 @@ def getList(id,name,lastName,promotion,taf1,taf2,entreprise_stage,tuteur,positio
     for p in personnes:
         personne = []
         tafs = getTaf(p.id)
-        personne.append(p.id)
+        personne.append(str(p.id))
         personne.append(p.name)
         personne.append(p.lastName)
         personne.append((p.promotion))
@@ -219,19 +223,6 @@ def getTafs():
 #OK------------------------------------------------------------------------------
 # [[Taf, nombre de personnes dans la taf], ...]
 # retour pour chaque eleve = [name, lastName, dateNaissance, [tafs]]
-def getPersonnesTaf(id):
-    taf = db.session.query(TAF).filter(TAF.id==id).first()
-    gens= taf.personnes
-    personnes=[]
-    for personne in gens:
-        tafs = getTaf(personne.id)
-        tab= [personne]
-        if tafs[0] == taf.name:
-            tab.append(personne.annee2)
-        elif tafs[1] == taf.name:
-            tab.append(personne.annee3)
-        personnes.append(tab)
-    return [taf, personnes]
 def getPromotion(annee):
     promo = db.session.query(Personne.id, Personne.name, Personne.lastName,Personne.dateNaissance).filter(Personne.promotion==annee).all()
     liste_eleves = []
@@ -255,7 +246,7 @@ def getPromotions():
     personnes = db.session.query(Personne).all()
     liste_promos = []
     for personne in personnes:
-        if [personne.promotion] not in liste_promos:
+        if [personne.promotion] not in liste_promos and personne.promotion!=None:
             liste_promos.append([personne.promotion])
     for i in range(len(liste_promos)):
         liste_promos[i].append([])
@@ -301,52 +292,77 @@ def getPersonnesPromo(annee):
 def getOrganisationByName(nom):
     return db.session.query(Organisation).filter(Organisation.name==nom).first()
 def addPersonne(name,lastname,genre,dateNaissance,promotion,tafa2,tafa3,annee2,annee3, titre_pfe, entreprise_pfe,description_pfe, tuteur_pfe,position_actuelle,annee_position, entreprise_actuelle):
-    personne = Personne(name=name,lastName=lastname,genre=genre,dateNaissance=dateNaissance,promotion=int(promotion),annee2=int(annee2),annee3=int(annee3),annee_position=int(annee_position))
-    pfe = PFE(getOrganisationByName(entreprise_pfe),titre_pfe,description_pfe)
+    if annee2 !="":
+        annee2 = int(annee2)
+    else : annee2 = None
+    if annee3 !="":
+        annee3 = int(annee3)
+    else : annee3 = None
+    if annee_position !="":
+        annee_position = int(annee_position)
+    else : annee_position = None
+    if promotion !="":
+        promotion = int(annee2)
+    else : promotion = None
+    personne = Personne(name=name,lastName=lastname,genre=genre,dateNaissance=dateNaissance,promotion=promotion,annee2=annee2,annee3=annee3,annee_position=annee_position)
+
 
     tafs = db.session.query(TAF.name).all()
-    if tafa2 in tafs:
-        taf = db.session.query(TAF).filter(TAF.name == tafa2)
-        taf.personnes.append(personne)
-    else:
+    print(tafs)
+    taf2dejaexiste=False
+    taf3dejaexiste=False
+    for taf in tafs:
+        if tafa2.lower()==taf[0].lower():
+            taf2 = db.session.query(TAF).filter(TAF.name == taf[0]).first()
+            taf2.personnes.append(personne)
+            taf2dejaexiste=True
+            break
+    if not taf2dejaexiste:
         addTaf(tafa2)
-        taf = db.session.query(TAF).filter(TAF.name==tafa2).first()
-        taf.personnes.append(personne)
-    if tafa3 in tafs:
-        taf = db.session.query(TAF).filter(TAF.name == tafa2).first()
-        taf.personnes.append(personne)
-    else:
+        taf2 = db.session.query(TAF).filter(TAF.name==tafa2).first()
+        taf2.personnes.append(personne)
+    for taf in tafs:
+        if tafa3.lower()==taf[0].lower():
+            taf3 = db.session.query(TAF).filter(TAF.name == tafa2).first()
+            taf3.personnes.append(personne)
+            taf3dejaexiste = True
+            break
+    if not taf3dejaexiste:
         addTaf(tafa3)
-        taf = db.session.query(TAF).filter(TAF.name==tafa3).first()
-        taf.personnes.append(personne)
+        taf3 = db.session.query(TAF).filter(TAF.name==tafa3).first()
+        taf3.personnes.append(personne)
 
     organisations = db.session.query(Organisation.name).all()
-    if entreprise_actuelle in organisations:
+    if (entreprise_actuelle,) in organisations:
         orga = db.session.query(Organisation).filter(Organisation.name==entreprise_actuelle).first()
         orga.personnes.append(personne)
     else:
         orga = Organisation(entreprise_actuelle)
         orga.personnes.append(personne)
 
-    if position_actuelle in db.session.query(Position.titre).all():
+    if (position_actuelle,) in db.session.query(Position.titre).all():
         position = db.session.query(Position).filter(Position.titre==position_actuelle).first()
-        position.personnes.add(personne)
+        position.personnes.append(personne)
         if orga not in position.organisations:
             position.organisations.append(orga)
 
     else:
         position = Position(position_actuelle)
-        position = db.session.query(Position).filter(Position.titre == position_actuelle).first()
-        position.personnes.add(personne)
+        #position = db.session.query(Position).filter(Position.titre == position_actuelle).first()
+        position.personnes.append(personne)
         position.organisations.append(orga)
-
-
-    pfe.tuteur=tuteur_pfe
+    if titre_pfe != "" and tuteur_pfe !="":
+        pfe = PFE(getOrganisationByName(entreprise_pfe), titre_pfe, description_pfe)
+        pfe.tuteur=db.session.query(Personne).filter(Personne.name == tuteur_pfe.split(" ")[0] and Personne.lastName == tuteur_pfe.split(" ")[1]).first()
+        pfe.tuteur_id = pfe.tuteur.id
+        pfe.eleve = personne
+        pfe.eleve_id = pfe.eleve.id
+        db.session.add(pfe)
     db.session.add(orga)
-    db.session.add(tafa2)
-    db.session.add(tafa3)
+    db.session.add(taf2)
+    db.session.add(taf3)
     db.session.add(position)
-    db.session.add(pfe)
+
     db.session.add(personne)
     db.session.commit()
     return 0
@@ -363,19 +379,23 @@ def modifierPersonne(id, name,lastname,genre,dateNaissance,promotion,tafa2,tafa3
                 annee_position, entreprise_actuelle)
     db.session.commit()
 def deletePersonne(id):
+    db.session.query(PFE).filter_by(eleve_id=id).delete()
     db.session.query(Personne).filter_by(id=id).delete()
     db.session.commit()
-def deleteTaf(name):
-    db.session.query(TAF).filter_by(name=name).delete()
+def deleteTaf(tafid):
+    db.session.query(TAF).filter_by(id=tafid).delete()
     db.session.commit()
 def modifyTaf(old,new):
     taf = db.session.query(TAF).filter_by(name=old).first()
     taf.name=new
     db.session.add(taf)
+    db.session.commit()
 def enleverDeLaTaf(taf, id):
     for i in range(len(taf.personnes)):
-        if(taf.personnes[i].id==id):
+        if(taf.personnes[i].id==int(id)):
             taf.personnes.pop(i)
+            break
+    db.session.commit()
 
 
 
@@ -513,11 +533,13 @@ def loginAdminPost():
 @app.route('/dashboard/<isAdmin>/<current_id>')
 def dashboard(isAdmin, current_id):
     persons=getList(None,None,None,None,None,None,None,None,None,None)
+    nombre_gens = len(persons)
     tafs = getTafs()
     entreprises = getOrganisations()
+    nombre_entreprises=len(entreprises)
     promos=getPromotions()
     tuteurs = getTuteurs()
-    return flask.render_template('Dashboard.html.jinja2',isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
+    return flask.render_template('Dashboard.html.jinja2',nombre_gens =nombre_gens,nombre_entreprises=nombre_entreprises, isAdmin=isAdmin,current_id=current_id,personnes=persons,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
 
 @app.route('/dashboard/<isAdmin>/<current_id>', methods = ["POST"])
 def dashboardPost(isAdmin,current_id):
@@ -535,45 +557,138 @@ def dashboardPost(isAdmin,current_id):
         entreprises = getOrganisations()
         promos = getPromotions()
         personnes = getList(None,prenom,nom,promo,tafa2,None,stage,tuteur,position,entreprise)
-        return flask.render_template('Dashboard.html.jinja2', isAdmin=isAdmin, current_id=current_id, personnes=personnes,
+        nombre_gens = len(personnes)
+        nombre_entreprises = len(entreprises)
+        return flask.render_template('Dashboard.html.jinja2',nombre_gens =nombre_gens,nombre_entreprises=nombre_entreprises, isAdmin=isAdmin, current_id=current_id, personnes=personnes,
                                      tafs=tafs, entreprises=entreprises, promos=promos,tuteurs=tuteurs)
 
-@app.route('/EntrepriseModif/<id>')
-def entrepriseModif(id):
-    entreprise,postes = getPostesEntreprise(id)
-    return flask.render_template('modifEntreprise.html.jinja2',entreprise=entreprise,postes=postes)
+@app.route('/DeletePersonne/<id>/<current_id>')
+def deletepersonne(id,current_id):
+    deletePersonne(id)
+    return flask.redirect(flask.url_for('dashboard', isAdmin=True, current_id=current_id))
 
-@app.route('/UserModif/<id>')
-def userModif(id):
+@app.route('/DeleteTaf/<id>/<current_id>')
+def deletetaf(id,current_id):
+    deleteTaf(id)
+    return flask.redirect(flask.url_for('dashboard', isAdmin=True, current_id=current_id))
+
+@app.route('/DeletEntreprsie/<id>/<current_id>')
+def deleteentreprise(id,current_id):
+    deleteOrganisation(id)
+    return flask.redirect(flask.url_for('dashboard', isAdmin=True, current_id=current_id))
+
+@app.route('/DeletPersonneTaf/<id>/<tafid>/<current_id>')
+def deletepersonnetaf(id,tafid,current_id):
+    enleverDeLaTaf(getTafByTafId(tafid),id)
+    return flask.redirect(flask.url_for('tafModif',id=tafid,current_id=current_id))
+
+@app.route('/EntrepriseModif/<id>/<current_id>')
+def entrepriseModif(id,current_id):
+    entreprise,postes = getPostesEntreprise(id)
+    return flask.render_template('modifEntreprise.html.jinja2',entreprise=entreprise,postes=postes,current_id=current_id)
+
+@app.route('/EntrepriseModif/<id>/<current_id>',methods=["Post"])
+def entrepriseModifPost(id,current_id):
+    entreprise,postes = getPostesEntreprise(id)
+    entreprise.name = flask.request.form['nom']
+    db.session.commit()
+    return flask.render_template('modifEntreprise.html.jinja2',entreprise=entreprise,postes=postes,current_id=current_id)
+
+@app.route('/UserModif/<id>/<isAdmin>/<current_id>')
+def userModif(id,isAdmin,current_id):
     tafs = getTafs()
     entreprises = getOrganisations()
     promos = getPromotions()
     tuteurs = getTuteurs()
     personne=getList(id,None,None,None,None,None,None,None,None,None)[0]
-    return flask.render_template('modifUserData.jinja2',personne=personne,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
+    return flask.render_template('modifUserData.jinja2',isAdmin=isAdmin,personne=personne,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs,current_id=current_id)
 
-@app.route('/UserModif/',methods=["POST"])
-def userModifPost():
-    return()
+@app.route('/UserModif/<id>/<isAdmin>/<current_id>',methods=["POST"])
+def userModifPost(id,isAdmin,current_id):
+    genre = flask.request.form['Genre']
+    nom = flask.request.form['nom']
+    prenom = flask.request.form['prenom']
+    naissance = flask.request.form['date']
+    tafa2 = flask.request.form['tafa2']
+    annee2 = flask.request.form['annee2']
+    tafa3 = flask.request.form['tafa3']
+    annee3 = flask.request.form['annee3']
+    promo = flask.request.form['promo']
+    titre_stage = flask.request.form['stage']
+    description = flask.request.form['description']
+    tuteur = flask.request.form['tuteur']
+    entreprise_stage = flask.request.form['entreprise_stage']
+    position = flask.request.form['position']
+    annee_position = flask.request.form['anneePosition']
+    entreprise = flask.request.form['entreprise']
+    date = datetime(year=int(naissance[0:4]), month=int(naissance[5:7]), day=int(naissance[8:]))
+    modifierPersonne(id,prenom, nom, genre, date, promo, tafa2, tafa3, annee2, annee3, titre_stage, entreprise_stage,
+                description, tuteur, position, annee_position, entreprise)
+    return flask.redirect(flask.url_for('dashboard', isAdmin=isAdmin, current_id=db.session.query(Personne.id).all()[-1][0]))
 
 @app.route('/UserDetails/<isAdmin>/<id>/<current_id>')
 def userDetails(isAdmin,id,current_id):
     personne=getList(id,None,None,None,None,None,None,None,None,None)[0]
     return flask.render_template('detailsStudent.jinja2',personne=personne,isAdmin=isAdmin,current_id=current_id)
-@app.route('/EntrepriseDetails/<isAdmin>/<id>')
-def entrepriseDetails(isAdmin,id):
+@app.route('/EntrepriseDetails/<isAdmin>/<id>/<current_id>')
+def entrepriseDetails(isAdmin,id,current_id):
     entreprise = getPersonnesOrganisation(id)
-    return flask.render_template('detailsEntreprise.html.jinja2',entreprise=entreprise,isAdmin=isAdmin)
+    return flask.render_template('detailsEntreprise.html.jinja2',entreprise=entreprise,isAdmin=isAdmin,current_id= current_id)
 
-@app.route('/TafDetails/<isAdmin>/<id>')
-def tafDetails(isAdmin,id):
-    taf = getPersonnesTaf(id)
-    return flask.render_template('detailsTaf.html.jinja2',isAdmin=isAdmin,taf=taf)
-
-@app.route('/TafModif/<id>')
-def tafModif(id):
+@app.route('/TafDetails/<isAdmin>/<id>/<current_id>')
+def tafDetails(isAdmin,id,current_id):
     taf = getTafByTafId(id)
-    return flask.render_template('modifTaf.html.jinja2',taf=taf)
+    gens = []
+    for personne in taf.personnes:
+        tafs = getTaf(personne.id)
+        if taf == tafs[0]:
+            gens.append([personne, personne.annee2])
+        else:
+            gens.append([personne, personne.annee3])
+    return flask.render_template('detailsTaf.html.jinja2',isAdmin=isAdmin,taf=taf,gens=gens,current_id=current_id)
+
+@app.route('/PromoDetails/<promotion>/<isAdmin>/<current_id>')
+def promoDetails(promotion,isAdmin,current_id):
+    promo=[promotion]
+    promo.append(getPersonnesPromo(promotion))
+    return flask.render_template('detailsPromo.html.jinja2',isAdmin=isAdmin,promo=promo,current_id=current_id)
+
+@app.route('/TafModif/<id>/<current_id>')
+def tafModif(id,current_id):
+    taf = getTafByTafId(id)
+    gens=[]
+    for personne in taf.personnes:
+        tafs = getTaf(personne.id)
+        if taf == tafs[0]:
+            gens.append([personne,personne.annee2])
+        else : gens.append([personne,personne.annee3])
+
+    return flask.render_template('modifTaf.html.jinja2',taf=taf,gens=gens,current_id=current_id)
+
+@app.route('/TafModif/<id>/<current_id>', methods=["POST"])
+def tafModifPost(id,current_id):
+    taf = getTafByTafId(id)
+    gens=[]
+    for personne in taf.personnes:
+        tafs = getTaf(personne.id)
+        if taf == tafs[0]:
+            gens.append([personne,personne.annee2])
+        else : gens.append([personne,personne.annee3])
+    new = flask.request.form['nom']
+    modifyTaf(taf.name,new)
+    return flask.render_template('modifTaf.html.jinja2',taf=taf,gens=gens,current_id=current_id)
+
+@app.route('/PromoModif/<promotion>/<current_id>', methods=["POST"])
+def promoModifPost(promotion,current_id):
+    personnes = getPersonnesPromo(int(promotion))
+    nom = flask.request.form['nom']
+    for personne in personnes:
+        personne.promotion = int(nom)
+    db.session.commit()
+    return flask.redirect(flask.url_for('promoModif',promotion=int(nom),current_id=current_id))
+@app.route('/PromoModif/<promotion>/<current_id>')
+def promoModif(promotion, current_id):
+    return flask.render_template('modifPromo.html.jinja2',promo=promotion,current_id=current_id)
 @app.route('/StudentAdd/<current_id>')
 def addStudent(current_id):
     tafs = getTafs()
@@ -581,6 +696,7 @@ def addStudent(current_id):
     promos = getPromotions()
     tuteurs = getTuteurs()
     return flask.render_template('createStudent.jinja2',current_id=current_id,tafs=tafs,entreprises=entreprises,promos=promos,tuteurs=tuteurs)
+
 
 @app.route('/StudentAdd/<current_id>',methods=["POST"])
 def addStudentPost(current_id):

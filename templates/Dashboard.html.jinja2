@@ -88,6 +88,7 @@
                                   </div>
                               </div>
                               <br>
+                              Fiches personnes :{{ nombre_gens }}
                               <div class="row justify-content-end">
                                   <div class="col-auto">
                                       <button class="btn btn-primary" type="button" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Enlever le filtre</button>
@@ -197,12 +198,14 @@
                                         <div class = "col-sm-4">
                                             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userDetails' ,isAdmin=isAdmin, id=personne[0] ,current_id=current_id) }}';" >Détails</button>
                                         </div>
-                                        {% if isAdmin=="True" %}
+                                        {% if isAdmin=="True" or personne[0]==current_id %}
                                             <div class = "col-sm-4">
-                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userModif' , id=personne[0] ) }}';">Modifier</button>
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userModif' , id=personne[0],isAdmin=isAdmin,current_id=current_id ) }}';">Modifier</button>
                                             </div>
+                                            {% endif %}
+                                    {%if isAdmin=="True"%}
                                             <div class = "col-sm-4">
-                                                <button type="submit" class="btn btn-danger" name="supprimerEtudiant{{ personne[0] }}">Supprimer</button>
+                                                <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletepersonne' , id=personne[0],current_id=current_id ) }}';">Supprimer</button>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -215,10 +218,10 @@
           </div>
           </div>
           <div class="tab-pane fade" id="entreprises" role="tabpanel" aria-labelledby="entreprises-tab">
+          Nombre d'entreprises enregistrées : {{ nombre_entreprises }}
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Nom</th>
                   <th scope="col">Nombre d'employés</th>
                     <th scope="col">Actions</th>
@@ -227,14 +230,13 @@
               <tbody>
               {% for entreprise in entreprises %}
                 <tr>
-                  <th scope="row">{{ entreprise[0].id }}</th>
                   <td>{{ entreprise[0].name }}</td>
                   <td>{{ entreprise[1] }}</td>
                     <td>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseDetails' ,isAdmin=isAdmin, id=entreprise[0].id) }}';">Détails</button>
-                        {% if isAdmin=='True' %}
-                            <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseModif', id=entreprise[0].id) }}';">Modifier</button>
-                            <button type="submit" class="btn btn-danger" name="supprimerEntreprise">Supprimer</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseDetails' ,isAdmin=isAdmin, id=entreprise[0].id,current_id=current_id) }}';">Détails</button>
+                        {% if isAdmin=='True'%}
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'entrepriseModif', id=entreprise[0].id,current_id=current_id) }}';">Modifier</button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deleteentreprise' , id=entreprise[0].id,current_id=current_id ) }}';">Supprimer</button>
                         {% endif %}
                     </td>
                 </tr>
@@ -259,10 +261,10 @@
                   <td>{{ taf[0].name }}</td>
                   <td>{{ taf[1] }}</td>
                     <td>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafDetails' ,isAdmin=isAdmin, id=taf[0].id) }}';">Détails</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafDetails' ,isAdmin=isAdmin, id=taf[0].id,current_id=current_id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafModif', id=taf[0].id) }}';">Modifier</button>
-                            <button type="submit" class="btn btn-danger" name="supprimerTafs">Supprimer</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'tafModif', id=taf[0].id,current_id=current_id) }}';">Modifier</button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletetaf', id=taf[0].id,current_id=current_id) }}';">Supprimer</button>
                         {% endif%}
                     </td>
                 </tr>
@@ -285,9 +287,9 @@
                   <td>{{ promo[0] }}</td>
                   <td>{{ promo[2] }}</td>
                     <td>
-                    <button type="submit" class="btn btn-primary" name="detailsPromo">Détails</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'promoDetails' ,promotion=promo[0],isAdmin=isAdmin, current_id=current_id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
-                    <button type="submit" class="btn btn-primary" name="modifPromo">Modifier</button>
+                    <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'promoModif' ,promotion=promo[0], current_id=current_id) }}';">Modifier</button>
                     <button type="submit" class="btn btn-danger" name="supprimerPromo">Supprimer</button>
                         {% endif %}
                     </td>

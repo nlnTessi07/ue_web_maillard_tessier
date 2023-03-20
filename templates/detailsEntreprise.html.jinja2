@@ -12,6 +12,9 @@
         <HR>
         <h1>{{ entreprise[0].name }}</h1>
         <HR>
+        <div class ="col-auto">
+                       <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'dashboard' ,isAdmin=isAdmin, current_id=current_id ) }}';">Retour</button>
+        </div>
         <table class="table table-striped">
           <thead>
             <tr>
