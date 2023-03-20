@@ -114,7 +114,8 @@
                                       <br>
                                       <div class = "row align-items-center">
                                           <div class = "col-auto">
-                                              <div class="form-check">
+                                              {% if personne[6] == 'Mr' %}
+                                                  <div class="form-check">
                                                   <input class="form-check-input" type="radio" name="Genre" id="mr" checked disabled>
                                                   <label class="form-check-label" for="mr">
                                                     Mr
@@ -129,6 +130,23 @@
                                               </label>
                                             </div>
                                           </div>
+                                          {% else %}
+                                                    <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="Genre" id="mr"  disabled>
+                                                  <label class="form-check-label" for="mr">
+                                                    Mr
+                                                  </label>
+                                                </div>
+                                          </div>
+                                          <div class = "col-auto">
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="Genre" id="mme" checked disabled>
+                                              <label class="form-check-label" for="mme">
+                                                Mme
+                                              </label>
+                                            </div>
+                                          </div>
+                                          {% endif %}
                                           <div class = "col-auto">
                                             Date de Naissance :
                                           </div>
