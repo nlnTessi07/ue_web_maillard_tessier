@@ -23,6 +23,7 @@ Les autres templates listés ci-dessous ont des noms assez explicites concernant
 - createStudent.jinja2
 - Dashboard.html.jinja2
 - detailsEntreprise.html.jinja2
+- detailsPromo.html.jinja2
 - detailsStudent.jinja2
 - detailsTaf.html.jinja2
 - loginAdmin.html.jinja2
@@ -31,6 +32,17 @@ Les autres templates listés ci-dessous ont des noms assez explicites concernant
 - modifEntreprise.html.jinja2
 - modifTaf.html.jinja2
 - modifUserData.jinja2
+- modifPromo.html.jinja2
+
+AVANT LE LANCEMENT :
+ - Modifier dans app.py à la ligne 11 le chemin d'accès local à la base de donnée (la première ligne est le format Linux et la deuxième le format Windows)
+ - Modifier dans fun.py à la ligne 9 le chemin d'accès local à la base de donnée
+
+UTILISATION DU PROJET :
+- Les pages de connexion d'utilisateur ou d'administratuer n'ont pas de système d'authentification, il suffit d'appuyer sur connection.
+- En tant qu'utilisateur, on est connecté en tant que la première personne de la base de donnée
+- En tant qu'administrateur, on est connecté en tant que la deuxième personne de la base de donnée
+- La création de PFE, d'entreprise, de taf et de promo se fait lors de la modification/création d'un élève si ce qui a été saisi n'est pas déjà dans la base de donnée
 
 
 DE MANIERE PLUS PRECISE :

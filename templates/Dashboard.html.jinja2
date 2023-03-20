@@ -104,7 +104,8 @@
 
               </nav>
               <div class ="row">
-                  {% for personne in personnes %}
+                {% for personne in personnes %}
+                      {% if personne[0] == current_id %}
                     <div class="col-sm-4">
                         <div class = "card">
                             <div class="card-body">
@@ -231,6 +232,137 @@
                             </div>
                         </div>
                     </div>
+                      {% endif %}
+                  {% endfor %}
+                  {% for personne in personnes %}
+                      {% if personne[0] != current_id %}
+                    <div class="col-sm-4">
+                        <div class = "card">
+                            <div class="card-body">
+                                <form method = "POST">
+                                    <h4 class="card-header">{{ personne[1] }} {{ personne[2]}}</h4>
+                                  <div class="mb-3">
+                                      <br>
+                                      <div class = "row align-items-center">
+                                          <div class = "col-auto">
+                                              {% if personne[6] == 'Mr' %}
+                                                  <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="Genre" id="mr" checked disabled>
+                                                  <label class="form-check-label" for="mr">
+                                                    Mr
+                                                  </label>
+                                                </div>
+                                          </div>
+                                          <div class = "col-auto">
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="Genre" id="mme" disabled>
+                                              <label class="form-check-label" for="mme">
+                                                Mme
+                                              </label>
+                                            </div>
+                                          </div>
+                                          {% else %}
+                                                    <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="Genre" id="mr"  disabled>
+                                                  <label class="form-check-label" for="mr">
+                                                    Mr
+                                                  </label>
+                                                </div>
+                                          </div>
+                                          <div class = "col-auto">
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="radio" name="Genre" id="mme" checked disabled>
+                                              <label class="form-check-label" for="mme">
+                                                Mme
+                                              </label>
+                                            </div>
+                                          </div>
+                                          {% endif %}
+                                          <div class = "col-auto">
+                                            Date de Naissance :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne[10] }}</b>
+                                          </div>
+                                       </div>
+                                      <br>
+                                      <div class="row align-items-center">
+                                          <div class = "col-auto">
+                                            Nom :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne[2] }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                            Prénom :
+                                          </div>
+                                          <div class = "col-auto">
+                                            <b>{{ personne[1] }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                            Promo :
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne[3] }}</b>
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class = "row align-items-center">
+                                          <div class = "col-auto">
+                                              TAF 2A :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne[4] }}</b>
+                                          </div>
+                                          <div class = "col-auto">
+                                              TAF 3A :
+                                          </div>
+                                          <div class = "col-auto">
+                                              <b>{{ personne[5] }}</b>
+                                          </div>
+                                    </div>
+                                      <br>
+                                      <div class ="row align-items-center">
+                                        <div class = "col-auto">
+                                            PFE : <b>{{ personne[9].titre }}</b>
+                                        </div>
+                                      </div>
+                                    <br>
+                                    <div class = "row align-items-center">
+                                        <div class = "col-auto">
+                                            Position:
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne[8][0] }}</b>
+                                        </div>
+                                        <div class = "col-auto">
+                                            Entreprise:
+                                        </div>
+                                        <div class = "col-auto">
+                                            <b>{{ personne[7][0] }}</b>
+                                        </div>
+                                    </div>
+                                  </div>
+                                    <div class = "row align-items-center">
+                                        <div class = "col-sm-4">
+                                            <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userDetails' ,isAdmin=isAdmin, id=personne[0] ,current_id=current_id) }}';" >Détails</button>
+                                        </div>
+                                        {% if isAdmin=="True" or personne[0]==current_id %}
+                                            <div class = "col-sm-4">
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'userModif' , id=personne[0],isAdmin=isAdmin,current_id=current_id ) }}';">Modifier</button>
+                                            </div>
+                                            {% endif %}
+                                    {%if isAdmin=="True"%}
+                                            <div class = "col-sm-4">
+                                                <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for( 'deletepersonne' , id=personne[0],current_id=current_id ) }}';">Supprimer</button>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                      {% endif %}
                   {% endfor %}
 
           </div>
@@ -308,7 +440,6 @@
                     <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'promoDetails' ,promotion=promo[0],isAdmin=isAdmin, current_id=current_id) }}';">Détails</button>
                         {% if isAdmin=='True' %}
                     <button type="submit" class="btn btn-primary" onclick="window.location.href='{{ url_for( 'promoModif' ,promotion=promo[0], current_id=current_id) }}';">Modifier</button>
-                    <button type="submit" class="btn btn-danger" name="supprimerPromo">Supprimer</button>
                         {% endif %}
                     </td>
                 </tr>
